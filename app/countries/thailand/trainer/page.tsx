@@ -2162,9 +2162,9 @@ export default function TrainerPage() {
                 }`}>
                   <div className="flex items-start gap-4">
                     <div className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center shadow-lg ${
-                      isCorrect ? 'bg-emerald-500' : 'bg-amber-500'
+                      isCorrectAnswer ? 'bg-emerald-500' : 'bg-amber-500'
                     }`}>
-                      {isCorrect ? (
+                      {isCorrectAnswer ? (
                         <CheckCircle className="w-7 h-7 text-white" />
                       ) : (
                         <XCircle className="w-7 h-7 text-white" />
