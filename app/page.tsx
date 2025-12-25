@@ -1,20 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const router = useRouter();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const isRegistered = localStorage.getItem('isRegistered');
-      if (isRegistered) {
-        router.push('/countries');
-      }
-    }
-  }, [router]);
 
   const handleQuickStart = () => {
     if (typeof window !== 'undefined') {
