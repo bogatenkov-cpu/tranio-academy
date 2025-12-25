@@ -1839,7 +1839,9 @@ export default function TrainerPage() {
   const handleAnswerSelect = (answerIndex: number) => {
     if (showExplanation || isAnimating) return;
     
-    const isCorrect = answerIndex === currentQuestion.correctAnswer;
+    // Сохраняем текущий вопрос ДО любых изменений состояния
+    const questionBeingAnswered = currentQuestion;
+    const isCorrect = answerIndex === questionBeingAnswered.correctAnswer;
     
     setIsAnimating(true);
     setSelectedAnswer(answerIndex);
@@ -1862,7 +1864,7 @@ export default function TrainerPage() {
           const activities = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
           activities.unshift({
             type: 'trainer',
-            title: `Тренажёр: ${categories.find(c => c.id === currentQuestion.category)?.name || 'Общие'}`,
+            title: `Тренажёр: ${categories.find(c => c.id === questionBeingAnswered.category)?.name || 'Общие'}`,
             date: new Date().toISOString(),
             points: 2,
             country: '🇹🇭'
@@ -1885,7 +1887,7 @@ export default function TrainerPage() {
         const activities = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
         activities.unshift({
           type: 'trainer',
-          title: `Тренажёр: ${categories.find(c => c.id === currentQuestion.category)?.name || 'Общие'}`,
+          title: `Тренажёр: ${categories.find(c => c.id === questionBeingAnswered.category)?.name || 'Общие'}`,
           date: new Date().toISOString(),
           points: 1,
           country: '🇹🇭'
@@ -1898,9 +1900,9 @@ export default function TrainerPage() {
       }
     }
 
-    if (currentQuestion) {
+    if (questionBeingAnswered) {
       const newStudied = new Set(studiedQuestions);
-      newStudied.add(currentQuestion.id);
+      newStudied.add(questionBeingAnswered.id);
       setStudiedQuestions(newStudied);
       if (typeof window !== 'undefined') {
         localStorage.setItem('thailand_studied_cards', JSON.stringify([...newStudied]));
@@ -1919,9 +1921,9 @@ export default function TrainerPage() {
         setCurrentQuestionIndex(prev => prev + 1);
         setSelectedAnswer(null);
         setShowExplanation(false);
-      } else {
+    } else {
         loadQuestions();
-      }
+    }
       setIsAnimating(false);
     }, 200);
   };
@@ -2052,14 +2054,14 @@ export default function TrainerPage() {
             </div>
             <div className="mt-2 text-xs text-gray-500">
               {score.correct} из {score.total} правильных
-            </div>
           </div>
+        </div>
 
           <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-            <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-gray-500">Вопрос</span>
               <Zap className="w-4 h-4 text-purple-500" />
-            </div>
+          </div>
             <div className="text-3xl font-bold text-gray-900">
               {currentQuestionIndex + 1} / {sessionQuestions.length}
             </div>
@@ -2084,10 +2086,10 @@ export default function TrainerPage() {
                     <div className="text-white/90 text-sm font-medium mb-1">{currentCategory?.name}</div>
                     <span className={`px-3 py-1 rounded-lg text-xs font-bold border-2 ${getDifficultyColor(currentQuestion.difficulty)} bg-white/90`}>
                       {getDifficultyText(currentQuestion.difficulty)}
-                    </span>
-                  </div>
-                </div>
+              </span>
+            </div>
               </div>
+                </div>
             </div>
 
             {/* Текст вопроса */}
@@ -2118,7 +2120,7 @@ export default function TrainerPage() {
                   }
 
                   return (
-                    <button
+                  <button
                       key={index}
                       onClick={() => handleAnswerSelect(index)}
                       disabled={showExplanation}
@@ -2134,9 +2136,9 @@ export default function TrainerPage() {
                               : 'bg-gray-200 text-gray-600 group-hover:bg-indigo-100 group-hover:text-indigo-700'
                           }`}>
                             {String.fromCharCode(65 + index)}
-                          </div>
+                </div>
                           <span className="flex-1 text-left">{option}</span>
-                        </div>
+              </div>
                         {showResult && isCorrectAnswer && (
                           <CheckCircle className="w-6 h-6 text-emerald-600 flex-shrink-0" />
                         )}
@@ -2165,7 +2167,7 @@ export default function TrainerPage() {
                       ) : (
                         <XCircle className="w-7 h-7 text-white" />
                       )}
-                    </div>
+              </div>
                     <div className="flex-1">
                       <p className={`text-lg font-bold mb-2 ${
                         isCorrect ? 'text-emerald-900' : 'text-amber-900'
@@ -2174,8 +2176,8 @@ export default function TrainerPage() {
                       </p>
                       <p className="text-gray-700 leading-relaxed text-base">
                         {currentQuestion.explanation}
-                      </p>
-                    </div>
+              </p>
+            </div>
                   </div>
                 </div>
               )}
@@ -2185,7 +2187,7 @@ export default function TrainerPage() {
             {showExplanation && (
               <div className="px-8 py-6 bg-gray-50 border-t border-gray-200">
                 {currentQuestionIndex < sessionQuestions.length - 1 ? (
-                  <button
+              <button
                     onClick={handleNext}
                     className="w-full px-6 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-bold text-lg hover:shadow-xl transition-all flex items-center justify-center gap-3 hover:scale-105 active:scale-95"
                   >
@@ -2209,15 +2211,15 @@ export default function TrainerPage() {
                       >
                         <RotateCcw className="w-5 h-5" />
                         Повторить
-                      </button>
-                      <Link
-                        href="/countries/thailand"
+              </button>
+              <Link
+                href="/countries/thailand"
                         className="px-6 py-4 bg-white border-2 border-gray-300 text-gray-700 rounded-xl font-bold hover:bg-gray-50 transition-all flex items-center justify-center gap-2 hover:scale-105"
-                      >
+              >
                         В меню
                         <ChevronRight className="w-5 h-5" />
-                      </Link>
-                    </div>
+              </Link>
+            </div>
                   </div>
                 )}
               </div>
