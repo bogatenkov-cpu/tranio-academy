@@ -1970,16 +1970,16 @@ export default function TrainerPage() {
 
   if (!currentQuestion && sessionQuestions.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
-        <div className="text-center max-w-md bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
-          <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-            <Brain className="w-10 h-10 text-white" />
+      <div className="bg-slate-50 min-h-screen flex items-center justify-center p-4">
+        <div className="text-center max-w-md bg-white border border-slate-200 rounded-2xl shadow-lg p-8">
+          <div className="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <Brain className="w-10 h-10 text-blue-600" />
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">Нет вопросов для изучения</h3>
-          <p className="text-gray-500 mb-6">Попробуйте изменить фильтры или выбрать другую категорию</p>
+          <h3 className="text-2xl font-bold text-slate-900 mb-2">Нет вопросов для изучения</h3>
+          <p className="text-slate-600 mb-6">Попробуйте изменить фильтры или выбрать другую категорию</p>
           <button 
             onClick={loadQuestions} 
-            className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
           >
             Загрузить все вопросы
           </button>
@@ -1995,137 +1995,147 @@ export default function TrainerPage() {
   const currentCategory = categories.find(c => c.id === currentQuestion?.category);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      {/* Современный навбар с градиентом */}
-      <nav className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <Link 
-                href="/countries/thailand" 
-                className="p-2 hover:bg-gray-100 rounded-xl transition-all"
-              >
-                <ArrowLeft className="w-5 h-5 text-gray-600" />
-              </Link>
-              <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 bg-gradient-to-br ${currentCategory?.color || 'from-indigo-500 to-purple-600'} rounded-xl flex items-center justify-center shadow-md`}>
-                  <Brain className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <div className="font-bold text-gray-900">Тренажёр знаний</div>
-                  <div className="text-xs text-gray-500">🇹🇭 Таиланд</div>
-                </div>
+    <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">
+      {/* Header */}
+      <header className="fixed w-full top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200 transition-all duration-300">
+        <div className="container mx-auto px-6 h-20 flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <Link href="/countries/thailand" className="p-2 hover:bg-slate-100 rounded-xl transition-all">
+              <ArrowLeft className="w-5 h-5 text-slate-600" />
+            </Link>
+            <Link href="/countries" className="flex items-center gap-3 group cursor-pointer">
+              <div className="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <svg viewBox="0 0 100 100" className="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M50 5 C30 5, 5 20, 5 40 C5 55, 15 65, 25 70 C15 75, 10 85, 15 95" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M50 15 C35 15, 15 25, 15 42 C15 52, 22 60, 30 65" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M50 25 C40 25, 25 32, 25 45 C25 52, 30 58, 38 62" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <circle cx="50" cy="50" r="8" fill="#1e40af"/>
+                  <path d="M50 95 C70 95, 95 80, 95 60 C95 45, 85 35, 75 30 C85 25, 90 15, 85 5" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M50 85 C65 85, 85 75, 85 58 C85 48, 78 40, 70 35" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M50 75 C60 75, 75 68, 75 55 C75 48, 70 42, 62 38" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                </svg>
               </div>
-            </div>
-            <div className="flex items-center gap-4">
-              {streak > 0 && (
-                <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-xl text-sm font-bold shadow-md">
-                  <Flame className="w-4 h-4" />
-                  {streak} подряд
-                </div>
-              )}
-              <Link 
-                href="/profile" 
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-200 to-pink-200 text-purple-800 font-medium hover:shadow-md transition-all"
-              >
-                <User className="w-4 h-4" />
-                {userName || 'Профиль'}
-              </Link>
-            </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-lg leading-none tracking-tight text-slate-900">Tranio Academy</span>
+                <span className="text-[11px] text-slate-500 font-medium uppercase tracking-wide mt-1">🇹🇭 Тренажёр</span>
+              </div>
+            </Link>
+          </div>
+          <div className="flex items-center gap-4">
+            {streak > 0 && (
+              <div className="flex items-center gap-2 px-3 py-2 bg-orange-50 border border-orange-200 text-orange-700 rounded-lg text-sm font-bold">
+                <Flame className="w-4 h-4" />
+                {streak} подряд
+              </div>
+            )}
+            <Link href="/profile" className="relative group cursor-pointer">
+              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+            </Link>
           </div>
         </div>
-      </nav>
+      </header>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Статистика вверху */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-500">Прогресс</span>
-              <TrendingUp className="w-4 h-4 text-indigo-500" />
+      {/* Main */}
+      <main className="flex-grow container mx-auto px-4 pt-24 pb-8">
+        <div className="max-w-4xl mx-auto">
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-medium text-slate-600">Прогресс</span>
+              <TrendingUp className="w-4 h-4 text-blue-500" />
             </div>
-            <div className="text-3xl font-bold text-gray-900">{Math.round(progress)}%</div>
-            <div className="mt-3 w-full bg-gray-200 rounded-full h-2">
+            <div className="text-2xl font-bold text-slate-900">{Math.round(progress)}%</div>
+            <div className="mt-3 w-full bg-slate-200 rounded-full h-2">
               <div
-                className="bg-gradient-to-r from-indigo-500 to-purple-600 h-2 rounded-full transition-all duration-500"
+                className="bg-blue-600 h-2 rounded-full transition-all duration-500"
                 style={{ width: `${progress}%` }}
               />
             </div>
           </div>
           
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-500">Точность</span>
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-medium text-slate-600">Точность</span>
               <Trophy className="w-4 h-4 text-amber-500" />
             </div>
-            <div className="text-3xl font-bold text-gray-900">
+            <div className="text-2xl font-bold text-slate-900">
               {score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0}%
             </div>
-            <div className="mt-2 text-xs text-gray-500">
+            <div className="mt-2 text-xs text-slate-500">
               {score.correct} из {score.total} правильных
+            </div>
           </div>
-        </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-          <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-500">Вопрос</span>
-              <Zap className="w-4 h-4 text-purple-500" />
-          </div>
-            <div className="text-3xl font-bold text-gray-900">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-medium text-slate-600">Вопрос</span>
+              <Zap className="w-4 h-4 text-emerald-500" />
+            </div>
+            <div className="text-2xl font-bold text-slate-900">
               {currentQuestionIndex + 1} / {sessionQuestions.length}
             </div>
-            <div className="mt-2 text-xs text-gray-500">
+            <div className="mt-2 text-xs text-slate-500">
               Осталось {sessionQuestions.length - currentQuestionIndex - 1}
             </div>
           </div>
         </div>
 
 
-        {/* Вопрос - карточка с градиентом */}
+        {/* Question Card */}
         {currentQuestion && (
-          <div className={`bg-white rounded-3xl shadow-2xl border-2 border-gray-100 overflow-hidden transition-all duration-300 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}>
-            {/* Заголовок с градиентом */}
-            <div className={`bg-gradient-to-r ${currentCategory?.color || 'from-indigo-500 to-purple-600'} px-8 py-6`}>
+          <div className={`bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}>
+            {/* Header */}
+            <div className="bg-slate-50 border-b border-slate-200 px-6 py-4">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                    <span className="text-2xl">{currentCategory?.icon}</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
+                    <span className="text-xl">{currentCategory?.icon}</span>
                   </div>
                   <div>
-                    <div className="text-white/90 text-sm font-medium mb-1">{currentCategory?.name}</div>
-                    <span className={`px-3 py-1 rounded-lg text-xs font-bold border-2 ${getDifficultyColor(currentQuestion.difficulty)} bg-white/90`}>
+                    <div className="text-slate-900 text-sm font-semibold">{currentCategory?.name}</div>
+                    <span className={`text-xs font-medium ${
+                      currentQuestion.difficulty === 'easy' ? 'text-green-600' :
+                      currentQuestion.difficulty === 'medium' ? 'text-amber-600' :
+                      'text-red-600'
+                    }`}>
                       {getDifficultyText(currentQuestion.difficulty)}
-              </span>
-            </div>
-              </div>
+                    </span>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            {/* Текст вопроса */}
-            <div className="px-8 py-10">
-              <h2 className="text-3xl font-bold text-gray-900 mb-10 leading-tight">
+            {/* Question */}
+            <div className="px-6 py-8">
+              <h2 className="text-xl font-bold text-slate-900 mb-8 leading-relaxed">
                 {currentQuestion.question}
               </h2>
 
-              {/* Варианты ответов - крупные кнопки */}
-              <div className="space-y-4">
+              {/* Answer Options */}
+              <div className="space-y-3">
                 {currentQuestion.options.map((option, index) => {
                   const isSelected = selectedAnswer === index;
-                  const isCorrectAnswer = index === currentQuestion.correctAnswer;
+                  const isCorrect = index === currentQuestion.correctAnswer;
                   const showResult = showExplanation;
 
-                  let buttonClass = "w-full text-left px-6 py-5 rounded-2xl border-2 transition-all text-base font-medium relative overflow-hidden group ";
+                  let buttonClass = "w-full text-left px-5 py-4 rounded-xl border-2 transition-all text-sm font-medium relative ";
                   
                   if (showResult) {
-                    if (isCorrectAnswer) {
-                      buttonClass += "bg-gradient-to-r from-emerald-50 to-green-50 border-emerald-400 text-emerald-900 shadow-lg scale-105";
-                    } else if (isSelected && !isCorrectAnswer) {
-                      buttonClass += "bg-gradient-to-r from-rose-50 to-red-50 border-rose-400 text-rose-900";
+                    if (isCorrect) {
+                      buttonClass += "bg-green-50 border-green-400 text-green-900 ring-2 ring-green-400/20";
+                    } else if (isSelected && !isCorrect) {
+                      buttonClass += "bg-red-50 border-red-400 text-red-900";
                     } else {
-                      buttonClass += "bg-gray-50 border-gray-200 text-gray-500";
+                      buttonClass += "bg-slate-50 border-slate-200 text-slate-500";
                     }
                   } else {
-                    buttonClass += "bg-white border-gray-300 text-gray-900 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md cursor-pointer active:scale-98";
+                    buttonClass += "bg-white border-slate-200 text-slate-900 hover:border-blue-400 hover:bg-blue-50 cursor-pointer";
                   }
 
                   return (
@@ -2135,24 +2145,22 @@ export default function TrainerPage() {
                       disabled={showExplanation}
                       className={buttonClass}
                     >
-                      <div className="flex items-center justify-between relative z-10">
-                        <div className="flex items-center gap-4">
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg ${
-                            showResult && isCorrectAnswer 
-                              ? 'bg-emerald-500 text-white' 
-                              : showResult && isSelected && !isCorrectAnswer
-                              ? 'bg-rose-500 text-white'
-                              : 'bg-gray-200 text-gray-600 group-hover:bg-indigo-100 group-hover:text-indigo-700'
-                          }`}>
-                            {String.fromCharCode(65 + index)}
-                </div>
-                          <span className="flex-1 text-left">{option}</span>
-              </div>
-                        {showResult && isCorrectAnswer && (
-                          <CheckCircle className="w-6 h-6 text-emerald-600 flex-shrink-0" />
+                      <div className="flex items-center gap-3">
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm flex-shrink-0 ${
+                          showResult && isCorrect 
+                            ? 'bg-green-500 text-white' 
+                            : showResult && isSelected && !isCorrect
+                            ? 'bg-red-500 text-white'
+                            : 'bg-slate-100 text-slate-600'
+                        }`}>
+                          {String.fromCharCode(65 + index)}
+                        </div>
+                        <span className="flex-1">{option}</span>
+                        {showResult && isCorrect && (
+                          <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                         )}
-                        {showResult && isSelected && !isCorrectAnswer && (
-                          <XCircle className="w-6 h-6 text-rose-600 flex-shrink-0" />
+                        {showResult && isSelected && !isCorrect && (
+                          <XCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
                         )}
                       </div>
                     </button>
@@ -2160,82 +2168,94 @@ export default function TrainerPage() {
                 })}
               </div>
 
-              {/* Объяснение с анимацией */}
+              {/* Explanation */}
               {showExplanation && (
-                <div className={`mt-8 p-6 rounded-2xl border-2 animate-in fade-in slide-in-from-bottom-4 duration-500 ${
+                <div className={`mt-6 p-5 rounded-xl border ${
                   isCorrectAnswer 
-                    ? 'bg-gradient-to-r from-emerald-50 to-green-50 border-emerald-300' 
-                    : 'bg-gradient-to-r from-amber-50 to-orange-50 border-amber-300'
+                    ? 'bg-green-50 border-green-200' 
+                    : 'bg-amber-50 border-amber-200'
                 }`}>
-                  <div className="flex items-start gap-4">
-                    <div className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center shadow-lg ${
-                      isCorrectAnswer ? 'bg-emerald-500' : 'bg-amber-500'
+                  <div className="flex items-start gap-3">
+                    <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${
+                      isCorrectAnswer ? 'bg-green-500' : 'bg-amber-500'
                     }`}>
                       {isCorrectAnswer ? (
-                        <CheckCircle className="w-7 h-7 text-white" />
+                        <CheckCircle className="w-6 h-6 text-white" />
                       ) : (
-                        <XCircle className="w-7 h-7 text-white" />
+                        <XCircle className="w-6 h-6 text-white" />
                       )}
-              </div>
+                    </div>
                     <div className="flex-1">
-                      <p className={`text-lg font-bold mb-2 ${
-                        isCorrectAnswer ? 'text-emerald-900' : 'text-amber-900'
+                      <p className={`font-bold mb-2 ${
+                        isCorrectAnswer ? 'text-green-900' : 'text-amber-900'
                       }`}>
-                        {isCorrectAnswer ? '🎉 Отлично! Правильный ответ' : '❌ Неправильно'}
+                        {isCorrectAnswer ? '✓ Правильно!' : '✗ Неправильно'}
                       </p>
-                      <p className="text-gray-700 leading-relaxed text-base">
+                      <p className="text-slate-700 leading-relaxed text-sm">
                         {currentQuestion.explanation}
-              </p>
-            </div>
+                      </p>
+                    </div>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Кнопка "Далее" */}
+            {/* Next Button */}
             {showExplanation && (
-              <div className="px-8 py-6 bg-gray-50 border-t border-gray-200">
+              <div className="px-6 py-5 bg-slate-50 border-t border-slate-200">
                 {currentQuestionIndex < sessionQuestions.length - 1 ? (
-              <button
+                  <button
                     onClick={handleNext}
-                    className="w-full px-6 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-bold text-lg hover:shadow-xl transition-all flex items-center justify-center gap-3 hover:scale-105 active:scale-95"
+                    className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-base hover:shadow-lg transition-all flex items-center justify-center gap-2"
                   >
                     Следующий вопрос
                     <ChevronRight className="w-5 h-5" />
                   </button>
                 ) : (
-                  <div className="space-y-3">
-                    <div className="text-center mb-4">
-                      <div className="text-4xl mb-2">🎉</div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-1">Сессия завершена!</h3>
-                      <p className="text-gray-600">Вы ответили на {score.total} вопросов</p>
-                      <p className="text-lg font-semibold text-indigo-600 mt-2">
-                        Правильно: {score.correct} из {score.total} ({Math.round((score.correct / score.total) * 100)}%)
-                      </p>
+                  <div className="text-center py-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-green-50 rounded-2xl mb-4">
+                      <Trophy className="w-10 h-10 text-green-600" />
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">Сессия завершена!</h3>
+                    <p className="text-slate-600 mb-1">Вы ответили на {score.total} вопросов</p>
+                    <p className="text-lg font-semibold text-blue-600 mb-6">
+                      Правильно: {score.correct} из {score.total} ({Math.round((score.correct / score.total) * 100)}%)
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <button
                         onClick={loadQuestions}
-                        className="px-6 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-bold hover:shadow-xl transition-all flex items-center justify-center gap-2 hover:scale-105"
+                        className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2"
                       >
                         <RotateCcw className="w-5 h-5" />
-                        Повторить
-              </button>
-              <Link
-                href="/countries/thailand"
-                        className="px-6 py-4 bg-white border-2 border-gray-300 text-gray-700 rounded-xl font-bold hover:bg-gray-50 transition-all flex items-center justify-center gap-2 hover:scale-105"
-              >
-                        В меню
-                        <ChevronRight className="w-5 h-5" />
-              </Link>
-            </div>
+                        Продолжить обучение
+                      </button>
+                      <Link
+                        href="/countries/thailand"
+                        className="px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition-all flex items-center justify-center gap-2"
+                      >
+                        Вернуться в меню
+                      </Link>
+                    </div>
                   </div>
                 )}
               </div>
             )}
           </div>
         )}
-      </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="mt-auto py-4 border-t border-slate-200 bg-white transition-colors">
+        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-slate-400">
+            © 2025 Tranio Academy. Все права защищены.
+          </p>
+          <div className="flex gap-4">
+            <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Поддержка</a>
+            <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Политика</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
