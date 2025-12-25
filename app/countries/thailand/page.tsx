@@ -204,7 +204,7 @@ export default function ThailandMenu() {
       <footer className="mt-auto py-4 border-t border-slate-200 bg-white transition-colors">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-slate-400">
-            © 2024 Tranio Academy. Все права защищены.
+            © 2025 Tranio Academy. Все права защищены.
           </p>
           <div className="flex gap-4">
             <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Поддержка</a>

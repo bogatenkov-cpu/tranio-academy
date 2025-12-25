@@ -64,7 +64,7 @@ export default function Home() {
               </div>
               
               <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-slate-900 leading-tight">
-                Мастер международной <span className="text-blue-600">недвижимости</span>
+                Эксперт зарубежной <span className="text-blue-600">недвижимости</span>
               </h1>
               
               <p className="text-base text-slate-500 font-light mb-6 leading-relaxed">
@@ -188,7 +188,7 @@ export default function Home() {
       <footer className="mt-auto py-4 border-t border-slate-200 bg-white">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-slate-400">
-            © 2024 Tranio Academy. Все права защищены.
+            © 2025 Tranio Academy. Все права защищены.
           </p>
           <div className="flex gap-4">
             <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Поддержка</a>
