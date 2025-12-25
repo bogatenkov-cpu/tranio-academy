@@ -76,9 +76,15 @@ export default function CountriesPage() {
       <header className="fixed w-full top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200 transition-all duration-300">
         <div className="container mx-auto px-6 h-20 flex justify-between items-center">
           <Link href="/" className="flex items-center gap-3 group cursor-pointer">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-600/20 group-hover:bg-blue-700 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            <div className="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
+              <svg viewBox="0 0 100 100" className="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 5 C30 5, 5 20, 5 40 C5 55, 15 65, 25 70 C15 75, 10 85, 15 95" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                <path d="M50 15 C35 15, 15 25, 15 42 C15 52, 22 60, 30 65" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                <path d="M50 25 C40 25, 25 32, 25 45 C25 52, 30 58, 38 62" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                <circle cx="50" cy="50" r="8" fill="#1e40af"/>
+                <path d="M50 95 C70 95, 95 80, 95 60 C95 45, 85 35, 75 30 C85 25, 90 15, 85 5" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                <path d="M50 85 C65 85, 85 75, 85 58 C85 48, 78 40, 70 35" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                <path d="M50 75 C60 75, 75 68, 75 55 C75 48, 70 42, 62 38" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
               </svg>
             </div>
             <div className="flex flex-col">
@@ -105,10 +111,10 @@ export default function CountriesPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow container mx-auto px-4 pt-24 pb-12">
+      <main className="flex-grow container mx-auto px-4 pt-24 pb-8">
         {/* Header Section */}
-        <div className="text-center mb-8 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 shadow-sm mb-4">
+        <div className="text-center mb-6 max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 shadow-sm mb-3">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
@@ -116,11 +122,11 @@ export default function CountriesPage() {
             <span className="text-[11px] font-semibold text-slate-600 uppercase tracking-wider">Доступные программы</span>
           </div>
           
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 tracking-tight text-slate-900 leading-tight">
+          <h1 className="text-3xl font-bold mb-2 tracking-tight text-slate-900 leading-tight">
             Выберите страну <span className="text-blue-600">для изучения</span>
           </h1>
           
-          <p className="text-base text-slate-500 font-light max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm text-slate-500 font-light max-w-2xl mx-auto leading-relaxed">
             Погружайтесь в особенности рынков недвижимости разных стран с помощью наших интерактивных курсов и тестов.
           </p>
         </div>
@@ -221,7 +227,7 @@ export default function CountriesPage() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto py-6 border-t border-slate-200 bg-white transition-colors">
+      <footer className="mt-auto py-4 border-t border-slate-200 bg-white transition-colors">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-slate-400">
             © 2024 Tranio Academy. Все права защищены.
