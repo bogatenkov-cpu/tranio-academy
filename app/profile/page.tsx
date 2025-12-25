@@ -60,11 +60,11 @@ export default function ProfilePage() {
       const completedLessons = JSON.parse(localStorage.getItem('thailand_completed_lessons') || '[]');
       
       // Подсчитываем дни обучения на основе активности
-      interface Activity {
+      interface ActivityDate {
         date: string;
       }
-      const activities: Activity[] = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
-      const uniqueDates = new Set(activities.map((a: Activity) => new Date(a.date).toDateString()));
+      const activities: ActivityDate[] = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
+      const uniqueDates = new Set(activities.map((a: ActivityDate) => new Date(a.date).toDateString()));
       const studyDays = uniqueDates.size || 0;
       
       setUserStats({
@@ -95,10 +95,6 @@ export default function ProfilePage() {
     }
   }, []);
 
-  const [recentActivity, setRecentActivity] = useState([
-    { type: 'trainer', title: 'Начните обучение', date: new Date().toISOString(), points: 0, country: '🇹🇭' }
-  ]);
-
   interface Activity {
     type: string;
     title: string;
@@ -106,6 +102,10 @@ export default function ProfilePage() {
     points: number;
     country: string;
   }
+
+  const [recentActivity, setRecentActivity] = useState<Activity[]>([
+    { type: 'trainer', title: 'Начните обучение', date: new Date().toISOString(), points: 0, country: '🇹🇭' }
+  ]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
