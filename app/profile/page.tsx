@@ -99,12 +99,17 @@ export default function ProfilePage() {
     { type: 'trainer', title: 'Начните обучение', date: new Date().toISOString(), points: 0, country: '🇹🇭' }
   ]);
 
+  interface Activity {
+    type: string;
+    title: string;
+    date: string;
+    points: number;
+    country: string;
+  }
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      interface ActivityItem {
-        date: string;
-      }
-      const activities: ActivityItem[] = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
+      const activities: Activity[] = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
       if (activities.length > 0) {
         setRecentActivity(activities.slice(0, 5)); // Последние 5 активностей
       }
