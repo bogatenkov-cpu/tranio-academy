@@ -1,11 +1,10 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Home, DollarSign, TrendingUp, MapPin, Building, Info, User, BookOpen } from 'lucide-react';
+import { Home, DollarSign } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LessonPage() {
-  const [selectedRegion, setSelectedRegion] = useState('phuket');
-  const [selectedType, setSelectedType] = useState('condo');
+  const [selectedLocation, setSelectedLocation] = useState('phuket');
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -28,161 +27,135 @@ export default function LessonPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      {/* Navigation Header */}
-      <nav className="bg-white/80 backdrop-blur border-b border-purple-100 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/countries/thailand/theory" className="flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-br from-purple-200 to-pink-200 rounded-xl">
-                <Home className="w-6 h-6 text-purple-700" />
+    <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">
+      <header className="fixed w-full top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200 transition-all duration-300">
+        <div className="container mx-auto px-3 sm:px-6 h-14 sm:h-16 flex justify-between items-center">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link href="/countries/thailand/theory" className="p-1.5 sm:p-2 hover:bg-slate-100 rounded-lg transition-all">
+              <Home className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" />
+            </Link>
+            <Link href="/countries" className="flex items-center gap-2 sm:gap-3 group cursor-pointer">
+              <div className="w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <svg viewBox="0 0 100 100" className="w-7 h-7 sm:w-9 sm:h-9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M50 5 C30 5, 5 20, 5 40 C5 55, 15 65, 25 70 C15 75, 10 85, 15 95" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M50 15 C35 15, 15 25, 15 42 C15 52, 22 60, 30 65" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M50 25 C40 25, 25 32, 25 45 C25 52, 30 58, 38 62" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <circle cx="50" cy="50" r="8" fill="#1e40af"/>
+                  <path d="M50 95 C70 95, 95 80, 95 60 C95 45, 85 35, 75 30 C85 25, 90 15, 85 5" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M50 85 C65 85, 85 75, 85 58 C85 48, 78 40, 70 35" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M50 75 C60 75, 75 68, 75 55 C75 48, 70 42, 62 38" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                </svg>
               </div>
-              <div>
-                <div className="font-bold text-gray-800">Tranio Academy</div>
-                <div className="text-xs text-gray-500">Урок 6: Цены на недвижимость</div>
+              <div className="hidden sm:flex flex-col">
+                <span className="font-bold text-base sm:text-lg leading-none tracking-tight text-slate-900">Tranio Academy</span>
+                <span className="text-[10px] sm:text-[11px] text-slate-500 font-medium uppercase tracking-wide mt-0.5 sm:mt-1">🇹🇭 Урок 6</span>
               </div>
             </Link>
-            <div className="flex items-center gap-4">
-              <Link href="/countries/thailand/theory" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-100 text-blue-700 font-medium hover:bg-blue-200 transition-all">
-                <BookOpen className="w-4 h-4" />
-                К урокам
-              </Link>
-              <Link href="/profile" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-200 to-pink-200 text-purple-800 font-medium hover:shadow-md transition-all">
-                <User className="w-4 h-4" />
-                Профиль
-              </Link>
-            </div>
           </div>
+          <Link href="/profile" className="relative group cursor-pointer">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 border-2 border-white rounded-full"></span>
+          </Link>
         </div>
-      </nav>
+      </header>
 
-      {/* Lesson Header */}
-      <div className="bg-gradient-to-r from-emerald-200 via-teal-200 to-cyan-200">
-        <div className="max-w-4xl mx-auto px-6 py-10">
-          <div className="flex items-center gap-4">
-            <div className="p-4 bg-white/80 rounded-2xl backdrop-blur shadow-sm">
-              <DollarSign className="w-10 h-10 text-emerald-600" />
+      <div className="bg-rose-600 text-white pt-20 sm:pt-24 pb-8 sm:pb-10">
+        <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="p-3 sm:p-4 bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl">
+              <DollarSign className="w-8 h-8 sm:w-10 sm:h-10" />
             </div>
             <div>
-              <div className="text-sm text-emerald-700 font-medium mb-1">Урок 6 • Теория</div>
-              <h1 className="text-3xl font-bold text-emerald-900">Цены на недвижимость в Таиланде</h1>
-              <p className="text-emerald-800 mt-1">Стоимость по районам, типам жилья и факторы влияния</p>
+              <div className="text-xs sm:text-sm text-rose-100 font-medium mb-1">Урок 6 • Теория</div>
+              <h1 className="text-xl sm:text-3xl font-bold">Цены на недвижимость</h1>
+              <p className="text-sm sm:text-base text-rose-100 mt-1">Стоимость по районам, типам жилья и факторы влияния на цену</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-10 space-y-6">
+      <main className="flex-grow container mx-auto px-3 sm:px-6 py-6 sm:py-10 max-w-4xl space-y-6">
         
-        {/* Intro */}
-        <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg p-6 border border-emerald-100">
-          <div className="flex items-start gap-3 mb-4">
-            <Info className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
-            <div>
-              <h2 className="text-xl font-bold text-gray-800 mb-2">Факторы, влияющие на цену</h2>
-              <p className="text-gray-600 leading-relaxed">
-                Цены на недвижимость в Таиланде зависят от <span className="font-semibold text-emerald-700">локации</span>, 
-                <span className="font-semibold text-emerald-700"> типа объекта</span>, 
-                <span className="font-semibold text-emerald-700"> близости к пляжу</span> и 
-                <span className="font-semibold text-emerald-700"> инфраструктуры</span>.
-              </p>
+        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-4">Средние цены 2025</h2>
+          <div className="grid grid-cols-2 gap-2 sm:gap-3">
+            <div className="p-3 sm:p-4 bg-rose-50 border border-rose-100 rounded-lg text-center">
+              <div className="text-lg sm:text-2xl font-bold text-rose-600">$2,500/м²</div>
+              <div className="text-[10px] sm:text-xs text-rose-600 mt-1">Пхукет средняя</div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-3 mt-4">
-            <div className="p-4 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-xl text-center">
-              <div className="text-2xl font-bold text-emerald-800">2-5 млн</div>
-              <div className="text-xs text-emerald-600 mt-1">бат (эконом)</div>
+            <div className="p-3 sm:p-4 bg-pink-50 border border-pink-100 rounded-lg text-center">
+              <div className="text-lg sm:text-2xl font-bold text-pink-600">$3,500/м²</div>
+              <div className="text-[10px] sm:text-xs text-pink-600 mt-1">У моря</div>
             </div>
-            <div className="p-4 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-xl text-center">
-              <div className="text-2xl font-bold text-teal-800">5-15 млн</div>
-              <div className="text-xs text-teal-600 mt-1">бат (средний)</div>
+            <div className="p-3 sm:p-4 bg-red-50 border border-red-100 rounded-lg text-center">
+              <div className="text-lg sm:text-2xl font-bold text-red-600">$1,500/м²</div>
+              <div className="text-[10px] sm:text-xs text-red-600 mt-1">Паттайя</div>
             </div>
-            <div className="p-4 bg-gradient-to-br from-cyan-100 to-emerald-100 rounded-xl text-center">
-              <div className="text-2xl font-bold text-cyan-800">15+ млн</div>
-              <div className="text-xs text-cyan-600 mt-1">бат (премиум)</div>
+            <div className="p-3 sm:p-4 bg-orange-50 border border-orange-100 rounded-lg text-center">
+              <div className="text-lg sm:text-2xl font-bold text-orange-600">$2,000/м²</div>
+              <div className="text-[10px] sm:text-xs text-orange-600 mt-1">Самуи</div>
             </div>
           </div>
         </div>
 
-        {/* Prices by Region */}
-        <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg border border-blue-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-200 to-cyan-200 px-6 py-4">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-6 h-6 text-blue-800" />
-              <h2 className="text-xl font-bold text-blue-800">Цены по регионам</h2>
-            </div>
+        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm overflow-hidden">
+          <div className="bg-slate-50 border-b border-slate-200 px-4 sm:px-6 py-3 sm:py-4">
+            <h2 className="text-lg sm:text-xl font-bold text-slate-900">Цены по локациям</h2>
           </div>
-          
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <div className="flex gap-2 mb-5">
-              <button
-                onClick={() => setSelectedRegion('phuket')}
-                className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${
-                  selectedRegion === 'phuket'
-                    ? 'bg-gradient-to-r from-blue-200 to-cyan-200 text-blue-800 shadow-md'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-                }`}
-              >
+              <button onClick={() => setSelectedLocation('phuket')} className={`flex-1 py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm transition-all ${selectedLocation === 'phuket' ? 'bg-rose-600 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
                 🏝️ Пхукет
               </button>
-              <button
-                onClick={() => setSelectedRegion('pattaya')}
-                className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${
-                  selectedRegion === 'pattaya'
-                    ? 'bg-gradient-to-r from-purple-200 to-pink-200 text-purple-800 shadow-md'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-                }`}
-              >
-                🏖️ Паттайя
+              <button onClick={() => setSelectedLocation('pattaya')} className={`flex-1 py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm transition-all ${selectedLocation === 'pattaya' ? 'bg-blue-600 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
+                🌊 Паттайя
               </button>
-              <button
-                onClick={() => setSelectedRegion('bangkok')}
-                className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${
-                  selectedRegion === 'bangkok'
-                    ? 'bg-gradient-to-r from-orange-200 to-red-200 text-orange-800 shadow-md'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-                }`}
-              >
-                🏙️ Бангкок
+              <button onClick={() => setSelectedLocation('samui')} className={`flex-1 py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm transition-all ${selectedLocation === 'samui' ? 'bg-emerald-600 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
+                🌴 Самуи
               </button>
             </div>
 
-            {selectedRegion === 'phuket' && (
+            {selectedLocation === 'phuket' && (
               <div className="space-y-3">
-                <div className="p-5 bg-blue-50 rounded-xl border border-blue-200">
-                  <h3 className="font-bold text-blue-900 mb-3">Пхукет</h3>
-                  <div className="space-y-2 text-sm text-blue-800">
-                    <div>• <span className="font-semibold">Кондоминиумы:</span> 3-8 млн ฿ (1 спальня), 8-20 млн ฿ (2-3 спальни)</div>
-                    <div>• <span className="font-semibold">Виллы:</span> 15-50 млн ฿ (стандарт), 50+ млн ฿ (люкс)</div>
-                    <div>• <span className="font-semibold">Премиум (Лагуна):</span> от 20 млн ฿</div>
-                    <div>• <span className="font-semibold">Фактор:</span> близость к пляжу +30-50% к цене</div>
+                <div className="p-4 bg-rose-50 border border-rose-100 rounded-lg">
+                  <h4 className="font-bold text-rose-900 mb-2 text-sm sm:text-base">Пхукет</h4>
+                  <div className="text-xs sm:text-sm text-rose-800 space-y-1">
+                    <div>• Студия: $80,000-120,000</div>
+                    <div>• 1-комн: $120,000-180,000</div>
+                    <div>• 2-комн: $180,000-300,000</div>
+                    <div>• Вилла: $350,000+</div>
                   </div>
                 </div>
               </div>
             )}
 
-            {selectedRegion === 'pattaya' && (
+            {selectedLocation === 'pattaya' && (
               <div className="space-y-3">
-                <div className="p-5 bg-purple-50 rounded-xl border border-purple-200">
-                  <h3 className="font-bold text-purple-900 mb-3">Паттайя</h3>
-                  <div className="space-y-2 text-sm text-purple-800">
-                    <div>• <span className="font-semibold">Кондоминиумы:</span> 2-6 млн ฿ (1 спальня), 6-15 млн ฿ (2-3 спальни)</div>
-                    <div>• <span className="font-semibold">Виллы:</span> 10-40 млн ฿</div>
-                    <div>• <span className="font-semibold">Пляжные:</span> +20-40% к базовой цене</div>
+                <div className="p-4 bg-blue-50 border border-blue-100 rounded-lg">
+                  <h4 className="font-bold text-blue-900 mb-2 text-sm sm:text-base">Паттайя</h4>
+                  <div className="text-xs sm:text-sm text-blue-800 space-y-1">
+                    <div>• Студия: $50,000-80,000</div>
+                    <div>• 1-комн: $80,000-120,000</div>
+                    <div>• 2-комн: $120,000-200,000</div>
+                    <div>• Вилла: $250,000+</div>
                   </div>
                 </div>
               </div>
             )}
 
-            {selectedRegion === 'bangkok' && (
+            {selectedLocation === 'samui' && (
               <div className="space-y-3">
-                <div className="p-5 bg-orange-50 rounded-xl border border-orange-200">
-                  <h3 className="font-bold text-orange-900 mb-3">Бангкок</h3>
-                  <div className="space-y-2 text-sm text-orange-800">
-                    <div>• <span className="font-semibold">Кондоминиумы:</span> 3-10 млн ฿ (1 спальня), 10-30 млн ฿ (2-3 спальни)</div>
-                    <div>• <span className="font-semibold">Пентхаусы:</span> от 30 млн ฿</div>
-                    <div>• <span className="font-semibold">Центр (Sukhumvit):</span> +30-50% к цене</div>
+                <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-lg">
+                  <h4 className="font-bold text-emerald-900 mb-2 text-sm sm:text-base">Самуи</h4>
+                  <div className="text-xs sm:text-sm text-emerald-800 space-y-1">
+                    <div>• Студия: $70,000-100,000</div>
+                    <div>• 1-комн: $100,000-150,000</div>
+                    <div>• 2-комн: $150,000-250,000</div>
+                    <div>• Вилла: $300,000+</div>
                   </div>
                 </div>
               </div>
@@ -190,139 +163,37 @@ export default function LessonPage() {
           </div>
         </div>
 
-        {/* Prices by Type */}
-        <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg border border-purple-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-purple-200 to-pink-200 px-6 py-4">
-            <div className="flex items-center gap-2">
-              <Building className="w-6 h-6 text-purple-800" />
-              <h2 className="text-xl font-bold text-purple-800">Цены по типам недвижимости</h2>
-            </div>
-          </div>
-          
-          <div className="p-6">
-            <div className="flex gap-2 mb-5">
-              <button
-                onClick={() => setSelectedType('condo')}
-                className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${
-                  selectedType === 'condo'
-                    ? 'bg-gradient-to-r from-purple-200 to-pink-200 text-purple-800 shadow-md'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-                }`}
-              >
-                🏢 Кондоминиум
-              </button>
-              <button
-                onClick={() => setSelectedType('villa')}
-                className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${
-                  selectedType === 'villa'
-                    ? 'bg-gradient-to-r from-amber-200 to-orange-200 text-amber-800 shadow-md'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-                }`}
-              >
-                🏡 Вилла
-              </button>
-            </div>
-
-            {selectedType === 'condo' && (
-              <div className="space-y-3">
-                <div className="p-5 bg-purple-50 rounded-xl border border-purple-200">
-                  <h3 className="font-bold text-purple-900 mb-3">Кондоминиумы</h3>
-                  <div className="space-y-2 text-sm text-purple-800">
-                    <div>• <span className="font-semibold">Студия:</span> 2-4 млн ฿</div>
-                    <div>• <span className="font-semibold">1 спальня:</span> 3-8 млн ฿</div>
-                    <div>• <span className="font-semibold">2 спальни:</span> 6-15 млн ฿</div>
-                    <div>• <span className="font-semibold">3 спальни:</span> 10-25 млн ฿</div>
-                    <div>• <span className="font-semibold">Пентхаус:</span> от 30 млн ฿</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {selectedType === 'villa' && (
-              <div className="space-y-3">
-                <div className="p-5 bg-amber-50 rounded-xl border border-amber-200">
-                  <h3 className="font-bold text-amber-900 mb-3">Виллы</h3>
-                  <div className="space-y-2 text-sm text-amber-800">
-                    <div>• <span className="font-semibold">Стандарт (3-4 спальни):</span> 15-40 млн ฿</div>
-                    <div>• <span className="font-semibold">Люкс (5+ спален):</span> 40-100+ млн ฿</div>
-                    <div>• <span className="font-semibold">С бассейном:</span> +5-10 млн ฿</div>
-                    <div>• <span className="font-semibold">Пляжные:</span> +30-50% к цене</div>
-                  </div>
-                </div>
-              </div>
-            )}
+        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-4">Факторы, влияющие на цену</h2>
+          <div className="space-y-2 text-xs sm:text-sm text-slate-700">
+            <div>• <span className="font-semibold">Расстояние до моря:</span> чем ближе, тем дороже (+30-50%)</div>
+            <div>• <span className="font-semibold">Инфраструктура:</span> близость к ТЦ, больницам, школам</div>
+            <div>• <span className="font-semibold">Вид из окна:</span> вид на море +20-40%</div>
+            <div>• <span className="font-semibold">Этаж:</span> высокие этажи дороже на 5-10%</div>
+            <div>• <span className="font-semibold">Комплекс:</span> премиум-комплексы +30-50%</div>
           </div>
         </div>
 
-        {/* Price Factors */}
-        <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg border border-green-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-green-200 to-emerald-200 px-6 py-4">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="w-6 h-6 text-green-800" />
-              <h2 className="text-xl font-bold text-green-800">Факторы, влияющие на цену</h2>
-            </div>
-          </div>
-          
-          <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-green-50 rounded-xl border border-green-200">
-                <div className="text-2xl mb-2">📍</div>
-                <h4 className="font-bold text-gray-800 mb-2">Локация</h4>
-                <p className="text-sm text-gray-600">Близость к пляжу, центру, инфраструктуре увеличивает цену на 20-50%</p>
-              </div>
-              <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
-                <div className="text-2xl mb-2">🏖️</div>
-                <h4 className="font-bold text-gray-800 mb-2">Вид на море</h4>
-                <p className="text-sm text-gray-600">Вид на море добавляет 30-70% к стоимости объекта</p>
-              </div>
-              <div className="p-4 bg-teal-50 rounded-xl border border-teal-200">
-                <div className="text-2xl mb-2">🏊</div>
-                <h4 className="font-bold text-gray-800 mb-2">Инфраструктура</h4>
-                <p className="text-sm text-gray-600">Бассейн, спортзал, охрана увеличивают цену на 10-20%</p>
-              </div>
-              <div className="p-4 bg-cyan-50 rounded-xl border border-cyan-200">
-                <div className="text-2xl mb-2">📅</div>
-                <h4 className="font-bold text-gray-800 mb-2">Состояние</h4>
-                <p className="text-sm text-gray-600">Новостройка дороже вторички на 15-30%</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Tips */}
-        <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg p-6 border border-amber-100">
-          <div className="flex items-start gap-3">
-            <Info className="w-6 h-6 text-amber-400 flex-shrink-0 mt-1" />
-            <div>
-              <h2 className="text-xl font-bold text-gray-800 mb-3">Советы при покупке</h2>
-              <div className="space-y-2 text-gray-600">
-                <div>✅ <span className="font-semibold">Изучите рынок:</span> сравните цены в разных районах</div>
-                <div>✅ <span className="font-semibold">Учитывайте дополнительные расходы:</span> налоги, оформление (2-5% от стоимости)</div>
-                <div>✅ <span className="font-semibold">Проверьте документы:</span> убедитесь в чистоте сделки</div>
-                <div>✅ <span className="font-semibold">Инвестируйте в перспективные районы:</span> развивающиеся локации могут вырасти в цене</div>
-                <div>✅ <span className="font-semibold">Консультации:</span> обратитесь к профессиональным агентам</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Navigation Footer */}
-        <div className="flex gap-4 pt-6">
-          <Link
-            href="/countries/thailand/theory/residence-citizenship"
-            className="flex-1 py-4 px-6 rounded-2xl bg-white/80 border-2 border-emerald-200 text-emerald-700 font-semibold hover:shadow-lg transition-all"
-          >
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-6">
+          <Link href="/countries/thailand/theory/residence-citizenship" className="flex-1 py-3 px-4 sm:px-6 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition-all text-sm sm:text-base text-center">
             ← Предыдущий урок
           </Link>
-          <Link
-            href="/countries/thailand/theory/thailand-taxes"
-            className="flex-1 py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-200 to-teal-200 text-emerald-900 font-semibold hover:shadow-lg transition-all"
-          >
+          <Link href="/countries/thailand/theory/thailand-taxes" className="flex-1 py-3 px-4 sm:px-6 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-semibold transition-all text-sm sm:text-base text-center">
             Следующий урок →
           </Link>
         </div>
 
-      </div>
+      </main>
+
+      <footer className="mt-auto py-4 border-t border-slate-200 bg-white transition-colors">
+        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-slate-400">© 2025 Tranio Academy. Все права защищены.</p>
+          <div className="flex gap-4">
+            <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Поддержка</a>
+            <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Политика</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -1,11 +1,9 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { Home, Wrench, Zap, Droplets, Shield, Calculator, Info, User, BookOpen } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { Home, Wrench } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LessonPage() {
-  const [selectedExpense, setSelectedExpense] = useState('utilities');
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const completedLessons = JSON.parse(localStorage.getItem('thailand_completed_lessons') || '[]');
@@ -27,327 +25,175 @@ export default function LessonPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      {/* Navigation Header */}
-      <nav className="bg-white/80 backdrop-blur border-b border-purple-100 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/countries/thailand/theory" className="flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-br from-purple-200 to-pink-200 rounded-xl">
-                <Home className="w-6 h-6 text-purple-700" />
+    <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">
+      <header className="fixed w-full top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200 transition-all duration-300">
+        <div className="container mx-auto px-3 sm:px-6 h-14 sm:h-16 flex justify-between items-center">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link href="/countries/thailand/theory" className="p-1.5 sm:p-2 hover:bg-slate-100 rounded-lg transition-all">
+              <Home className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" />
+            </Link>
+            <Link href="/countries" className="flex items-center gap-2 sm:gap-3 group cursor-pointer">
+              <div className="w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <svg viewBox="0 0 100 100" className="w-7 h-7 sm:w-9 sm:h-9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M50 5 C30 5, 5 20, 5 40 C5 55, 15 65, 25 70 C15 75, 10 85, 15 95" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M50 15 C35 15, 15 25, 15 42 C15 52, 22 60, 30 65" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M50 25 C40 25, 25 32, 25 45 C25 52, 30 58, 38 62" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <circle cx="50" cy="50" r="8" fill="#1e40af"/>
+                  <path d="M50 95 C70 95, 95 80, 95 60 C95 45, 85 35, 75 30 C85 25, 90 15, 85 5" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M50 85 C65 85, 85 75, 85 58 C85 48, 78 40, 70 35" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M50 75 C60 75, 75 68, 75 55 C75 48, 70 42, 62 38" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                </svg>
               </div>
-              <div>
-                <div className="font-bold text-gray-800">Tranio Academy</div>
-                <div className="text-xs text-gray-500">Урок 8: Содержание недвижимости</div>
+              <div className="hidden sm:flex flex-col">
+                <span className="font-bold text-base sm:text-lg leading-none tracking-tight text-slate-900">Tranio Academy</span>
+                <span className="text-[10px] sm:text-[11px] text-slate-500 font-medium uppercase tracking-wide mt-0.5 sm:mt-1">🇹🇭 Урок 8</span>
               </div>
             </Link>
-            <div className="flex items-center gap-4">
-              <Link href="/countries/thailand/theory" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-100 text-blue-700 font-medium hover:bg-blue-200 transition-all">
-                <BookOpen className="w-4 h-4" />
-                К урокам
-              </Link>
-              <Link href="/profile" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-200 to-pink-200 text-purple-800 font-medium hover:shadow-md transition-all">
-                <User className="w-4 h-4" />
-                Профиль
-              </Link>
-            </div>
           </div>
+          <Link href="/profile" className="relative group cursor-pointer">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 border-2 border-white rounded-full"></span>
+          </Link>
         </div>
-      </nav>
+      </header>
 
-      {/* Lesson Header */}
-      <div className="bg-gradient-to-r from-slate-200 via-gray-200 to-zinc-200">
-        <div className="max-w-4xl mx-auto px-6 py-10">
-          <div className="flex items-center gap-4">
-            <div className="p-4 bg-white/80 rounded-2xl backdrop-blur shadow-sm">
-              <Wrench className="w-10 h-10 text-slate-600" />
+      <div className="bg-teal-600 text-white pt-20 sm:pt-24 pb-8 sm:pb-10">
+        <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="p-3 sm:p-4 bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl">
+              <Wrench className="w-8 h-8 sm:w-10 sm:h-10" />
             </div>
             <div>
-              <div className="text-sm text-slate-700 font-medium mb-1">Урок 8 • Теория</div>
-              <h1 className="text-3xl font-bold text-slate-900">Содержание недвижимости в Таиланде</h1>
-              <p className="text-slate-800 mt-1">Коммунальные услуги, управление, обслуживание и ремонт</p>
+              <div className="text-xs sm:text-sm text-teal-100 font-medium mb-1">Урок 8 • Теория</div>
+              <h1 className="text-xl sm:text-3xl font-bold">Содержание недвижимости</h1>
+              <p className="text-sm sm:text-base text-teal-100 mt-1">Коммунальные услуги, управление, обслуживание и ремонт</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-10 space-y-6">
+      <main className="flex-grow container mx-auto px-3 sm:px-6 py-6 sm:py-10 max-w-4xl space-y-6">
         
-        {/* Intro */}
-        <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg p-6 border border-slate-100">
-          <div className="flex items-start gap-3 mb-4">
-            <Info className="w-6 h-6 text-slate-400 flex-shrink-0 mt-1" />
-            <div>
-              <h2 className="text-xl font-bold text-gray-800 mb-2">Расходы на содержание</h2>
-              <p className="text-gray-600 leading-relaxed">
-                Владение недвижимостью в Таиланде сопряжено с определёнными расходами: 
-                <span className="font-semibold text-slate-700"> коммунальные платежи</span>, 
-                <span className="font-semibold text-slate-700"> налоги</span>, 
-                <span className="font-semibold text-slate-700"> обслуживание</span> и 
-                <span className="font-semibold text-slate-700"> страхование</span>.
-              </p>
+        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-4">Ежемесячные расходы</h2>
+          <div className="space-y-3">
+            <div className="p-3 sm:p-4 bg-teal-50 border border-teal-100 rounded-lg">
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-bold text-slate-900 text-sm sm:text-base">Коммунальные расходы (Common Fee)</span>
+                <span className="text-lg sm:text-xl font-bold text-teal-600">40-80 ฿/м²</span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600">Управление, охрана, бассейн, фитнес, сад</p>
             </div>
-          </div>
 
-          <div className="grid grid-cols-3 gap-3 mt-4">
-            <div className="p-4 bg-gradient-to-br from-slate-100 to-gray-100 rounded-xl text-center">
-              <div className="text-2xl font-bold text-slate-800">2-5 тыс</div>
-              <div className="text-xs text-slate-600 mt-1">бат/месяц (коммуналка)</div>
+            <div className="p-3 sm:p-4 bg-blue-50 border border-blue-100 rounded-lg">
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-bold text-slate-900 text-sm sm:text-base">Электричество</span>
+                <span className="text-lg sm:text-xl font-bold text-blue-600">5-7 ฿/кВт⋅ч</span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600">В среднем 2,000-5,000 ฿/месяц с кондиционером</p>
             </div>
-            <div className="p-4 bg-gradient-to-br from-gray-100 to-zinc-100 rounded-xl text-center">
-              <div className="text-2xl font-bold text-gray-800">40-70</div>
-              <div className="text-xs text-gray-600 mt-1">бат/м² (обслуживание)</div>
+
+            <div className="p-3 sm:p-4 bg-cyan-50 border border-cyan-100 rounded-lg">
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-bold text-slate-900 text-sm sm:text-base">Вода</span>
+                <span className="text-lg sm:text-xl font-bold text-cyan-600">18-25 ฿/м³</span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600">В среднем 200-500 ฿/месяц</p>
             </div>
-            <div className="p-4 bg-gradient-to-br from-zinc-100 to-slate-100 rounded-xl text-center">
-              <div className="text-2xl font-bold text-zinc-800">0,02-0,1%</div>
-              <div className="text-xs text-zinc-600 mt-1">налог на недвижимость</div>
+
+            <div className="p-3 sm:p-4 bg-emerald-50 border border-emerald-100 rounded-lg">
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-bold text-slate-900 text-sm sm:text-base">Интернет</span>
+                <span className="text-lg sm:text-xl font-bold text-emerald-600">600-1,200 ฿</span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600">Высокоскоростной интернет, кабельное ТВ</p>
             </div>
           </div>
         </div>
 
-        {/* Expenses */}
-        <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg border border-blue-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-200 to-cyan-200 px-6 py-4">
-            <div className="flex items-center gap-2">
-              <Calculator className="w-6 h-6 text-blue-800" />
-              <h2 className="text-xl font-bold text-blue-800">Основные расходы</h2>
-            </div>
-          </div>
-          
-          <div className="p-6">
-            <div className="flex gap-2 mb-5">
-              <button
-                onClick={() => setSelectedExpense('utilities')}
-                className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${
-                  selectedExpense === 'utilities'
-                    ? 'bg-gradient-to-r from-blue-200 to-cyan-200 text-blue-800 shadow-md'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-                }`}
-              >
-                💡 Коммуналка
-              </button>
-              <button
-                onClick={() => setSelectedExpense('maintenance')}
-                className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${
-                  selectedExpense === 'maintenance'
-                    ? 'bg-gradient-to-r from-purple-200 to-pink-200 text-purple-800 shadow-md'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-                }`}
-              >
-                🛠️ Обслуживание
-              </button>
-              <button
-                onClick={() => setSelectedExpense('taxes')}
-                className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${
-                  selectedExpense === 'taxes'
-                    ? 'bg-gradient-to-r from-green-200 to-emerald-200 text-green-800 shadow-md'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-                }`}
-              >
-                📋 Налоги
-              </button>
+        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-4">Управление арендой</h2>
+          <div className="space-y-3">
+            <div className="p-3 sm:p-4 bg-purple-50 border border-purple-100 rounded-lg">
+              <h4 className="font-bold text-slate-900 mb-2 text-sm sm:text-base">Управляющая компания</h4>
+              <div className="text-xs sm:text-sm text-slate-700 space-y-1">
+                <div>• <span className="font-semibold">Комиссия:</span> 10-20% от арендной платы</div>
+                <div>• <span className="font-semibold">Услуги:</span> поиск арендаторов, уборка, ремонт, отчеты</div>
+                <div>• <span className="font-semibold">Преимущества:</span> высокая загрузка, профессиональный сервис</div>
+              </div>
             </div>
 
-            {selectedExpense === 'utilities' && (
-              <div className="space-y-3">
-                <div className="p-5 bg-blue-50 rounded-xl border border-blue-200">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Zap className="w-5 h-5 text-blue-600" />
-                    <h3 className="font-bold text-blue-900">Электричество</h3>
-                  </div>
-                  <div className="space-y-2 text-sm text-blue-800">
-                    <div>• <span className="font-semibold">Стоимость:</span> 1 500 - 5 000 ฿/месяц</div>
-                    <div>• <span className="font-semibold">Зависит от:</span> потребления, региона</div>
-                    <div>• <span className="font-semibold">Тарифы:</span> прогрессивная шкала</div>
-                  </div>
-                </div>
-
-                <div className="p-5 bg-cyan-50 rounded-xl border border-cyan-200">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Droplets className="w-5 h-5 text-cyan-600" />
-                    <h3 className="font-bold text-cyan-900">Вода</h3>
-                  </div>
-                  <div className="space-y-2 text-sm text-cyan-800">
-                    <div>• <span className="font-semibold">Стоимость:</span> 200 - 500 ฿/месяц</div>
-                    <div>• <span className="font-semibold">Обычно:</span> недорогая</div>
-                    <div>• <span className="font-semibold">Зависит от:</span> потребления</div>
-                  </div>
-                </div>
-
-                <div className="p-5 bg-indigo-50 rounded-xl border border-indigo-200">
-                  <h3 className="font-bold text-indigo-900 mb-3">Интернет и ТВ</h3>
-                  <div className="space-y-2 text-sm text-indigo-800">
-                    <div>• <span className="font-semibold">Интернет:</span> 500 - 1 200 ฿/месяц</div>
-                    <div>• <span className="font-semibold">ТВ:</span> 300 - 800 ฿/месяц</div>
-                    <div>• <span className="font-semibold">Зависит от:</span> провайдера и пакета</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {selectedExpense === 'maintenance' && (
-              <div className="space-y-3">
-                <div className="p-5 bg-purple-50 rounded-xl border border-purple-200">
-                  <h3 className="font-bold text-purple-900 mb-3">Плата за обслуживание (Maintenance Fee)</h3>
-                  <div className="space-y-2 text-sm text-purple-800">
-                    <div>• <span className="font-semibold">Кондоминиумы:</span> 40 - 70 ฿/м² в месяц</div>
-                    <div>• <span className="font-semibold">Виллы с охраной:</span> 4 000 - 10 000 ฿/месяц</div>
-                    <div>• <span className="font-semibold">Включает:</span> содержание общих зон, инфраструктуры, охрану</div>
-                    <div>• <span className="font-semibold">Зависит от:</span> площади, уровня комплекса</div>
-                  </div>
-                </div>
-
-                <div className="p-5 bg-pink-50 rounded-xl border border-pink-200">
-                  <h3 className="font-bold text-pink-900 mb-3">Ремонт и обслуживание</h3>
-                  <div className="space-y-2 text-sm text-pink-800">
-                    <div>• <span className="font-semibold">Текущий ремонт:</span> покраска, замена оборудования</div>
-                    <div>• <span className="font-semibold">Рекомендуется:</span> откладывать 1-2% от стоимости в год</div>
-                    <div>• <span className="font-semibold">После аренды:</span> может потребоваться дополнительный ремонт</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {selectedExpense === 'taxes' && (
-              <div className="space-y-3">
-                <div className="p-5 bg-green-50 rounded-xl border border-green-200">
-                  <h3 className="font-bold text-green-900 mb-3">Налог на недвижимость</h3>
-                  <div className="space-y-2 text-sm text-green-800">
-                    <div>• <span className="font-semibold">Ставка:</span> 0,02% - 0,1% от кадастровой стоимости</div>
-                    <div>• <span className="font-semibold">Для жилой (с пропиской):</span> 0% (вилла до 50 млн, квартира до 10 млн)</div>
-                    <div>• <span className="font-semibold">Для сдаваемой в аренду:</span> ставка выше</div>
-                    <div>• <span className="font-semibold">Зависит от:</span> типа недвижимости, использования</div>
-                  </div>
-                </div>
-
-                <div className="p-5 bg-emerald-50 rounded-xl border border-emerald-200">
-                  <h3 className="font-bold text-emerald-900 mb-3">Налог на доход от аренды</h3>
-                  <div className="space-y-2 text-sm text-emerald-800">
-                    <div>• <span className="font-semibold">Применяется:</span> если недвижимость сдаётся в аренду</div>
-                    <div>• <span className="font-semibold">Ставка:</span> прогрессивная шкала</div>
-                    <div>• <span className="font-semibold">Расходы:</span> можно вычесть из налогооблагаемой базы</div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Insurance */}
-        <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg border border-amber-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-amber-200 to-orange-200 px-6 py-4">
-            <div className="flex items-center gap-2">
-              <Shield className="w-6 h-6 text-amber-800" />
-              <h2 className="text-xl font-bold text-amber-800">Страхование недвижимости</h2>
-            </div>
-          </div>
-          
-          <div className="p-6 space-y-4">
-            <div className="p-5 bg-amber-50 rounded-xl border border-amber-200">
-              <h3 className="font-bold text-amber-900 mb-3">Рекомендуется оформить</h3>
-              <div className="space-y-2 text-sm text-amber-800">
-                <div>• <span className="font-semibold">Покрытие:</span> пожар, наводнение, кража, другие риски</div>
-                <div>• <span className="font-semibold">Стоимость:</span> 5 000 - 15 000 ฿/год</div>
-                <div>• <span className="font-semibold">Зависит от:</span> страховой суммы и покрытия</div>
-                <div>• <span className="font-semibold">Важно:</span> защита от непредвиденных ситуаций</div>
+            <div className="p-3 sm:p-4 bg-pink-50 border border-pink-100 rounded-lg">
+              <h4 className="font-bold text-slate-900 mb-2 text-sm sm:text-base">Самостоятельное управление</h4>
+              <div className="text-xs sm:text-sm text-slate-700 space-y-1">
+                <div>• <span className="font-semibold">Комиссия:</span> 0% (только ваше время)</div>
+                <div>• <span className="font-semibold">Сложности:</span> нужно быть на месте, решать проблемы</div>
+                <div>• <span className="font-semibold">Рекомендуется:</span> если живете в Таиланде постоянно</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Property Management */}
-        <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg border border-rose-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-rose-200 to-pink-200 px-6 py-4">
-            <div className="flex items-center gap-2">
-              <Wrench className="w-6 h-6 text-rose-800" />
-              <h2 className="text-xl font-bold text-rose-800">Управление недвижимостью</h2>
+        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-4">Типичные расходы на содержание</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="p-3 sm:p-4 bg-amber-50 border border-amber-100 rounded-lg">
+              <div className="text-xl sm:text-2xl mb-2">💡</div>
+              <h4 className="font-bold text-slate-900 mb-2 text-sm sm:text-base">Студия 30м²</h4>
+              <p className="text-xs sm:text-sm text-slate-600">4,000-8,000 ฿/месяц</p>
             </div>
-          </div>
-          
-          <div className="p-6 space-y-4">
-            <div className="p-5 bg-rose-50 rounded-xl border border-rose-200">
-              <h3 className="font-bold text-rose-900 mb-3">Услуги управляющих компаний</h3>
-              <div className="space-y-2 text-sm text-rose-800">
-                <div>• <span className="font-semibold">Поиск арендаторов:</span> маркетинг, показы, проверка</div>
-                <div>• <span className="font-semibold">Обслуживание:</span> ремонт, уборка, коммунальные платежи</div>
-                <div>• <span className="font-semibold">Решение вопросов:</span> взаимодействие с арендаторами</div>
-                <div>• <span className="font-semibold">Комиссия:</span> обычно 10-15% от арендной платы</div>
-                <div>• <span className="font-semibold">Плюсы:</span> экономия времени, профессиональное управление</div>
-              </div>
+            <div className="p-3 sm:p-4 bg-orange-50 border border-orange-100 rounded-lg">
+              <div className="text-xl sm:text-2xl mb-2">🏢</div>
+              <h4 className="font-bold text-slate-900 mb-2 text-sm sm:text-base">1-комн 50м²</h4>
+              <p className="text-xs sm:text-sm text-slate-600">6,000-12,000 ฿/месяц</p>
             </div>
-          </div>
-        </div>
-
-        {/* Total Costs Example */}
-        <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg border border-teal-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-teal-200 to-cyan-200 px-6 py-4">
-            <div className="flex items-center gap-2">
-              <Calculator className="w-6 h-6 text-teal-800" />
-              <h2 className="text-xl font-bold text-teal-800">Пример расчёта расходов</h2>
+            <div className="p-3 sm:p-4 bg-red-50 border border-red-100 rounded-lg">
+              <div className="text-xl sm:text-2xl mb-2">🏠</div>
+              <h4 className="font-bold text-slate-900 mb-2 text-sm sm:text-base">2-комн 80м²</h4>
+              <p className="text-xs sm:text-sm text-slate-600">8,000-15,000 ฿/месяц</p>
             </div>
-          </div>
-          
-          <div className="p-6 space-y-4">
-            <div className="p-5 bg-teal-50 rounded-xl border border-teal-200">
-              <h3 className="font-bold text-teal-900 mb-3">Кондоминиум 50 м²</h3>
-              <div className="space-y-2 text-sm text-teal-800">
-                <div className="flex justify-between">
-                  <span>Коммунальные услуги:</span>
-                  <span className="font-bold">2 500 ฿/мес</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Обслуживание (50 м² × 50 ฿):</span>
-                  <span className="font-bold">2 500 ฿/мес</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Интернет и ТВ:</span>
-                  <span className="font-bold">1 000 ฿/мес</span>
-                </div>
-                <div className="flex justify-between border-t-2 border-teal-300 pt-2 font-bold text-lg">
-                  <span>Итого в месяц:</span>
-                  <span>6 000 ฿</span>
-                </div>
-                <div className="flex justify-between text-xs text-teal-600 mt-2">
-                  <span>+ Налог на недвижимость (ежегодно):</span>
-                  <span>зависит от стоимости</span>
-                </div>
-                <div className="flex justify-between text-xs text-teal-600">
-                  <span>+ Страхование (ежегодно):</span>
-                  <span>5 000 - 15 000 ฿</span>
-                </div>
-              </div>
+            <div className="p-3 sm:p-4 bg-rose-50 border border-rose-100 rounded-lg">
+              <div className="text-xl sm:text-2xl mb-2">🏡</div>
+              <h4 className="font-bold text-slate-900 mb-2 text-sm sm:text-base">Вилла 200м²</h4>
+              <p className="text-xs sm:text-sm text-slate-600">15,000-30,000 ฿/месяц</p>
             </div>
           </div>
         </div>
 
-        {/* Tips */}
-        <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg p-6 border border-amber-100">
-          <div className="flex items-start gap-3">
-            <Info className="w-6 h-6 text-amber-400 flex-shrink-0 mt-1" />
-            <div>
-              <h2 className="text-xl font-bold text-gray-800 mb-3">Советы по управлению</h2>
-              <div className="space-y-2 text-gray-600">
-                <div>✅ <span className="font-semibold">Планируйте бюджет:</span> учитывайте все расходы заранее</div>
-                <div>✅ <span className="font-semibold">Регулярное обслуживание:</span> предотвращает крупные расходы</div>
-                <div>✅ <span className="font-semibold">Своевременная оплата:</span> избегайте штрафов и пени</div>
-                <div>✅ <span className="font-semibold">Управляющая компания:</span> рассмотрите для сдаваемой недвижимости</div>
-                <div>✅ <span className="font-semibold">Страхование:</span> защита от непредвиденных ситуаций</div>
-              </div>
-            </div>
+        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-4">Советы по содержанию</h2>
+          <div className="space-y-2 text-xs sm:text-sm text-slate-700">
+            <div>✅ <span className="font-semibold">Выбирайте комплекс с хорошим управлением:</span> проверяйте отзывы</div>
+            <div>✅ <span className="font-semibold">Закладывайте 10-15% от дохода:</span> на непредвиденные расходы</div>
+            <div>✅ <span className="font-semibold">Наймите управляющую компанию:</span> если не живете в Таиланде</div>
+            <div>✅ <span className="font-semibold">Регулярное обслуживание:</span> кондиционеры, сантехника</div>
           </div>
         </div>
 
-        {/* Navigation Footer */}
-        <div className="flex gap-4 pt-6">
-          <Link
-            href="/countries/thailand/theory/thailand-taxes"
-            className="flex-1 py-4 px-6 rounded-2xl bg-white/80 border-2 border-slate-200 text-slate-700 font-semibold hover:shadow-lg transition-all"
-          >
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-6">
+          <Link href="/countries/thailand/theory/thailand-taxes" className="flex-1 py-3 px-4 sm:px-6 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition-all text-sm sm:text-base text-center">
             ← Предыдущий урок
+          </Link>
+          <Link href="/countries/thailand/theory" className="flex-1 py-3 px-4 sm:px-6 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold transition-all text-sm sm:text-base text-center">
+            К списку уроков
           </Link>
         </div>
 
-      </div>
+      </main>
+
+      <footer className="mt-auto py-4 border-t border-slate-200 bg-white transition-colors">
+        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-slate-400">© 2025 Tranio Academy. Все права защищены.</p>
+          <div className="flex gap-4">
+            <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Поддержка</a>
+            <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Политика</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
