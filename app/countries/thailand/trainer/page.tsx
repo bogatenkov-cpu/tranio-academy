@@ -20,6 +20,7 @@ export default function TrainerPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState<boolean>(false);
   const [selectedCategory] = useState<string>('all');
   const [studyMode] = useState<'all' | 'new' | 'review'>('all');
   const [score, setScore] = useState({ correct: 0, total: 0 });
@@ -1845,6 +1846,7 @@ export default function TrainerPage() {
     
     setIsAnimating(true);
     setSelectedAnswer(answerIndex);
+    setIsCorrectAnswer(isCorrect); // Сохраняем правильность ответа в state!
     
     setTimeout(() => {
       setShowExplanation(true);
@@ -1921,9 +1923,10 @@ export default function TrainerPage() {
         setCurrentQuestionIndex(prev => prev + 1);
         setSelectedAnswer(null);
         setShowExplanation(false);
-    } else {
+        setIsCorrectAnswer(false);
+      } else {
         loadQuestions();
-    }
+      }
       setIsAnimating(false);
     }, 200);
   };
@@ -1982,7 +1985,6 @@ export default function TrainerPage() {
     ? ((currentQuestionIndex + 1) / sessionQuestions.length) * 100 
     : 0;
 
-  const isCorrect = selectedAnswer !== null && selectedAnswer === currentQuestion?.correctAnswer;
   const currentCategory = categories.find(c => c.id === currentQuestion?.category);
 
   return (
@@ -2154,7 +2156,7 @@ export default function TrainerPage() {
               {/* Объяснение с анимацией */}
               {showExplanation && (
                 <div className={`mt-8 p-6 rounded-2xl border-2 animate-in fade-in slide-in-from-bottom-4 duration-500 ${
-                  isCorrect 
+                  isCorrectAnswer 
                     ? 'bg-gradient-to-r from-emerald-50 to-green-50 border-emerald-300' 
                     : 'bg-gradient-to-r from-amber-50 to-orange-50 border-amber-300'
                 }`}>
@@ -2170,9 +2172,9 @@ export default function TrainerPage() {
               </div>
                     <div className="flex-1">
                       <p className={`text-lg font-bold mb-2 ${
-                        isCorrect ? 'text-emerald-900' : 'text-amber-900'
+                        isCorrectAnswer ? 'text-emerald-900' : 'text-amber-900'
                       }`}>
-                        {isCorrect ? '🎉 Отлично! Правильный ответ' : '❌ Неправильно'}
+                        {isCorrectAnswer ? '🎉 Отлично! Правильный ответ' : '❌ Неправильно'}
                       </p>
                       <p className="text-gray-700 leading-relaxed text-base">
                         {currentQuestion.explanation}
