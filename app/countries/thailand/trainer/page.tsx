@@ -1839,6 +1839,8 @@ export default function TrainerPage() {
   const handleAnswerSelect = (answerIndex: number) => {
     if (showExplanation || isAnimating) return;
     
+    const isCorrect = answerIndex === currentQuestion.correctAnswer;
+    
     setIsAnimating(true);
     setSelectedAnswer(answerIndex);
     
@@ -1846,8 +1848,6 @@ export default function TrainerPage() {
       setShowExplanation(true);
       setIsAnimating(false);
     }, 300);
-
-    const isCorrect = answerIndex === currentQuestion.correctAnswer;
     
     if (isCorrect) {
       setScore(prev => ({ ...prev, correct: prev.correct + 1, total: prev.total + 1 }));
