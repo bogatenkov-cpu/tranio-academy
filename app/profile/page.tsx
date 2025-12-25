@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/link';
+import { useRouter } from 'next/navigation';
 import { User, ArrowLeft, BookOpen, Brain, Trophy, Calendar, TrendingUp, Settings, Clock, Flame, Star } from 'lucide-react';
 import Link from 'next/link';
 
