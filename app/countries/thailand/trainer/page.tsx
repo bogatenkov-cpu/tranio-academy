@@ -2242,6 +2242,7 @@ export default function TrainerPage() {
             )}
           </div>
         )}
+        </div>
       </main>
 
       {/* Footer */}
