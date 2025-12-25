@@ -1799,10 +1799,16 @@ export default function TrainerPage() {
       filtered = filtered.filter(q => q.category === selectedCategory);
     }
 
+    // Получаем актуальные studiedQuestions из localStorage, а не из state
+    const savedStudied = typeof window !== 'undefined' 
+      ? JSON.parse(localStorage.getItem('thailand_studied_cards') || '[]')
+      : [];
+    const studiedSet = new Set(savedStudied);
+
     if (studyMode === 'new') {
-      filtered = filtered.filter(q => !studiedQuestions.has(q.id));
+      filtered = filtered.filter(q => !studiedSet.has(q.id));
     } else if (studyMode === 'review') {
-      filtered = filtered.filter(q => studiedQuestions.has(q.id));
+      filtered = filtered.filter(q => studiedSet.has(q.id));
     }
 
     // Перемешиваем вопросы и варианты ответов
@@ -1828,8 +1834,9 @@ export default function TrainerPage() {
     setCurrentQuestionIndex(0);
     setSelectedAnswer(null);
     setShowExplanation(false);
+    setIsCorrectAnswer(false);
     setScore({ correct: 0, total: 0 });
-  }, [selectedCategory, studyMode, studiedQuestions]);
+  }, [selectedCategory, studyMode]); // Убрали studiedQuestions из зависимостей!
 
   useEffect(() => {
     loadQuestions();
