@@ -105,32 +105,32 @@ export default function CountriesPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow container mx-auto px-4 pt-32 pb-20">
+      <main className="flex-grow container mx-auto px-4 pt-24 pb-12">
         {/* Header Section */}
-        <div className="text-center mb-16 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm mb-6">
-            <span className="relative flex h-2.5 w-2.5">
+        <div className="text-center mb-8 max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 shadow-sm mb-4">
+            <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
             </span>
-            <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Доступные программы</span>
+            <span className="text-[11px] font-semibold text-slate-600 uppercase tracking-wider">Доступные программы</span>
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-slate-900 leading-tight">
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 tracking-tight text-slate-900 leading-tight">
             Выберите страну <span className="text-blue-600">для изучения</span>
           </h1>
           
-          <p className="text-lg text-slate-500 font-light max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base text-slate-500 font-light max-w-2xl mx-auto leading-relaxed">
             Погружайтесь в особенности рынков недвижимости разных стран с помощью наших интерактивных курсов и тестов.
           </p>
         </div>
 
         {/* Countries Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
           {countries.map((country) => (
             <div
               key={country.id}
-              className={`group relative flex flex-col h-full bg-white border rounded-2xl p-6 transition-all duration-300 overflow-hidden ${
+              className={`group relative flex flex-col h-full bg-white border rounded-xl p-4 transition-all duration-300 overflow-hidden ${
                 country.available
                   ? 'border-slate-200 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/10 ring-1 ring-transparent hover:ring-blue-500/20 cursor-pointer'
                   : 'border-slate-200 hover:border-slate-300 hover:shadow-lg'
@@ -143,11 +143,11 @@ export default function CountriesPage() {
               )}
               
               {/* Header */}
-              <div className="flex items-start justify-between mb-6 relative z-10">
-                <div className={`text-6xl transition-all duration-500 ${country.available ? 'group-hover:scale-110' : 'opacity-70 group-hover:opacity-100'}`}>
+              <div className="flex items-start justify-between mb-4 relative z-10">
+                <div className={`text-5xl transition-all duration-500 ${country.available ? 'group-hover:scale-110' : 'opacity-70 group-hover:opacity-100'}`}>
                   {country.flag}
                 </div>
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${
+                <div className={`flex items-center justify-center w-7 h-7 rounded-full ${
                   country.available 
                     ? 'bg-blue-50 text-blue-600' 
                     : 'text-slate-300'
@@ -165,8 +165,8 @@ export default function CountriesPage() {
               </div>
 
               {/* Content */}
-              <div className="mb-6 relative z-10">
-                <h3 className={`text-xl font-bold mb-2 transition-colors ${
+              <div className="mb-4 relative z-10">
+                <h3 className={`text-lg font-bold mb-1.5 transition-colors ${
                   country.available 
                     ? 'text-slate-900 group-hover:text-blue-600' 
                     : 'text-slate-700 group-hover:text-slate-900'
@@ -186,7 +186,7 @@ export default function CountriesPage() {
               </div>
 
               {/* Footer */}
-              <div className="mt-auto pt-5 border-t border-slate-100 flex items-center justify-between relative z-10">
+              <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between relative z-10">
                 {country.available ? (
                   <>
                     <div className="flex items-center gap-2 text-blue-600">
@@ -196,8 +196,8 @@ export default function CountriesPage() {
                       </span>
                       <span className="text-sm font-semibold">{country.lessons} уроков</span>
                     </div>
-                    <button className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:scale-110 group-hover:bg-blue-700 transition-all duration-300">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <button className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:scale-110 group-hover:bg-blue-700 transition-all duration-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z"/>
                       </svg>
                     </button>
@@ -207,8 +207,8 @@ export default function CountriesPage() {
                     <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-500">
                       Скоро
                     </span>
-                    <div className="w-10 h-10 rounded-full border border-slate-200 text-slate-300 flex items-center justify-center group-hover:border-slate-300 transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="w-9 h-9 rounded-full border border-slate-200 text-slate-300 flex items-center justify-center group-hover:border-slate-300 transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                       </svg>
                     </div>
@@ -221,7 +221,7 @@ export default function CountriesPage() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto py-8 border-t border-slate-200 bg-white transition-colors">
+      <footer className="mt-auto py-6 border-t border-slate-200 bg-white transition-colors">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-slate-400">
             © 2024 Tranio Academy. Все права защищены.
