@@ -1998,14 +1998,14 @@ export default function TrainerPage() {
     <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">
       {/* Header */}
       <header className="fixed w-full top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200 transition-all duration-300">
-        <div className="container mx-auto px-6 h-20 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <Link href="/countries/thailand" className="p-2 hover:bg-slate-100 rounded-xl transition-all">
-              <ArrowLeft className="w-5 h-5 text-slate-600" />
+        <div className="container mx-auto px-3 sm:px-6 h-14 sm:h-16 flex justify-between items-center">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link href="/countries/thailand" className="p-1.5 sm:p-2 hover:bg-slate-100 rounded-lg transition-all">
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" />
             </Link>
-            <Link href="/countries" className="flex items-center gap-3 group cursor-pointer">
-              <div className="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <svg viewBox="0 0 100 100" className="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <Link href="/countries" className="flex items-center gap-2 sm:gap-3 group cursor-pointer">
+              <div className="w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <svg viewBox="0 0 100 100" className="w-7 h-7 sm:w-9 sm:h-9" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M50 5 C30 5, 5 20, 5 40 C5 55, 15 65, 25 70 C15 75, 10 85, 15 95" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
                   <path d="M50 15 C35 15, 15 25, 15 42 C15 52, 22 60, 30 65" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
                   <path d="M50 25 C40 25, 25 32, 25 45 C25 52, 30 58, 38 62" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
@@ -2015,72 +2015,73 @@ export default function TrainerPage() {
                   <path d="M50 75 C60 75, 75 68, 75 55 C75 48, 70 42, 62 38" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
                 </svg>
               </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-lg leading-none tracking-tight text-slate-900">Tranio Academy</span>
-                <span className="text-[11px] text-slate-500 font-medium uppercase tracking-wide mt-1">🇹🇭 Тренажёр</span>
+              <div className="hidden sm:flex flex-col">
+                <span className="font-bold text-base sm:text-lg leading-none tracking-tight text-slate-900">Tranio Academy</span>
+                <span className="text-[10px] sm:text-[11px] text-slate-500 font-medium uppercase tracking-wide mt-0.5 sm:mt-1">🇹🇭 Тренажёр</span>
               </div>
             </Link>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             {streak > 0 && (
-              <div className="flex items-center gap-2 px-3 py-2 bg-orange-50 border border-orange-200 text-orange-700 rounded-lg text-sm font-bold">
-                <Flame className="w-4 h-4" />
-                {streak} подряд
+              <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 sm:py-2 bg-orange-50 border border-orange-200 text-orange-700 rounded-lg text-xs sm:text-sm font-bold">
+                <Flame className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden xs:inline">{streak} подряд</span>
+                <span className="xs:hidden">{streak}</span>
               </div>
             )}
             <Link href="/profile" className="relative group cursor-pointer">
-              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
-              <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 border-2 border-white rounded-full"></span>
             </Link>
           </div>
         </div>
       </header>
 
       {/* Main */}
-      <main className="flex-grow container mx-auto px-4 pt-24 pb-8">
+      <main className="flex-grow container mx-auto px-3 sm:px-4 pt-16 sm:pt-20 pb-6 sm:pb-8">
         <div className="max-w-4xl mx-auto">
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-slate-600">Прогресс</span>
-              <TrendingUp className="w-4 h-4 text-blue-500" />
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-6">
+          <div className="bg-white border border-slate-200 rounded-lg sm:rounded-xl p-3 sm:p-5 shadow-sm">
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
+              <span className="text-xs sm:text-sm font-medium text-slate-600">Прогресс</span>
+              <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-blue-500" />
             </div>
-            <div className="text-2xl font-bold text-slate-900">{Math.round(progress)}%</div>
-            <div className="mt-3 w-full bg-slate-200 rounded-full h-2">
+            <div className="text-lg sm:text-2xl font-bold text-slate-900">{Math.round(progress)}%</div>
+            <div className="mt-2 sm:mt-3 w-full bg-slate-200 rounded-full h-1.5 sm:h-2">
               <div
-                className="bg-blue-600 h-2 rounded-full transition-all duration-500"
+                className="bg-blue-600 h-1.5 sm:h-2 rounded-full transition-all duration-500"
                 style={{ width: `${progress}%` }}
               />
             </div>
           </div>
           
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-slate-600">Точность</span>
-              <Trophy className="w-4 h-4 text-amber-500" />
+          <div className="bg-white border border-slate-200 rounded-lg sm:rounded-xl p-3 sm:p-5 shadow-sm">
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
+              <span className="text-xs sm:text-sm font-medium text-slate-600">Точность</span>
+              <Trophy className="w-3 h-3 sm:w-4 sm:h-4 text-amber-500" />
             </div>
-            <div className="text-2xl font-bold text-slate-900">
+            <div className="text-lg sm:text-2xl font-bold text-slate-900">
               {score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0}%
             </div>
-            <div className="mt-2 text-xs text-slate-500">
-              {score.correct} из {score.total} правильных
+            <div className="mt-1 sm:mt-2 text-[10px] sm:text-xs text-slate-500">
+              {score.correct} / {score.total}
             </div>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-slate-600">Вопрос</span>
-              <Zap className="w-4 h-4 text-emerald-500" />
+          <div className="bg-white border border-slate-200 rounded-lg sm:rounded-xl p-3 sm:p-5 shadow-sm">
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
+              <span className="text-xs sm:text-sm font-medium text-slate-600">Вопрос</span>
+              <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-500" />
             </div>
-            <div className="text-2xl font-bold text-slate-900">
+            <div className="text-lg sm:text-2xl font-bold text-slate-900">
               {currentQuestionIndex + 1} / {sessionQuestions.length}
             </div>
-            <div className="mt-2 text-xs text-slate-500">
+            <div className="mt-1 sm:mt-2 text-[10px] sm:text-xs text-slate-500">
               Осталось {sessionQuestions.length - currentQuestionIndex - 1}
             </div>
           </div>
@@ -2089,17 +2090,17 @@ export default function TrainerPage() {
 
         {/* Question Card */}
         {currentQuestion && (
-          <div className={`bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}>
+          <div className={`bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}>
             {/* Header */}
-            <div className="bg-slate-50 border-b border-slate-200 px-6 py-4">
+            <div className="bg-slate-50 border-b border-slate-200 px-4 sm:px-6 py-3 sm:py-4">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
-                    <span className="text-xl">{currentCategory?.icon}</span>
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-50 rounded-lg flex items-center justify-center">
+                    <span className="text-lg sm:text-xl">{currentCategory?.icon}</span>
                   </div>
                   <div>
-                    <div className="text-slate-900 text-sm font-semibold">{currentCategory?.name}</div>
-                    <span className={`text-xs font-medium ${
+                    <div className="text-slate-900 text-xs sm:text-sm font-semibold">{currentCategory?.name}</div>
+                    <span className={`text-[10px] sm:text-xs font-medium ${
                       currentQuestion.difficulty === 'easy' ? 'text-green-600' :
                       currentQuestion.difficulty === 'medium' ? 'text-amber-600' :
                       'text-red-600'
@@ -2112,19 +2113,19 @@ export default function TrainerPage() {
             </div>
 
             {/* Question */}
-            <div className="px-6 py-8">
-              <h2 className="text-xl font-bold text-slate-900 mb-8 leading-relaxed">
+            <div className="px-4 sm:px-6 py-5 sm:py-8">
+              <h2 className="text-base sm:text-xl font-bold text-slate-900 mb-5 sm:mb-8 leading-relaxed">
                 {currentQuestion.question}
               </h2>
 
               {/* Answer Options */}
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {currentQuestion.options.map((option, index) => {
                   const isSelected = selectedAnswer === index;
                   const isCorrect = index === currentQuestion.correctAnswer;
                   const showResult = showExplanation;
 
-                  let buttonClass = "w-full text-left px-5 py-4 rounded-xl border-2 transition-all text-sm font-medium relative ";
+                  let buttonClass = "w-full text-left px-3 sm:px-5 py-3 sm:py-4 rounded-xl border-2 transition-all text-xs sm:text-sm font-medium relative ";
                   
                   if (showResult) {
                     if (isCorrect) {
@@ -2145,8 +2146,8 @@ export default function TrainerPage() {
                       disabled={showExplanation}
                       className={buttonClass}
                     >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm flex-shrink-0 ${
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center font-bold text-xs sm:text-sm flex-shrink-0 ${
                           showResult && isCorrect 
                             ? 'bg-green-500 text-white' 
                             : showResult && isSelected && !isCorrect
@@ -2170,28 +2171,28 @@ export default function TrainerPage() {
 
               {/* Explanation */}
               {showExplanation && (
-                <div className={`mt-6 p-5 rounded-xl border ${
+                <div className={`mt-4 sm:mt-6 p-3 sm:p-5 rounded-xl border ${
                   isCorrectAnswer 
                     ? 'bg-green-50 border-green-200' 
                     : 'bg-amber-50 border-amber-200'
                 }`}>
-                  <div className="flex items-start gap-3">
-                    <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <div className={`flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center ${
                       isCorrectAnswer ? 'bg-green-500' : 'bg-amber-500'
                     }`}>
                       {isCorrectAnswer ? (
-                        <CheckCircle className="w-6 h-6 text-white" />
+                        <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                       ) : (
-                        <XCircle className="w-6 h-6 text-white" />
+                        <XCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                       )}
                     </div>
                     <div className="flex-1">
-                      <p className={`font-bold mb-2 ${
+                      <p className={`text-sm sm:text-base font-bold mb-1 sm:mb-2 ${
                         isCorrectAnswer ? 'text-green-900' : 'text-amber-900'
                       }`}>
                         {isCorrectAnswer ? '✓ Правильно!' : '✗ Неправильно'}
                       </p>
-                      <p className="text-slate-700 leading-relaxed text-sm">
+                      <p className="text-slate-700 leading-relaxed text-xs sm:text-sm">
                         {currentQuestion.explanation}
                       </p>
                     </div>
@@ -2202,11 +2203,11 @@ export default function TrainerPage() {
 
             {/* Next Button */}
             {showExplanation && (
-              <div className="px-6 py-5 bg-slate-50 border-t border-slate-200">
+              <div className="px-4 sm:px-6 py-4 sm:py-5 bg-slate-50 border-t border-slate-200">
                 {currentQuestionIndex < sessionQuestions.length - 1 ? (
                   <button
                     onClick={handleNext}
-                    className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-base hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                    className="w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-sm sm:text-base hover:shadow-lg transition-all flex items-center justify-center gap-2"
                   >
                     Следующий вопрос
                     <ChevronRight className="w-5 h-5" />
