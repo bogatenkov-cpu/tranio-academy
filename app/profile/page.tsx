@@ -25,6 +25,13 @@ interface UserProgress {
   studied_cards: string[];
 }
 
+interface Profile {
+  id: string;
+  name: string;
+  email: string;
+  created_at: string;
+}
+
 export default function ProfilePage() {
   const router = useRouter();
   const { user, loading: authLoading, signOut } = useAuth();
@@ -82,11 +89,11 @@ export default function ProfilePage() {
         .single();
 
       if (profile) {
-        setUserName(profile.name);
-        setUserEmail(profile.email);
+        setUserName((profile as Profile).name);
+        setUserEmail((profile as Profile).email);
         setUserStats(prev => ({
           ...prev,
-          joinDate: profile.created_at
+          joinDate: (profile as Profile).created_at
         }));
       }
 
@@ -134,14 +141,18 @@ export default function ProfilePage() {
         .limit(5);
 
       if (activities && activities.length > 0) {
-        setRecentActivity(activities.map(a => ({
-          ...a,
-          date: a.created_at
+        setRecentActivity(activities.map((a: any) => ({
+          id: a.id,
+          type: a.type,
+          title: a.title,
+          created_at: a.created_at,
+          points: a.points,
+          country: a.country
         })));
 
         // Подсчитываем уникальные дни обучения
         const uniqueDates = new Set(
-          activities.map(a => new Date(a.created_at).toDateString())
+          activities.map((a: any) => new Date(a.created_at).toDateString())
         );
         setUserStats(prev => ({
           ...prev,

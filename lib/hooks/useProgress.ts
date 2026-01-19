@@ -40,7 +40,7 @@ export function useProgress(country: string = 'thailand') {
       if (error) {
         // Если записи нет, создаем новую
         if (error.code === 'PGRST116') {
-          await supabase.from('user_progress').insert({
+          await (supabase.from('user_progress') as any).insert({
             user_id: user.id,
             country: country,
             points: 0,
@@ -62,14 +62,15 @@ export function useProgress(country: string = 'thailand') {
           });
         }
       } else if (data) {
+        const typedData = data as any;
         setProgress({
-          points: data.points || 0,
-          streak: data.streak || 0,
-          max_streak: data.max_streak || 0,
-          exam_count: data.exam_count || 0,
-          exam_average: Number(data.exam_average) || 0,
-          completed_lessons: data.completed_lessons || [],
-          studied_cards: data.studied_cards || [],
+          points: typedData.points || 0,
+          streak: typedData.streak || 0,
+          max_streak: typedData.max_streak || 0,
+          exam_count: typedData.exam_count || 0,
+          exam_average: Number(typedData.exam_average) || 0,
+          completed_lessons: typedData.completed_lessons || [],
+          studied_cards: typedData.studied_cards || [],
         });
       }
     } catch (error) {
@@ -91,8 +92,8 @@ export function useProgress(country: string = 'thailand') {
     try {
       setProgress(prev => ({ ...prev, ...updates }));
 
-      await supabase
-        .from('user_progress')
+      await (supabase
+        .from('user_progress') as any)
         .update({
           ...updates,
           updated_at: new Date().toISOString(),
@@ -109,8 +110,8 @@ export function useProgress(country: string = 'thailand') {
     
     setProgress(prev => {
       const newPoints = prev.points + points;
-      supabase
-        .from('user_progress')
+      (supabase
+        .from('user_progress') as any)
         .update({ points: newPoints, updated_at: new Date().toISOString() })
         .eq('user_id', user.id)
         .eq('country', country);
@@ -125,8 +126,8 @@ export function useProgress(country: string = 'thailand') {
       const newStreak = isCorrect ? prev.streak + 1 : 0;
       const newMaxStreak = isCorrect ? Math.max(newStreak, prev.max_streak) : prev.max_streak;
       
-      supabase
-        .from('user_progress')
+      (supabase
+        .from('user_progress') as any)
         .update({ 
           streak: newStreak, 
           max_streak: newMaxStreak,
@@ -147,8 +148,8 @@ export function useProgress(country: string = 'thailand') {
       
       const newLessons = [...prev.completed_lessons, lessonId];
       
-      supabase
-        .from('user_progress')
+      (supabase
+        .from('user_progress') as any)
         .update({ 
           completed_lessons: newLessons,
           updated_at: new Date().toISOString() 
@@ -168,8 +169,8 @@ export function useProgress(country: string = 'thailand') {
       
       const newCards = [...prev.studied_cards, cardId];
       
-      supabase
-        .from('user_progress')
+      (supabase
+        .from('user_progress') as any)
         .update({ 
           studied_cards: newCards,
           updated_at: new Date().toISOString() 
@@ -192,8 +193,8 @@ export function useProgress(country: string = 'thailand') {
         ((prev.exam_average * prev.exam_count) + percentage) / newExamCount
       );
 
-      supabase
-        .from('user_progress')
+      (supabase
+        .from('user_progress') as any)
         .update({
           exam_count: newExamCount,
           exam_average: newAverage,
@@ -206,7 +207,7 @@ export function useProgress(country: string = 'thailand') {
     });
 
     // Сохраняем результат экзамена
-    await supabase.from('exam_results').insert({
+    await (supabase.from('exam_results') as any).insert({
       user_id: user.id,
       country: country,
       score: score,
@@ -219,7 +220,7 @@ export function useProgress(country: string = 'thailand') {
     if (!user) return;
 
     try {
-      await supabase.from('activities').insert({
+      await (supabase.from('activities') as any).insert({
         user_id: user.id,
         country: country,
         type: type,

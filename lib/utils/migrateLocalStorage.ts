@@ -22,8 +22,8 @@ export async function migrateLocalStorageToSupabase(userId: string) {
     const examAverage = parseFloat(localStorage.getItem('thailand_exam_average') || '0');
 
     // Мигрируем прогресс
-    const { error: progressError } = await supabase
-      .from('user_progress')
+    const { error: progressError } = await (supabase
+      .from('user_progress') as any)
       .upsert({
         user_id: userId,
         country: 'thailand',
@@ -55,8 +55,8 @@ export async function migrateLocalStorageToSupabase(userId: string) {
         created_at: activity.date,
       }));
 
-      const { error: activitiesError } = await supabase
-        .from('activities')
+      const { error: activitiesError } = await (supabase
+        .from('activities') as any)
         .insert(activitiesData);
 
       if (activitiesError) {
@@ -76,8 +76,8 @@ export async function migrateLocalStorageToSupabase(userId: string) {
         created_at: exam.date,
       }));
 
-      const { error: examsError } = await supabase
-        .from('exam_results')
+      const { error: examsError } = await (supabase
+        .from('exam_results') as any)
         .insert(examData);
 
       if (examsError) {

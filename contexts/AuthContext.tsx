@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // Если регистрация успешна, создаем начальный прогресс для Таиланда
       if (data.user) {
-        await supabase.from('user_progress').insert({
+        await (supabase.from('user_progress') as any).insert({
           user_id: data.user.id,
           country: 'thailand',
           points: 0,
