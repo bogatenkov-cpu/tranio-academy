@@ -1,32 +1,15 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MapPin, Home, TrendingUp, Users, Building2, DollarSign, Info, Waves, Mountain, School } from 'lucide-react';
 import Link from 'next/link';
+import { useLesson } from '@/lib/hooks/useLesson';
 
 export default function LocationsLesson() {
+  useLesson('locations', 'Урок 1: Районы и локации');
+  
   const [selectedIsland, setSelectedIsland] = useState('phuket');
   const [selectedLocation, setSelectedLocation] = useState('bangtao');
   const [selectedSamuiArea, setSelectedSamuiArea] = useState('bophut');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const completedLessons = JSON.parse(localStorage.getItem('thailand_completed_lessons') || '[]');
-      if (!completedLessons.includes('locations')) {
-        completedLessons.push('locations');
-        localStorage.setItem('thailand_completed_lessons', JSON.stringify(completedLessons));
-        
-        const activities = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
-        activities.unshift({
-          type: 'lesson',
-          title: 'Урок 1: Районы и локации',
-          date: new Date().toISOString(),
-          points: 10,
-          country: '🇹🇭'
-        });
-        localStorage.setItem('thailand_activities', JSON.stringify(activities.slice(0, 20)));
-      }
-    }
-  }, []);
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">

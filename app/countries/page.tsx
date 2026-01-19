@@ -2,22 +2,39 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
+import { Loader2 } from 'lucide-react';
 
 export default function CountriesPage() {
   const router = useRouter();
+  const { user, loading } = useAuth();
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const isRegistered = localStorage.getItem('isRegistered');
-      if (!isRegistered) {
-        router.push('/');
-        return;
-      }
-      const name = localStorage.getItem('userName');
-      if (name) setUserName(name);
+    if (!loading && !user) {
+      router.push('/');
     }
-  }, [router]);
+  }, [user, loading, router]);
+
+  useEffect(() => {
+    if (user) {
+      // Получаем имя из метаданных пользователя
+      const name = user.user_metadata?.name || user.email?.split('@')[0] || 'Пользователь';
+      setUserName(name);
+    }
+  }, [user]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
 
   const countries = [
     {

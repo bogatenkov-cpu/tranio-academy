@@ -1,8 +1,10 @@
 'use client';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Award, ArrowLeft, CheckCircle, Trophy, RotateCcw, Clock } from 'lucide-react';
+import { Award, ArrowLeft, CheckCircle, Trophy, RotateCcw, Clock, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
+import { useProgress } from '@/lib/hooks/useProgress';
 
 interface Question {
   id: string;
@@ -22,6 +24,8 @@ interface ExamResult {
 
 export default function ExamPage() {
   const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
+  const { updateExamStats, addActivity, addPoints, loading: progressLoading } = useProgress('thailand');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [answers, setAnswers] = useState<number[]>([]);
@@ -230,16 +234,12 @@ export default function ExamPage() {
   ];
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const isRegistered = localStorage.getItem('isRegistered');
-      if (!isRegistered) {
-        router.push('/');
-        return;
-      }
+    if (!authLoading && !user) {
+      router.push('/');
     }
-  }, [router]);
+  }, [user, authLoading, router]);
 
-  const finishExam = useCallback(() => {
+  const finishExam = useCallback(async () => {
     let correct = 0;
     examQuestions.forEach((question, index) => {
       if (answers[index] === question.correctAnswer) {
@@ -249,40 +249,17 @@ export default function ExamPage() {
     setScore(correct);
     setIsExamFinished(true);
     
-      // Сохраняем результат
-      if (typeof window !== 'undefined') {
-        const examResults: ExamResult[] = JSON.parse(localStorage.getItem('thailand_exam_results') || '[]');
-        const result: ExamResult = {
-          date: new Date().toISOString(),
-          score: correct,
-          total: examQuestions.length,
-          percentage: Math.round((correct / examQuestions.length) * 100)
-        };
-        examResults.push(result);
-        localStorage.setItem('thailand_exam_results', JSON.stringify(examResults));
-        
-        // Обновляем статистику
-        const examCount = parseInt(localStorage.getItem('thailand_exam_count') || '0') + 1;
-        const examAverage = examResults.reduce((sum: number, r: ExamResult) => sum + r.percentage, 0) / examResults.length;
-        localStorage.setItem('thailand_exam_count', examCount.toString());
-        localStorage.setItem('thailand_exam_average', examAverage.toFixed(1));
-        
-        // Подсчитываем пройденные экзамены (>= 80%)
-        const passedExams = examResults.filter((r: ExamResult) => r.percentage >= 80).length;
-        localStorage.setItem('thailand_exam_passed', passedExams.toString());
-        
-        // Сохраняем активность
-        const activities = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
-        activities.unshift({
-          type: 'exam',
-          title: `Экзамен: ${result.percentage}% (${correct}/${examQuestions.length})`,
-          date: new Date().toISOString(),
-          points: result.percentage >= 80 ? 50 : 0, // Бонус за прохождение
-          country: '🇹🇭'
-        });
-        localStorage.setItem('thailand_activities', JSON.stringify(activities.slice(0, 20)));
-      }
-  }, [answers, examQuestions.length]);
+    // Сохраняем результат в Supabase
+    const percentage = Math.round((correct / examQuestions.length) * 100);
+    const bonusPoints = percentage >= 80 ? 50 : 0;
+    
+    await updateExamStats(correct, examQuestions.length);
+    await addActivity('exam', `Экзамен: ${percentage}% (${correct}/${examQuestions.length})`, bonusPoints);
+    
+    if (bonusPoints > 0) {
+      await addPoints(bonusPoints);
+    }
+  }, [answers, examQuestions, updateExamStats, addActivity, addPoints]);
 
   useEffect(() => {
     if (isExamStarted && !isExamFinished && timeRemaining > 0) {
@@ -335,6 +312,18 @@ export default function ExamPage() {
   const currentQuestion = examQuestions[currentQuestionIndex];
   const progress = isExamStarted ? ((currentQuestionIndex + 1) / examQuestions.length) * 100 : 0;
   const answeredCount = answers.filter(a => a !== -1).length;
+
+  if (authLoading || progressLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
 
   if (!isExamStarted) {
     return (

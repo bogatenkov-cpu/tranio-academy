@@ -1,28 +1,11 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Home, Wrench } from 'lucide-react';
 import Link from 'next/link';
+import { useLesson } from '@/lib/hooks/useLesson';
 
 export default function LessonPage() {
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const completedLessons = JSON.parse(localStorage.getItem('thailand_completed_lessons') || '[]');
-      if (!completedLessons.includes('property-maintenance')) {
-        completedLessons.push('property-maintenance');
-        localStorage.setItem('thailand_completed_lessons', JSON.stringify(completedLessons));
-        
-        const activities = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
-        activities.unshift({
-          type: 'lesson',
-          title: 'Урок 8: Содержание недвижимости',
-          date: new Date().toISOString(),
-          points: 10,
-          country: '🇹🇭'
-        });
-        localStorage.setItem('thailand_activities', JSON.stringify(activities.slice(0, 20)));
-      }
-    }
-  }, []);
+  useLesson('property-maintenance', 'Урок 8: Содержание недвижимости');
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">

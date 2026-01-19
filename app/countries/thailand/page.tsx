@@ -1,49 +1,47 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { BookOpen, Award, Brain, ArrowLeft } from 'lucide-react';
+import { BookOpen, Award, Brain, ArrowLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
+import { useProgress } from '@/lib/hooks/useProgress';
 
 export default function ThailandMenu() {
   const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
+  const { progress: userProgress, loading: progressLoading } = useProgress('thailand');
   const [userName, setUserName] = useState('');
-  const [progress, setProgress] = useState({ questions: { correct: 0, total: 0 }, lessons: 0, exams: { passed: 0, total: 0 } });
-
-  const updateProgress = () => {
-    if (typeof window !== 'undefined') {
-      const completedLessons = JSON.parse(localStorage.getItem('thailand_completed_lessons') || '[]');
-      const examCount = parseInt(localStorage.getItem('thailand_exam_count') || '0');
-      const examPassed = parseInt(localStorage.getItem('thailand_exam_passed') || '0');
-      
-      // Статистика ответов в тренажере
-      const correctAnswers = parseInt(localStorage.getItem('thailand_trainer_correct') || '0');
-      const totalAnswers = parseInt(localStorage.getItem('thailand_trainer_total') || '0');
-      
-      setProgress({
-        questions: { correct: correctAnswers, total: totalAnswers }, // Правильные/всего ответов
-        lessons: completedLessons.length, // Пройденные уроки
-        exams: { passed: examPassed, total: examCount } // Пройдено/всего экзаменов
-      });
-    }
-  };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const isRegistered = localStorage.getItem('isRegistered');
-      if (!isRegistered) {
-        router.push('/');
-        return;
-      }
-      const name = localStorage.getItem('userName');
-      if (name) setUserName(name);
-
-      updateProgress();
-      
-      // Обновляем прогресс при изменении данных
-      const interval = setInterval(updateProgress, 1000);
-      return () => clearInterval(interval);
+    if (!authLoading && !user) {
+      router.push('/');
     }
-  }, [router]);
+  }, [user, authLoading, router]);
+
+  useEffect(() => {
+    if (user) {
+      const name = user.user_metadata?.name || user.email?.split('@')[0] || 'Пользователь';
+      setUserName(name);
+    }
+  }, [user]);
+
+  if (authLoading || progressLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  const progress = {
+    questions: { correct: userProgress.points / 10, total: userProgress.studied_cards.length }, 
+    lessons: userProgress.completed_lessons.length,
+    exams: { passed: userProgress.exam_count > 0 && userProgress.exam_average >= 70 ? userProgress.exam_count : 0, total: userProgress.exam_count }
+  };
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">

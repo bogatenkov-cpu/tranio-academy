@@ -1,24 +1,113 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
+import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Loader2, CheckCircle } from 'lucide-react';
 
 export default function Home() {
   const router = useRouter();
+  const { user, loading, signUp, signIn, resetPassword } = useAuth();
+  
+  const [isLogin, setIsLogin] = useState(true);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleQuickStart = () => {
-    if (typeof window !== 'undefined') {
-      const testName = name || 'Тестовый пользователь';
-      const testEmail = email || 'test@tranio.com';
-      
-      localStorage.setItem('isRegistered', 'true');
-      localStorage.setItem('userName', testName);
-      localStorage.setItem('userEmail', testEmail);
-      
+  // Перенаправляем авторизованных пользователей
+  useEffect(() => {
+    if (!loading && user) {
       router.push('/countries');
     }
+  }, [user, loading, router]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setIsSubmitting(true);
+
+    if (isForgotPassword) {
+      // Восстановление пароля
+      if (!email) {
+        setError('Введите email');
+        setIsSubmitting(false);
+        return;
+      }
+
+      const { error } = await resetPassword(email);
+      
+      if (error) {
+        setError('Ошибка: ' + (error.message || 'Не удалось отправить письмо'));
+      } else {
+        setSuccess('Письмо для восстановления пароля отправлено! Проверьте почту.');
+        setTimeout(() => {
+          setIsForgotPassword(false);
+          setSuccess('');
+        }, 3000);
+      }
+    } else if (isLogin) {
+      // Вход
+      if (!email || !password) {
+        setError('Заполните все поля');
+        setIsSubmitting(false);
+        return;
+      }
+
+      const { error } = await signIn(email, password);
+      
+      if (error) {
+        setError('Неверный email или пароль');
+      } else {
+        router.push('/countries');
+      }
+    } else {
+      // Регистрация
+      if (!name || !email || !password) {
+        setError('Заполните все поля');
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (password.length < 6) {
+        setError('Пароль должен быть минимум 6 символов');
+        setIsSubmitting(false);
+        return;
+      }
+
+      const { error } = await signUp(email, password, name);
+      
+      if (error) {
+        if (error.message?.includes('already registered')) {
+          setError('Этот email уже зарегистрирован');
+        } else {
+          setError('Ошибка регистрации: ' + (error.message || 'Попробуйте позже'));
+        }
+      } else {
+        setSuccess('Регистрация успешна! Проверьте почту для подтверждения.');
+        setTimeout(() => {
+          setIsLogin(true);
+          setSuccess('');
+        }, 2000);
+      }
+    }
+
+    setIsSubmitting(false);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">
@@ -109,59 +198,158 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Side - Quick Start Form */}
+            {/* Right Side - Auth Form */}
             <div className="w-full">
               <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xl shadow-slate-200/50">
                 <div className="mb-4">
                   <h2 className="text-xl font-bold text-slate-900 mb-1">
-                    Быстрый старт
+                    {isForgotPassword ? 'Восстановление пароля' : isLogin ? 'Вход в аккаунт' : 'Регистрация'}
                   </h2>
                   <p className="text-sm text-slate-500">
-                    Начните обучение прямо сейчас
+                    {isForgotPassword 
+                      ? 'Введите email для восстановления' 
+                      : isLogin 
+                        ? 'Войдите, чтобы продолжить обучение' 
+                        : 'Создайте аккаунт для начала обучения'
+                    }
                   </p>
                 </div>
 
-                <div className="space-y-3">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                      Ваше имя
-                    </label>
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Иван Петров"
-                      className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-900 placeholder:text-slate-400"
-                    />
+                {error && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-sm text-red-700">{error}</p>
                   </div>
+                )}
+
+                {success && (
+                  <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600" />
+                    <p className="text-sm text-green-700">{success}</p>
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-3">
+                  {!isLogin && !isForgotPassword && (
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                        Ваше имя
+                      </label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                        <input
+                          type="text"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          placeholder="Иван Петров"
+                          className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-900 placeholder:text-slate-400"
+                        />
+                      </div>
+                    </div>
+                  )}
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                      Email (необязательно)
+                      Email
                     </label>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="ivan@example.com"
-                      className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-900 placeholder:text-slate-400"
-                    />
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="ivan@example.com"
+                        className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-900 placeholder:text-slate-400"
+                      />
+                    </div>
                   </div>
+
+                  {!isForgotPassword && (
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                        Пароль
+                      </label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                        <input
+                          type={showPassword ? 'text' : 'password'}
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="••••••••"
+                          className="w-full pl-10 pr-12 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-900 placeholder:text-slate-400"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                        >
+                          {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {isLogin && !isForgotPassword && (
+                    <div className="text-right">
+                      <button
+                        type="button"
+                        onClick={() => setIsForgotPassword(true)}
+                        className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
+                      >
+                        Забыли пароль?
+                      </button>
+                    </div>
+                  )}
 
                   <button
-                    onClick={handleQuickStart}
-                    className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2"
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <span>Начать обучение</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
+                    {isSubmitting ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        <span>
+                          {isForgotPassword 
+                            ? 'Отправить письмо' 
+                            : isLogin 
+                              ? 'Войти' 
+                              : 'Зарегистрироваться'
+                          }
+                        </span>
+                        <ArrowRight className="w-5 h-5" />
+                      </>
+                    )}
                   </button>
 
-                  <p className="text-xs text-center text-slate-400 pt-2">
-                    Для тестирования можно оставить поля пустыми
-                  </p>
-                </div>
+                  <div className="text-center pt-2">
+                    {isForgotPassword ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsForgotPassword(false);
+                          setError('');
+                          setSuccess('');
+                        }}
+                        className="text-sm text-slate-600 hover:text-slate-900 transition-colors"
+                      >
+                        ← Вернуться к входу
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsLogin(!isLogin);
+                          setError('');
+                          setSuccess('');
+                        }}
+                        className="text-sm text-slate-600 hover:text-slate-900 transition-colors"
+                      >
+                        {isLogin ? 'Нет аккаунта? Зарегистрироваться' : 'Уже есть аккаунт? Войти'}
+                      </button>
+                    )}
+                  </div>
+                </form>
               </div>
 
               {/* Stats */}

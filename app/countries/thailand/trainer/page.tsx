@@ -1,8 +1,10 @@
 'use client';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Brain, ArrowLeft, RotateCcw, CheckCircle, XCircle, Trophy, Flame, ChevronRight, Zap, TrendingUp, User } from 'lucide-react';
+import { Brain, ArrowLeft, RotateCcw, CheckCircle, XCircle, Trophy, Flame, ChevronRight, Zap, TrendingUp, User, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
+import { useProgress } from '@/lib/hooks/useProgress';
 
 interface Question {
   id: string;
@@ -16,6 +18,8 @@ interface Question {
 
 export default function TrainerPage() {
   const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
+  const { progress: userProgress, loading: progressLoading, addPoints, updateStreak, addStudiedCard, addActivity } = useProgress('thailand');
   const [userName, setUserName] = useState('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -1771,26 +1775,22 @@ export default function TrainerPage() {
   ];
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const isRegistered = localStorage.getItem('isRegistered');
-      if (!isRegistered) {
-        router.push('/');
-        return;
-      }
-      const name = localStorage.getItem('userName');
-      if (name) setUserName(name);
-
-      const saved = localStorage.getItem('thailand_studied_cards');
-      if (saved) {
-        setStudiedQuestions(new Set(JSON.parse(saved)));
-      }
-
-      const savedStreak = localStorage.getItem('thailand_streak');
-      if (savedStreak) {
-        setStreak(parseInt(savedStreak));
-      }
+    if (!authLoading && !user) {
+      router.push('/');
+      return;
     }
-  }, [router]);
+    if (user) {
+      const name = user.user_metadata?.name || user.email?.split('@')[0] || 'Пользователь';
+      setUserName(name);
+    }
+  }, [user, authLoading, router]);
+
+  useEffect(() => {
+    if (!progressLoading && userProgress) {
+      setStudiedQuestions(new Set(userProgress.studied_cards));
+      setStreak(userProgress.streak);
+    }
+  }, [userProgress, progressLoading]);
 
   const loadQuestions = useCallback(() => {
     let filtered = [...allQuestions];
@@ -1799,11 +1799,8 @@ export default function TrainerPage() {
       filtered = filtered.filter(q => q.category === selectedCategory);
     }
 
-    // Получаем актуальные studiedQuestions из localStorage, а не из state
-    const savedStudied = typeof window !== 'undefined' 
-      ? JSON.parse(localStorage.getItem('thailand_studied_cards') || '[]')
-      : [];
-    const studiedSet = new Set(savedStudied);
+    // Получаем изученные вопросы из прогресса Supabase
+    const studiedSet = new Set(userProgress.studied_cards || []);
 
     if (studyMode === 'new') {
       filtered = filtered.filter(q => !studiedSet.has(q.id));
@@ -1813,15 +1810,17 @@ export default function TrainerPage() {
 
     // Перемешиваем вопросы и варианты ответов
     const shuffled = filtered.sort(() => Math.random() - 0.5).map(q => {
-      // Создаем массив индексов для перемешивания
-      const indices = [0, 1, 2, 3];
-      const shuffledIndices = indices.sort(() => Math.random() - 0.5);
+      // Создаем пары [индекс, вариант_ответа]
+      const optionsWithIndices = q.options.map((option, index) => ({ option, index }));
       
-      // Перемешиваем варианты ответов
-      const shuffledOptions = shuffledIndices.map(i => q.options[i]);
+      // Перемешиваем пары
+      const shuffledPairs = optionsWithIndices.sort(() => Math.random() - 0.5);
       
-      // Находим новый индекс правильного ответа
-      const newCorrectAnswer = shuffledIndices.indexOf(q.correctAnswer);
+      // Извлекаем перемешанные варианты
+      const shuffledOptions = shuffledPairs.map(p => p.option);
+      
+      // Находим новую позицию правильного ответа
+      const newCorrectAnswer = shuffledPairs.findIndex(p => p.index === q.correctAnswer);
       
       return {
         ...q,
@@ -1836,7 +1835,7 @@ export default function TrainerPage() {
     setShowExplanation(false);
     setIsCorrectAnswer(false);
     setScore({ correct: 0, total: 0 });
-  }, [selectedCategory, studyMode]); // Убрали studiedQuestions из зависимостей!
+  }, [selectedCategory, studyMode, userProgress.studied_cards]);
 
   useEffect(() => {
     loadQuestions();
@@ -1860,66 +1859,35 @@ export default function TrainerPage() {
       setIsAnimating(false);
     }, 300);
     
+    // Сохраняем в Supabase
+    const pointsToAdd = isCorrect ? 2 : 1;
+    const categoryName = categories.find(c => c.id === questionBeingAnswered.category)?.name || 'Общие';
+    
     if (isCorrect) {
       setScore(prev => ({ ...prev, correct: prev.correct + 1, total: prev.total + 1 }));
-      setStreak(prev => {
-        const newStreak = prev + 1;
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('thailand_streak', newStreak.toString());
-          const maxStreak = parseInt(localStorage.getItem('thailand_max_streak') || '0');
-          if (newStreak > maxStreak) {
-            localStorage.setItem('thailand_max_streak', newStreak.toString());
-          }
-          const activities = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
-          activities.unshift({
-            type: 'trainer',
-            title: `Тренажёр: ${categories.find(c => c.id === questionBeingAnswered.category)?.name || 'Общие'}`,
-            date: new Date().toISOString(),
-            points: 2,
-            country: '🇹🇭'
-          });
-          localStorage.setItem('thailand_activities', JSON.stringify(activities.slice(0, 20)));
-          
-          // Сохраняем статистику правильных ответов
-          const correctAnswers = parseInt(localStorage.getItem('thailand_trainer_correct') || '0') + 1;
-          const totalAnswers = parseInt(localStorage.getItem('thailand_trainer_total') || '0') + 1;
-          localStorage.setItem('thailand_trainer_correct', correctAnswers.toString());
-          localStorage.setItem('thailand_trainer_total', totalAnswers.toString());
-        }
-        return newStreak;
-      });
+      setStreak(prev => prev + 1);
+      
+      // Сохраняем в Supabase
+      updateStreak(true);
+      addPoints(pointsToAdd);
+      addActivity('trainer', `Тренажёр: ${categoryName}`, pointsToAdd);
     } else {
       setScore(prev => ({ ...prev, total: prev.total + 1 }));
       setStreak(0);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('thailand_streak', '0');
-        const activities = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
-        activities.unshift({
-          type: 'trainer',
-          title: `Тренажёр: ${categories.find(c => c.id === questionBeingAnswered.category)?.name || 'Общие'}`,
-          date: new Date().toISOString(),
-          points: 1,
-          country: '🇹🇭'
-        });
-        localStorage.setItem('thailand_activities', JSON.stringify(activities.slice(0, 20)));
-        
-        // Сохраняем статистику неправильных ответов
-        const totalAnswers = parseInt(localStorage.getItem('thailand_trainer_total') || '0') + 1;
-        localStorage.setItem('thailand_trainer_total', totalAnswers.toString());
-      }
+      
+      // Сохраняем в Supabase
+      updateStreak(false);
+      addPoints(pointsToAdd);
+      addActivity('trainer', `Тренажёр: ${categoryName}`, pointsToAdd);
     }
 
     if (questionBeingAnswered) {
       const newStudied = new Set(studiedQuestions);
       newStudied.add(questionBeingAnswered.id);
       setStudiedQuestions(newStudied);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('thailand_studied_cards', JSON.stringify([...newStudied]));
-      }
-
-      const currentPoints = parseInt(localStorage.getItem('thailand_points') || '0');
-      const pointsToAdd = isCorrect ? 2 : 1;
-      localStorage.setItem('thailand_points', (currentPoints + pointsToAdd).toString());
+      
+      // Сохраняем изученную карточку в Supabase
+      addStudiedCard(questionBeingAnswered.id);
     }
   };
 
@@ -1967,6 +1935,18 @@ export default function TrainerPage() {
       default: return '';
     }
   };
+
+  if (authLoading || progressLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
 
   if (!currentQuestion && sessionQuestions.length === 0) {
     return (

@@ -1,31 +1,14 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ShoppingCart, FileText, DollarSign, Shield, MapPin, Home } from 'lucide-react';
 import Link from 'next/link';
+import { useLesson } from '@/lib/hooks/useLesson';
 
 export default function BuyingProcessLesson() {
+  useLesson('buying-process', 'Урок 2: Процедура покупки');
+  
   const [selectedPurpose, setSelectedPurpose] = useState('residence');
   const [selectedOwnership, setSelectedOwnership] = useState('freehold');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const completedLessons = JSON.parse(localStorage.getItem('thailand_completed_lessons') || '[]');
-      if (!completedLessons.includes('buying-process')) {
-        completedLessons.push('buying-process');
-        localStorage.setItem('thailand_completed_lessons', JSON.stringify(completedLessons));
-        
-        const activities = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
-        activities.unshift({
-          type: 'lesson',
-          title: 'Урок 2: Процедура покупки',
-          date: new Date().toISOString(),
-          points: 10,
-          country: '🇹🇭'
-        });
-        localStorage.setItem('thailand_activities', JSON.stringify(activities.slice(0, 20)));
-      }
-    }
-  }, []);
 
   const priceRanges = [
     { type: 'Кондо-студия', price: '100-150 тыс. $', description: 'Меблирована, готова к аренде', icon: '🏢' },

@@ -1,30 +1,13 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Home, DollarSign } from 'lucide-react';
 import Link from 'next/link';
+import { useLesson } from '@/lib/hooks/useLesson';
 
 export default function LessonPage() {
+  useLesson('prices', 'Урок 4: Стоимость недвижимости');
+  
   const [selectedLocation, setSelectedLocation] = useState('phuket');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const completedLessons = JSON.parse(localStorage.getItem('thailand_completed_lessons') || '[]');
-      if (!completedLessons.includes('prices')) {
-        completedLessons.push('prices');
-        localStorage.setItem('thailand_completed_lessons', JSON.stringify(completedLessons));
-        
-        const activities = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
-        activities.unshift({
-          type: 'lesson',
-          title: 'Урок 6: Цены на недвижимость',
-          date: new Date().toISOString(),
-          points: 10,
-          country: '🇹🇭'
-        });
-        localStorage.setItem('thailand_activities', JSON.stringify(activities.slice(0, 20)));
-      }
-    }
-  }, []);
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">

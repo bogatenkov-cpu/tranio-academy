@@ -1,28 +1,39 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, ArrowLeft, BookOpen, Brain, Trophy, Calendar, TrendingUp, Settings, Clock, Flame, Star } from 'lucide-react';
+import { User, ArrowLeft, BookOpen, Brain, Trophy, Calendar, TrendingUp, Settings, Clock, Flame, Star, LogOut, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
+import { createClient } from '@/lib/supabase/client';
+
+interface Activity {
+  id: string;
+  type: string;
+  title: string;
+  created_at: string;
+  points: number;
+  country: string;
+}
+
+interface UserProgress {
+  points: number;
+  streak: number;
+  max_streak: number;
+  exam_count: number;
+  exam_average: number;
+  completed_lessons: string[];
+  studied_cards: string[];
+}
 
 export default function ProfilePage() {
   const router = useRouter();
+  const { user, loading: authLoading, signOut } = useAuth();
+  const supabase = createClient();
+  
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
+  const [loading, setLoading] = useState(true);
   const [studiedCardsCount, setStudiedCardsCount] = useState(0);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const isRegistered = localStorage.getItem('isRegistered');
-      if (!isRegistered) {
-        router.push('/');
-        return;
-      }
-      const name = localStorage.getItem('userName');
-      const email = localStorage.getItem('userEmail');
-      if (name) setUserName(name);
-      if (email) setUserEmail(email);
-    }
-  }, [router]);
 
   const [userStats, setUserStats] = useState({
     totalPoints: 0,
@@ -43,73 +54,124 @@ export default function ProfilePage() {
     { name: 'Кипр', flag: '🇨🇾', points: 0, maxPoints: 0, lessons: 0, total: 0 }
   ]);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const thailandPoints = parseInt(localStorage.getItem('thailand_points') || '0');
-      const thailandStreak = parseInt(localStorage.getItem('thailand_streak') || '0');
-      const studiedCards = JSON.parse(localStorage.getItem('thailand_studied_cards') || '[]');
-      setStudiedCardsCount(studiedCards.length);
-      
-      const examCount = parseInt(localStorage.getItem('thailand_exam_count') || '0');
-      const examAverage = parseFloat(localStorage.getItem('thailand_exam_average') || '0');
-      
-      const completedLessons = JSON.parse(localStorage.getItem('thailand_completed_lessons') || '[]');
-      
-      interface ActivityDate {
-        date: string;
-      }
-      const activities: ActivityDate[] = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
-      const uniqueDates = new Set(activities.map((a: ActivityDate) => new Date(a.date).toDateString()));
-      const studyDays = uniqueDates.size || 0;
-      
-      setUserStats({
-        totalPoints: thailandPoints,
-        maxPoints: 150,
-        examAverage: examAverage,
-        examCount: examCount,
-        streak: thailandStreak,
-        maxStreak: Math.max(thailandStreak, parseInt(localStorage.getItem('thailand_max_streak') || '0')),
-        rank: 2,
-        totalUsers: 15,
-        studyDays: studyDays,
-        joinDate: localStorage.getItem('userJoinDate') || '2025-01-01'
-      });
-
-      setCountries([
-        { 
-          name: 'Таиланд', 
-          flag: '🇹🇭', 
-          points: thailandPoints, 
-          maxPoints: 150, 
-          lessons: completedLessons.length, 
-          total: 8 
-        },
-        { name: 'ОАЭ', flag: '🇦🇪', points: 0, maxPoints: 0, lessons: 0, total: 0 },
-        { name: 'Кипр', flag: '🇨🇾', points: 0, maxPoints: 0, lessons: 0, total: 0 }
-      ]);
-    }
-  }, []);
-
-  interface Activity {
-    type: string;
-    title: string;
-    date: string;
-    points: number;
-    country: string;
-  }
-
-  const [recentActivity, setRecentActivity] = useState<Activity[]>([
-    { type: 'trainer', title: 'Начните обучение', date: new Date().toISOString(), points: 0, country: '🇹🇭' }
-  ]);
+  const [recentActivity, setRecentActivity] = useState<Activity[]>([]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const activities: Activity[] = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
-      if (activities.length > 0) {
-        setRecentActivity(activities.slice(0, 5));
-      }
+    if (!authLoading && !user) {
+      router.push('/');
     }
-  }, []);
+  }, [user, authLoading, router]);
+
+  useEffect(() => {
+    if (user) {
+      loadUserData();
+    }
+  }, [user]);
+
+  const loadUserData = async () => {
+    if (!user) return;
+
+    try {
+      setLoading(true);
+
+      // Загружаем профиль
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (profile) {
+        setUserName(profile.name);
+        setUserEmail(profile.email);
+        setUserStats(prev => ({
+          ...prev,
+          joinDate: profile.created_at
+        }));
+      }
+
+      // Загружаем прогресс по Таиланду
+      const { data: progress } = await supabase
+        .from('user_progress')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('country', 'thailand')
+        .single();
+
+      if (progress) {
+        const typedProgress = progress as UserProgress;
+        setStudiedCardsCount(typedProgress.studied_cards?.length || 0);
+        
+        setUserStats(prev => ({
+          ...prev,
+          totalPoints: typedProgress.points || 0,
+          examAverage: Number(typedProgress.exam_average) || 0,
+          examCount: typedProgress.exam_count || 0,
+          streak: typedProgress.streak || 0,
+          maxStreak: typedProgress.max_streak || 0,
+        }));
+
+        setCountries([
+          { 
+            name: 'Таиланд', 
+            flag: '🇹🇭', 
+            points: typedProgress.points || 0, 
+            maxPoints: 150, 
+            lessons: typedProgress.completed_lessons?.length || 0, 
+            total: 8 
+          },
+          { name: 'ОАЭ', flag: '🇦🇪', points: 0, maxPoints: 0, lessons: 0, total: 0 },
+          { name: 'Кипр', flag: '🇨🇾', points: 0, maxPoints: 0, lessons: 0, total: 0 }
+        ]);
+      }
+
+      // Загружаем активности
+      const { data: activities } = await supabase
+        .from('activities')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(5);
+
+      if (activities && activities.length > 0) {
+        setRecentActivity(activities.map(a => ({
+          ...a,
+          date: a.created_at
+        })));
+
+        // Подсчитываем уникальные дни обучения
+        const uniqueDates = new Set(
+          activities.map(a => new Date(a.created_at).toDateString())
+        );
+        setUserStats(prev => ({
+          ...prev,
+          studyDays: uniqueDates.size
+        }));
+      } else {
+        setRecentActivity([
+          { 
+            id: '1',
+            type: 'trainer', 
+            title: 'Начните обучение', 
+            created_at: new Date().toISOString(), 
+            points: 0, 
+            country: '🇹🇭' 
+          }
+        ]);
+      }
+
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    if (confirm('Вы уверены, что хотите выйти?')) {
+      await signOut();
+    }
+  };
 
   const topUsers = [
     { name: 'Алексей К.', points: 340, position: 1 },
@@ -134,6 +196,14 @@ export default function ProfilePage() {
     if (position === 3) return 'text-orange-600 bg-orange-100';
     return 'text-blue-600 bg-blue-100';
   };
+
+  if (authLoading || loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">
@@ -307,22 +377,22 @@ export default function ProfilePage() {
           <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 md:p-8">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6">Топ участников</h2>
             <div className="space-y-2 sm:space-y-3">
-              {topUsers.map((user, index) => (
+              {topUsers.map((topUser, index) => (
                 <div 
                   key={index} 
-                  className={`p-3 sm:p-4 rounded-lg sm:rounded-xl ${user.name === userName ? 'bg-purple-50 border-2 border-purple-200' : 'bg-slate-50 border border-slate-100'}`}
+                  className={`p-3 sm:p-4 rounded-lg sm:rounded-xl ${topUser.name === userName ? 'bg-purple-50 border-2 border-purple-200' : 'bg-slate-50 border border-slate-100'}`}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 sm:gap-3">
-                      <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold ${getRankColor(user.position)}`}>
-                        {user.position}
+                      <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold ${getRankColor(topUser.position)}`}>
+                        {topUser.position}
                       </div>
                       <h4 className="font-semibold text-slate-900 text-sm sm:text-base">
-                        {user.name === userName ? 'Вы' : user.name}
+                        {topUser.name === userName ? 'Вы' : topUser.name}
                       </h4>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-purple-600 text-sm sm:text-base">{user.points}</div>
+                      <div className="font-bold text-purple-600 text-sm sm:text-base">{topUser.points}</div>
                       <div className="text-[10px] sm:text-xs text-slate-500">баллов</div>
                     </div>
                   </div>
@@ -349,7 +419,7 @@ export default function ProfilePage() {
                     <h4 className="font-semibold text-slate-900 text-sm sm:text-base truncate">{activity.title}</h4>
                     <span className="text-base sm:text-lg flex-shrink-0">{activity.country}</span>
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-600">{new Date(activity.date).toLocaleDateString()}</p>
+                  <p className="text-xs sm:text-sm text-slate-600">{new Date(activity.created_at).toLocaleDateString()}</p>
                 </div>
                 <div className="text-right flex-shrink-0">
                   {activity.points > 0 ? (
@@ -380,26 +450,11 @@ export default function ProfilePage() {
               Выбрать страну
             </Link>
             <button 
-              onClick={() => {
-                if (confirm('Вы уверены, что хотите сбросить весь прогресс? Это действие нельзя отменить.')) {
-                  localStorage.removeItem('thailand_points');
-                  localStorage.removeItem('thailand_streak');
-                  localStorage.removeItem('thailand_max_streak');
-                  localStorage.removeItem('thailand_studied_cards');
-                  localStorage.removeItem('thailand_exam_results');
-                  localStorage.removeItem('thailand_exam_count');
-                  localStorage.removeItem('thailand_exam_average');
-                  localStorage.removeItem('thailand_exam_passed');
-                  localStorage.removeItem('thailand_trainer_correct');
-                  localStorage.removeItem('thailand_trainer_total');
-                  localStorage.removeItem('thailand_activities');
-                  localStorage.removeItem('thailand_completed_lessons');
-                  window.location.reload();
-                }
-              }}
-              className="py-2.5 sm:py-3 px-4 bg-red-50 text-red-700 rounded-lg sm:rounded-xl font-semibold hover:bg-red-100 transition-all text-sm sm:text-base"
+              onClick={handleSignOut}
+              className="py-2.5 sm:py-3 px-4 bg-red-50 text-red-700 rounded-lg sm:rounded-xl font-semibold hover:bg-red-100 transition-all text-sm sm:text-base flex items-center justify-center gap-2"
             >
-              Сбросить прогресс
+              <LogOut className="w-4 h-4" />
+              Выйти из аккаунта
             </button>
           </div>
         </div>

@@ -1,30 +1,13 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Home, IdCard } from 'lucide-react';
 import Link from 'next/link';
+import { useLesson } from '@/lib/hooks/useLesson';
 
 export default function LessonPage() {
+  useLesson('residence-citizenship', 'Урок 6: Виза и резидентство');
+  
   const [selectedVisaType, setSelectedVisaType] = useState('tourist');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const completedLessons = JSON.parse(localStorage.getItem('thailand_completed_lessons') || '[]');
-      if (!completedLessons.includes('residence-citizenship')) {
-        completedLessons.push('residence-citizenship');
-        localStorage.setItem('thailand_completed_lessons', JSON.stringify(completedLessons));
-        
-        const activities = JSON.parse(localStorage.getItem('thailand_activities') || '[]');
-        activities.unshift({
-          type: 'lesson',
-          title: 'Урок 5: ВНЖ и гражданство',
-          date: new Date().toISOString(),
-          points: 10,
-          country: '🇹🇭'
-        });
-        localStorage.setItem('thailand_activities', JSON.stringify(activities.slice(0, 20)));
-      }
-    }
-  }, []);
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">
