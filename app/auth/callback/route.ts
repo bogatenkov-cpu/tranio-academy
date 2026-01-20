@@ -52,6 +52,24 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(`${origin}/?error=no_session`);
     }
 
+    // Создаём профиль пользователя, если его нет
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', data.session.user.id)
+      .single();
+
+    if (!profile) {
+      // Профиля нет - создаём
+      await supabase.from('profiles').insert({
+        id: data.session.user.id,
+        email: data.session.user.email || 'no-email@example.com',
+        name: data.session.user.user_metadata?.name || 
+              data.session.user.user_metadata?.full_name || 
+              'Пользователь'
+      });
+    }
+
     // Success - redirect to countries
     return NextResponse.redirect(`${origin}/countries`);
   } catch (error: any) {
