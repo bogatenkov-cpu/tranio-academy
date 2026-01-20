@@ -1799,8 +1799,8 @@ export default function TrainerPage() {
       filtered = filtered.filter(q => q.category === selectedCategory);
     }
 
-    // Получаем изученные вопросы из прогресса Supabase
-    const studiedSet = new Set(userProgress.studied_cards || []);
+    // Получаем изученные вопросы из локального стейта
+    const studiedSet = new Set(studiedQuestions);
 
     if (studyMode === 'new') {
       filtered = filtered.filter(q => !studiedSet.has(q.id));
@@ -1835,11 +1835,13 @@ export default function TrainerPage() {
     setShowExplanation(false);
     setIsCorrectAnswer(false);
     setScore({ correct: 0, total: 0 });
-  }, [selectedCategory, studyMode, userProgress.studied_cards]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategory, studyMode]);
 
   useEffect(() => {
     loadQuestions();
-  }, [loadQuestions]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategory, studyMode]);
 
   const currentQuestion = sessionQuestions[currentQuestionIndex];
 
@@ -1885,13 +1887,15 @@ export default function TrainerPage() {
       const newStudied = new Set(studiedQuestions);
       newStudied.add(questionBeingAnswered.id);
       setStudiedQuestions(newStudied);
-      
-      // Сохраняем изученную карточку в Supabase
-      addStudiedCard(questionBeingAnswered.id);
     }
   };
 
   const handleNext = () => {
+    // Сохраняем изученную карточку в Supabase перед переходом
+    if (currentQuestion) {
+      addStudiedCard(currentQuestion.id);
+    }
+    
     setIsAnimating(true);
     setTimeout(() => {
       if (currentQuestionIndex < sessionQuestions.length - 1) {
