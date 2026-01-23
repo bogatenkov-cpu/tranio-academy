@@ -148,6 +148,57 @@ export default function CountriesPage() {
           </p>
         </div>
 
+        {/* Course Banner */}
+        <div className="max-w-6xl mx-auto mb-8">
+          <Link 
+            href="/course"
+            className="block bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 group overflow-hidden relative"
+          >
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex-1 text-white">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm mb-4">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+                  </svg>
+                  <span className="text-sm font-bold">НОВЫЙ КУРС</span>
+                </div>
+                <h2 className="text-3xl font-bold mb-3">Зарубежная недвижимость</h2>
+                <p className="text-white/90 text-lg mb-4">
+                  Полный курс по инвестированию: 37 уроков, 3 модуля, практические материалы
+                </p>
+                <div className="flex flex-wrap gap-4 text-sm">
+                  <div className="flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>37 уроков</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>8-10 часов</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                    </svg>
+                    <span>3 модуля</span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex-shrink-0">
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform shadow-xl">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </div>
+
         {/* Countries Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
           {countries.map((country) => (
