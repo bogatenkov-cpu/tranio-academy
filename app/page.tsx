@@ -178,7 +178,7 @@ export default function Home() {
               </h1>
               
               <p className="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed">
-                Бесплатная образовательная платформа. Изучайте рынки, практикуйтесь на реальных кейсах и получайте сертификаты международного образца.
+                Образовательная платформа для профессионалов. Изучайте рынки, практикуйтесь на реальных кейсах и получайте сертификаты международного образца.
               </p>
 
               <div className="grid grid-cols-2 gap-4 mb-10">
@@ -225,9 +225,9 @@ export default function Home() {
                     <h2 className="text-2xl font-bold text-slate-900 mb-2">
                       {isForgotPassword ? 'Восстановление' : isLogin ? 'С возвращением!' : 'Создать аккаунт'}
                     </h2>
-                    <p className="text-slate-500">
-                      {isForgotPassword ? 'Введите email для сброса пароля' : isLogin ? 'Войдите, чтобы продолжить обучение' : 'Начните обучение бесплатно'}
-                    </p>
+                     <p className="text-slate-500">
+                       {isForgotPassword ? 'Введите email для сброса пароля' : isLogin ? 'Войдите, чтобы продолжить обучение' : 'Начните обучение прямо сейчас'}
+                     </p>
                   </div>
 
                   {error && (
@@ -316,13 +316,13 @@ export default function Home() {
                     >
                       {isSubmitting ? (
                         <Loader2 className="animate-spin" size={20} />
-                      ) : (
-                        <>
-                          {isForgotPassword ? 'Отправить ссылку' : isLogin ? 'Войти в аккаунт' : 'Начать бесплатно'}
-                          {!isForgotPassword && <ArrowRight size={20} />}
-                        </>
-                      )}
-                    </button>
+                       ) : (
+                         <>
+                           {isForgotPassword ? 'Отправить ссылку' : isLogin ? 'Войти в аккаунт' : 'Начать обучение'}
+                           {!isForgotPassword && <ArrowRight size={20} />}
+                         </>
+                       )}
+                     </button>
                   </form>
 
                   {!isForgotPassword && (
@@ -732,18 +732,18 @@ export default function Home() {
 
       {/* 6. CTA SECTION */}
       <section className="py-24 bg-slate-50 border-t border-slate-200 relative overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900 tracking-tight">Готовы начать обучение?</h2>
-          <p className="text-slate-600 text-xl max-w-2xl mx-auto mb-10">
-            Присоединяйтесь к 500+ студентам сегодня. Это бесплатно и займет всего пару минут.
-          </p>
-          <button 
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="px-10 py-5 bg-blue-600 text-white font-bold text-lg rounded-2xl shadow-xl shadow-blue-200 hover:shadow-blue-300 hover:scale-105 transition-all duration-300"
-          >
-            Начать бесплатно →
-          </button>
-        </div>
+         <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
+           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900 tracking-tight">Готовы начать обучение?</h2>
+           <p className="text-slate-600 text-xl max-w-2xl mx-auto mb-10">
+             Присоединяйтесь к 500+ студентам сегодня. Регистрация займет всего пару минут.
+           </p>
+           <button 
+             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+             className="px-10 py-5 bg-blue-600 text-white font-bold text-lg rounded-2xl shadow-xl shadow-blue-200 hover:shadow-blue-300 hover:scale-105 transition-all duration-300"
+           >
+             Начать обучение →
+           </button>
+         </div>
       </section>
 
       {/* Footer */}
