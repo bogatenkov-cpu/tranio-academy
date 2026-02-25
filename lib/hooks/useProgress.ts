@@ -110,34 +110,56 @@ export function useProgress(country: string = 'thailand') {
     
     setProgress(prev => {
       const newPoints = prev.points + points;
-      (supabase
-        .from('user_progress') as any)
-        .update({ points: newPoints, updated_at: new Date().toISOString() })
-        .eq('user_id', user.id)
-        .eq('country', country);
       return { ...prev, points: newPoints };
     });
+
+    try {
+      const { data: current } = await supabase
+        .from('user_progress')
+        .select('points')
+        .eq('user_id', user.id)
+        .eq('country', country)
+        .single();
+      
+      await (supabase.from('user_progress') as any)
+        .update({ points: ((current as any)?.points || 0) + points, updated_at: new Date().toISOString() })
+        .eq('user_id', user.id)
+        .eq('country', country);
+    } catch (error) {
+      console.error('Error adding points:', error);
+    }
   }, [user, country, supabase]);
 
   const updateStreak = useCallback(async (isCorrect: boolean) => {
     if (!user) return;
     
+    let newStreak: number;
+    let newMaxStreak: number;
+
     setProgress(prev => {
-      const newStreak = isCorrect ? prev.streak + 1 : 0;
-      const newMaxStreak = isCorrect ? Math.max(newStreak, prev.max_streak) : prev.max_streak;
-      
-      (supabase
-        .from('user_progress') as any)
-        .update({ 
-          streak: newStreak, 
-          max_streak: newMaxStreak,
-          updated_at: new Date().toISOString() 
-        })
+      newStreak = isCorrect ? prev.streak + 1 : 0;
+      newMaxStreak = isCorrect ? Math.max(newStreak!, prev.max_streak) : prev.max_streak;
+      return { ...prev, streak: newStreak!, max_streak: newMaxStreak! };
+    });
+
+    try {
+      const { data: current } = await supabase
+        .from('user_progress')
+        .select('streak, max_streak')
+        .eq('user_id', user.id)
+        .eq('country', country)
+        .single();
+
+      const dbStreak = isCorrect ? ((current as any)?.streak || 0) + 1 : 0;
+      const dbMaxStreak = isCorrect ? Math.max(dbStreak, (current as any)?.max_streak || 0) : (current as any)?.max_streak || 0;
+
+      await (supabase.from('user_progress') as any)
+        .update({ streak: dbStreak, max_streak: dbMaxStreak, updated_at: new Date().toISOString() })
         .eq('user_id', user.id)
         .eq('country', country);
-      
-      return { ...prev, streak: newStreak, max_streak: newMaxStreak };
-    });
+    } catch (error) {
+      console.error('Error updating streak:', error);
+    }
   }, [user, country, supabase]);
 
   const addCompletedLesson = useCallback(async (lessonId: string) => {
@@ -145,20 +167,27 @@ export function useProgress(country: string = 'thailand') {
     
     setProgress(prev => {
       if (prev.completed_lessons.includes(lessonId)) return prev;
-      
-      const newLessons = [...prev.completed_lessons, lessonId];
-      
-      (supabase
-        .from('user_progress') as any)
-        .update({ 
-          completed_lessons: newLessons,
-          updated_at: new Date().toISOString() 
-        })
-        .eq('user_id', user.id)
-        .eq('country', country);
-      
-      return { ...prev, completed_lessons: newLessons };
+      return { ...prev, completed_lessons: [...prev.completed_lessons, lessonId] };
     });
+
+    try {
+      const { data: current } = await supabase
+        .from('user_progress')
+        .select('completed_lessons')
+        .eq('user_id', user.id)
+        .eq('country', country)
+        .single();
+
+      const existing: string[] = (current as any)?.completed_lessons || [];
+      if (!existing.includes(lessonId)) {
+        await (supabase.from('user_progress') as any)
+          .update({ completed_lessons: [...existing, lessonId], updated_at: new Date().toISOString() })
+          .eq('user_id', user.id)
+          .eq('country', country);
+      }
+    } catch (error) {
+      console.error('Error adding completed lesson:', error);
+    }
   }, [user, country, supabase]);
 
   const addStudiedCard = useCallback(async (cardId: string) => {
@@ -166,20 +195,27 @@ export function useProgress(country: string = 'thailand') {
     
     setProgress(prev => {
       if (prev.studied_cards.includes(cardId)) return prev;
-      
-      const newCards = [...prev.studied_cards, cardId];
-      
-      (supabase
-        .from('user_progress') as any)
-        .update({ 
-          studied_cards: newCards,
-          updated_at: new Date().toISOString() 
-        })
-        .eq('user_id', user.id)
-        .eq('country', country);
-      
-      return { ...prev, studied_cards: newCards };
+      return { ...prev, studied_cards: [...prev.studied_cards, cardId] };
     });
+
+    try {
+      const { data: current } = await supabase
+        .from('user_progress')
+        .select('studied_cards')
+        .eq('user_id', user.id)
+        .eq('country', country)
+        .single();
+
+      const existing: string[] = (current as any)?.studied_cards || [];
+      if (!existing.includes(cardId)) {
+        await (supabase.from('user_progress') as any)
+          .update({ studied_cards: [...existing, cardId], updated_at: new Date().toISOString() })
+          .eq('user_id', user.id)
+          .eq('country', country);
+      }
+    } catch (error) {
+      console.error('Error adding studied card:', error);
+    }
   }, [user, country, supabase]);
 
   const updateExamStats = useCallback(async (score: number, total: number) => {

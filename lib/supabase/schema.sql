@@ -134,3 +134,17 @@ DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- Функция для лидерборда (обходит RLS через SECURITY DEFINER)
+CREATE OR REPLACE FUNCTION public.get_leaderboard(limit_count INTEGER DEFAULT 10)
+RETURNS TABLE(user_id UUID, name TEXT, points INTEGER) AS $$
+BEGIN
+  RETURN QUERY
+    SELECT up.user_id, p.name, up.points
+    FROM user_progress up
+    JOIN profiles p ON p.id = up.user_id
+    WHERE up.country = 'thailand'
+    ORDER BY up.points DESC
+    LIMIT limit_count;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;

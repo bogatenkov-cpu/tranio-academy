@@ -147,9 +147,9 @@ export default function Home() {
             </div>
           </div>
           <nav className="hidden md:flex gap-10 text-sm font-bold text-slate-500">
-            <a href="#" className="hover:text-blue-600 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-600 hover:after:w-full after:transition-all">Курсы</a>
-            <a href="#" className="hover:text-blue-600 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-600 hover:after:w-full after:transition-all">Страны</a>
-            <a href="#" className="hover:text-blue-600 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-600 hover:after:w-full after:transition-all">Блог</a>
+            <a href="#course" className="hover:text-blue-600 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-600 hover:after:w-full after:transition-all">Курс</a>
+            <a href="#trainer" className="hover:text-blue-600 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-600 hover:after:w-full after:transition-all">Тренажёр</a>
+            <a href="#features" className="hover:text-blue-600 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-600 hover:after:w-full after:transition-all">Возможности</a>
           </nav>
           <div className="flex items-center gap-4">
              <Button variant="ghost" className="text-sm font-bold text-slate-600 hover:text-blue-600" onClick={() => setIsLogin(true)}>Вход</Button>
@@ -515,7 +515,7 @@ export default function Home() {
       </section>
 
       {/* 3. ИНТЕРАКТИВНЫЙ КУРС — USP */}
-      <section className="py-24 bg-slate-950 text-white relative overflow-hidden">
+      <section id="course" className="py-24 bg-slate-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]"></div>
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px]"></div>
@@ -608,7 +608,7 @@ export default function Home() {
       </section>
 
       {/* 4. ПОПРОБУЙТЕ ПРЯМО СЕЙЧАС (Интерактив) */}
-      <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
+      <section id="trainer" className="py-24 bg-slate-900 text-white relative overflow-hidden">
         {/* Abstract Background */}
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
         <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-600/10 blur-[100px]"></div>
@@ -732,7 +732,7 @@ export default function Home() {
       </section>
 
       {/* 4. ЧТО ВЫ ПОЛУЧИТЕ */}
-      <section className="py-20 bg-white">
+      <section id="features" className="py-20 bg-white">
          <div className="container mx-auto px-4 md:px-6">
            <h2 className="text-3xl font-bold text-center text-slate-900 mb-16">Все для комфортного обучения</h2>
            
@@ -847,39 +847,14 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 py-12 text-slate-400 text-sm">
+      <footer className="bg-slate-900 py-10 text-slate-400 text-sm">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-             <div className="col-span-1 md:col-span-2">
-               <div className="flex items-center gap-2 mb-4 text-white">
-                  <GraduationCap className="w-6 h-6" />
-                  <span className="font-bold text-lg">RE Academy</span>
-               </div>
-               <p className="max-w-xs leading-relaxed">Образовательная платформа для изучения зарубежной недвижимости.</p>
-             </div>
-             <div>
-               <h4 className="font-bold text-white mb-4">Обучение</h4>
-               <ul className="space-y-2">
-                 <li><a href="#" className="hover:text-white transition-colors">Курсы</a></li>
-                 <li><a href="#" className="hover:text-white transition-colors">Вебинары</a></li>
-                 <li><a href="#" className="hover:text-white transition-colors">Глоссарий</a></li>
-               </ul>
-             </div>
-             <div>
-               <h4 className="font-bold text-white mb-4">Компания</h4>
-               <ul className="space-y-2">
-                 <li><a href="#" className="hover:text-white transition-colors">О нас</a></li>
-                 <li><a href="#" className="hover:text-white transition-colors">Контакты</a></li>
-                 <li><a href="#" className="hover:text-white transition-colors">Политика</a></li>
-               </ul>
-             </div>
-          </div>
-          <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p>© 2024 RE Academy. All rights reserved.</p>
-            <div className="flex gap-6">
-               <a href="#" className="hover:text-white">Privacy</a>
-               <a href="#" className="hover:text-white">Terms</a>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2 text-white">
+              <GraduationCap className="w-5 h-5" />
+              <span className="font-bold">RE Academy</span>
             </div>
+            <p>© 2026 RE Academy. Все права защищены.</p>
           </div>
         </div>
       </footer>

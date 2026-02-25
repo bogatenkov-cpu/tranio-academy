@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, BookOpen, Brain, Trophy, Calendar, TrendingUp, Settings, Clock, Flame, Star, LogOut, Loader2 } from 'lucide-react';
+import { User, BookOpen, Brain, Trophy, Calendar, TrendingUp, Settings, Clock, Flame, Star, LogOut, Loader2, Users } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { createClient } from '@/lib/supabase/client';
@@ -33,6 +33,13 @@ interface Profile {
   created_at: string;
 }
 
+interface LeaderboardEntry {
+  name: string;
+  points: number;
+  position: number;
+  isMe: boolean;
+}
+
 export default function ProfilePage() {
   const router = useRouter();
   const { user, loading: authLoading, signOut } = useAuth();
@@ -42,6 +49,7 @@ export default function ProfilePage() {
   const [userEmail, setUserEmail] = useState('');
   const [loading, setLoading] = useState(true);
   const [studiedCardsCount, setStudiedCardsCount] = useState(0);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   const [userStats, setUserStats] = useState({
     totalPoints: 0,
@@ -50,10 +58,10 @@ export default function ProfilePage() {
     examCount: 0,
     streak: 0,
     maxStreak: 0,
-    rank: 2,
-    totalUsers: 15,
+    rank: 0,
+    totalUsers: 0,
     studyDays: 0,
-    joinDate: '2025-01-01'
+    joinDate: '2026-01-01'
   });
 
   const [countries, setCountries] = useState([
@@ -168,6 +176,40 @@ export default function ProfilePage() {
         ]);
       }
 
+      // Load real leaderboard via RPC (falls back to just current user)
+      try {
+        const { data: lb } = await (supabase.rpc as any)('get_leaderboard', { limit_count: 10 });
+        if (lb && Array.isArray(lb) && lb.length > 0) {
+          const entries: LeaderboardEntry[] = (lb as any[]).map((entry: any, idx: number) => ({
+            name: entry.name || 'Пользователь',
+            points: entry.points || 0,
+            position: idx + 1,
+            isMe: entry.user_id === user.id,
+          }));
+          setLeaderboard(entries);
+          const myEntry = entries.find(e => e.isMe);
+          if (myEntry) {
+            setUserStats(prev => ({ ...prev, rank: myEntry.position, totalUsers: entries.length }));
+          }
+        } else {
+          setLeaderboard([{
+            name: profile ? (profile as Profile).name : 'Вы',
+            points: (progress as any)?.points || 0,
+            position: 1,
+            isMe: true,
+          }]);
+          setUserStats(prev => ({ ...prev, rank: 1, totalUsers: 1 }));
+        }
+      } catch {
+        setLeaderboard([{
+          name: profile ? (profile as Profile).name : 'Вы',
+          points: (progress as any)?.points || 0,
+          position: 1,
+          isMe: true,
+        }]);
+        setUserStats(prev => ({ ...prev, rank: 1, totalUsers: 1 }));
+      }
+
     } catch (error) {
       console.error('Error loading user data:', error);
     } finally {
@@ -180,14 +222,6 @@ export default function ProfilePage() {
       await signOut();
     }
   };
-
-  const topUsers = [
-    { name: 'Алексей К.', points: 340, position: 1 },
-    { name: userName, points: userStats.totalPoints, position: userStats.rank },
-    { name: 'Мария В.', points: 18, position: 3 },
-    { name: 'Игорь С.', points: 12, position: 4 },
-    { name: 'Анна Д.', points: 8, position: 5 }
-  ];
 
   const getActivityIcon = (type: string) => {
     switch (type) {
@@ -278,7 +312,7 @@ export default function ProfilePage() {
             { icon: Brain, label: 'Баллы', sub: 'Тренажер', value: userStats.totalPoints, unit: 'баллов', color: 'from-violet-500 to-purple-600', bg: 'bg-violet-50' },
             { icon: Trophy, label: 'Экзамены', sub: 'Средний балл', value: userStats.examCount > 0 ? `${userStats.examAverage}%` : '—', unit: `${userStats.examCount} сдано`, color: 'from-blue-500 to-cyan-600', bg: 'bg-blue-50' },
             { icon: Flame, label: 'Стрик', sub: 'Правильных', value: userStats.streak, unit: `макс. ${userStats.maxStreak}`, color: 'from-orange-500 to-red-500', bg: 'bg-orange-50' },
-            { icon: Star, label: 'Рейтинг', sub: 'Место', value: `#${userStats.rank}`, unit: `из ${userStats.totalUsers}`, color: 'from-amber-500 to-yellow-500', bg: 'bg-amber-50' },
+            { icon: Star, label: 'Рейтинг', sub: 'Место', value: userStats.totalUsers > 0 ? `#${userStats.rank}` : '—', unit: userStats.totalUsers > 0 ? `из ${userStats.totalUsers}` : 'нет данных', color: 'from-amber-500 to-yellow-500', bg: 'bg-amber-50' },
           ].map((stat, i) => (
             <div key={i} className="bg-white border border-slate-200 rounded-2xl shadow-sm p-4 sm:p-5 hover:shadow-md hover:border-slate-300 transition-all group">
               <div className="flex items-center gap-2.5 mb-3">
@@ -348,35 +382,39 @@ export default function ProfilePage() {
 
           {/* Leaderboard */}
           <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7">
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-5">Топ участников</h2>
-            <div className="space-y-2">
-              {topUsers.map((topUser, index) => {
-                const isMe = topUser.name === userName;
-                return (
+            <div className="flex items-center gap-2.5 mb-5">
+              <Users className="w-5 h-5 text-slate-400" />
+              <h2 className="text-lg sm:text-xl font-bold text-slate-900">Топ участников</h2>
+            </div>
+            {leaderboard.length === 0 ? (
+              <p className="text-sm text-slate-400 text-center py-6">Загрузка...</p>
+            ) : (
+              <div className="space-y-2">
+                {leaderboard.map((entry, index) => (
                   <div
                     key={index}
                     className={`flex items-center gap-3 p-3 sm:p-3.5 rounded-xl transition-all ${
-                      isMe
+                      entry.isMe
                         ? 'bg-indigo-50/70 border border-indigo-200 shadow-sm'
                         : 'border border-transparent hover:bg-slate-50 hover:border-slate-100'
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${getRankColor(topUser.position)}`}>
-                      {topUser.position}
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${getRankColor(entry.position)}`}>
+                      {entry.position}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <span className={`text-sm font-semibold truncate block ${isMe ? 'text-indigo-700' : 'text-slate-800'}`}>
-                        {isMe ? `${topUser.name} (вы)` : topUser.name}
+                      <span className={`text-sm font-semibold truncate block ${entry.isMe ? 'text-indigo-700' : 'text-slate-800'}`}>
+                        {entry.isMe ? `${entry.name} (вы)` : entry.name}
                       </span>
                     </div>
                     <div className="text-right shrink-0">
-                      <span className={`text-sm font-bold ${isMe ? 'text-indigo-600' : 'text-slate-700'}`}>{topUser.points}</span>
+                      <span className={`text-sm font-bold ${entry.isMe ? 'text-indigo-600' : 'text-slate-700'}`}>{entry.points}</span>
                       <span className="text-xs text-slate-400 ml-1">б.</span>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
