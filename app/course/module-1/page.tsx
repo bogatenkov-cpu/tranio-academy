@@ -112,12 +112,12 @@ export default function Module1Page() {
               <Link href="/course" className="p-1.5 hover:bg-white/10 rounded-lg transition-all text-slate-400 hover:text-white">
                 <ArrowLeft className="w-5 h-5" />
               </Link>
-              <div className="flex items-center gap-2">
+              <Link href="/course" className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
                   <Sparkles className="w-4 h-4" />
                 </div>
                 <span className="font-bold text-sm tracking-tight hidden sm:inline">Кейс 1</span>
-              </div>
+              </Link>
             </div>
           </div>
         </header>

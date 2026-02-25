@@ -1,7 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, ChevronDown, Lightbulb, HelpCircle, Sparkles, ArrowRight, ExternalLink, MapPin } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { createClient } from '@/lib/supabase/client';
 
 interface CourseLessonLayoutProps {
   moduleNumber: number;
@@ -25,6 +27,69 @@ export function CourseLessonLayout({
   nextStep,
 }: CourseLessonLayoutProps) {
   const progress = (stepNumber / totalSteps) * 100;
+  const { user } = useAuth();
+  const hasTracked = useRef(false);
+
+  useEffect(() => {
+    if (!user || hasTracked.current) return;
+    hasTracked.current = true;
+
+    const stepId = `module-${moduleNumber}-step-${stepNumber}`;
+    const supabase = createClient();
+
+    const trackStep = async () => {
+      try {
+        const { data } = await supabase
+          .from('user_progress')
+          .select('studied_cards')
+          .eq('user_id', user.id)
+          .eq('country', 'course')
+          .single();
+
+        if (!data) {
+          await (supabase.from('user_progress') as any).insert({
+            user_id: user.id,
+            country: 'course',
+            points: 5,
+            streak: 0,
+            max_streak: 0,
+            exam_count: 0,
+            exam_average: 0,
+            completed_lessons: [`module-${moduleNumber}`],
+            studied_cards: [stepId],
+          });
+        } else {
+          const existing: string[] = (data as any).studied_cards || [];
+          if (!existing.includes(stepId)) {
+            const modules = new Set((existing).map(s => s.replace(/-step-\d+$/, '')));
+            modules.add(`module-${moduleNumber}`);
+
+            await (supabase.from('user_progress') as any)
+              .update({
+                studied_cards: [...existing, stepId],
+                completed_lessons: Array.from(modules),
+                points: existing.length + 1,
+                updated_at: new Date().toISOString(),
+              })
+              .eq('user_id', user.id)
+              .eq('country', 'course');
+          }
+        }
+
+        await (supabase.from('activities') as any).insert({
+          user_id: user.id,
+          country: 'course',
+          type: 'lesson',
+          title: `Кейс ${moduleNumber}: ${title}`,
+          points: 5,
+        });
+      } catch (err) {
+        console.error('Error tracking course step:', err);
+      }
+    };
+
+    trackStep();
+  }, [user, moduleNumber, stepNumber, title]);
 
   return (
     <div className="bg-slate-950 min-h-screen flex flex-col font-sans antialiased text-slate-200">
@@ -35,7 +100,7 @@ export function CourseLessonLayout({
             <Link href={`/course/module-${moduleNumber}`} className="p-1.5 hover:bg-white/10 rounded-lg transition-all text-slate-400 hover:text-white">
               <ChevronLeft className="w-5 h-5" />
             </Link>
-            <div className="flex items-center gap-2">
+            <Link href="/course" className="flex items-center gap-2">
               <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
                 <Sparkles className="w-4 h-4 text-white" />
               </div>
@@ -44,7 +109,7 @@ export function CourseLessonLayout({
                 <span className="text-xs text-slate-600 mx-1.5">•</span>
                 <span className="text-xs text-slate-400">{stepNumber} / {totalSteps}</span>
               </div>
-            </div>
+            </Link>
           </div>
           {/* Progress bar */}
           <div className="w-24 sm:w-32 h-1 bg-white/5 rounded-full overflow-hidden">

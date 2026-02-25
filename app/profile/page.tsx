@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, BookOpen, Brain, Trophy, Calendar, TrendingUp, Settings, Clock, Flame, Star, LogOut, Loader2, Users } from 'lucide-react';
+import { User, BookOpen, Brain, Trophy, Calendar, TrendingUp, Settings, Clock, Flame, Star, LogOut, Loader2, Users, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { createClient } from '@/lib/supabase/client';
@@ -64,10 +64,12 @@ export default function ProfilePage() {
     joinDate: '2026-01-01'
   });
 
+  const [courseStats, setCourseStats] = useState({ stepsCompleted: 0, totalSteps: 37, modulesStarted: 0 });
+
   const [countries, setCountries] = useState([
-    { name: 'Таиланд', flag: '🇹🇭', points: 0, maxPoints: 150, lessons: 0, total: 8 },
-    { name: 'ОАЭ', flag: '🇦🇪', points: 0, maxPoints: 0, lessons: 0, total: 0 },
-    { name: 'Кипр', flag: '🇨🇾', points: 0, maxPoints: 0, lessons: 0, total: 0 }
+    { name: 'Таиланд', flag: '🇹🇭', points: 0, maxPoints: 150, lessons: 0, total: 8, href: '/countries/thailand' },
+    { name: 'ОАЭ', flag: '🇦🇪', points: 0, maxPoints: 0, lessons: 0, total: 0, href: '' },
+    { name: 'Кипр', flag: '🇨🇾', points: 0, maxPoints: 0, lessons: 0, total: 0, href: '' }
   ]);
 
   const [recentActivity, setRecentActivity] = useState<Activity[]>([]);
@@ -132,11 +134,27 @@ export default function ProfilePage() {
             points: typedProgress.points || 0, 
             maxPoints: 150, 
             lessons: typedProgress.completed_lessons?.length || 0, 
-            total: 8 
+            total: 8,
+            href: '/countries/thailand',
           },
-          { name: 'ОАЭ', flag: '🇦🇪', points: 0, maxPoints: 0, lessons: 0, total: 0 },
-          { name: 'Кипр', flag: '🇨🇾', points: 0, maxPoints: 0, lessons: 0, total: 0 }
+          { name: 'ОАЭ', flag: '🇦🇪', points: 0, maxPoints: 0, lessons: 0, total: 0, href: '' },
+          { name: 'Кипр', flag: '🇨🇾', points: 0, maxPoints: 0, lessons: 0, total: 0, href: '' }
         ]);
+      }
+
+      // Load course progress
+      const { data: courseProgress } = await supabase
+        .from('user_progress')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('country', 'course')
+        .single();
+
+      if (courseProgress) {
+        const cp = courseProgress as any;
+        const stepsCompleted = cp.studied_cards?.length || 0;
+        const modulesStarted = cp.completed_lessons?.length || 0;
+        setCourseStats({ stepsCompleted, totalSteps: 37, modulesStarted });
       }
 
       const { data: activities } = await supabase
@@ -330,12 +348,41 @@ export default function ProfilePage() {
           ))}
         </div>
 
+        {/* Course Progress */}
+        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7 mb-6 sm:mb-8">
+          <div className="flex items-center gap-2.5 mb-5">
+            <Sparkles className="w-5 h-5 text-indigo-500" />
+            <h2 className="text-lg sm:text-xl font-bold text-slate-900">Интерактивный курс</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+            {[
+              { label: 'Пройдено шагов', value: `${courseStats.stepsCompleted} / ${courseStats.totalSteps}`, pct: Math.round((courseStats.stepsCompleted / courseStats.totalSteps) * 100) },
+              { label: 'Начато кейсов', value: `${courseStats.modulesStarted} / 3`, pct: Math.round((courseStats.modulesStarted / 3) * 100) },
+              { label: 'Прогресс', value: `${Math.round((courseStats.stepsCompleted / courseStats.totalSteps) * 100)}%`, pct: Math.round((courseStats.stepsCompleted / courseStats.totalSteps) * 100) },
+            ].map((item, i) => (
+              <div key={i} className="p-4 rounded-xl border border-slate-100 bg-slate-50/50">
+                <div className="text-xs text-slate-500 mb-1">{item.label}</div>
+                <div className="text-xl font-bold text-slate-900 mb-2">{item.value}</div>
+                <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-500" style={{ width: `${item.pct}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
+          <Link
+            href="/course"
+            className="block w-full py-2.5 px-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-indigo-200 transition-all text-center"
+          >
+            {courseStats.stepsCompleted > 0 ? 'Продолжить курс' : 'Начать курс'}
+          </Link>
+        </div>
+
         {/* Two-column: Countries + Leaderboard */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
 
           {/* Countries Progress */}
           <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7">
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-5">Прогресс по странам</h2>
+            <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-5">Тренажёр по странам</h2>
             <div className="space-y-3">
               {countries.map((country, index) => {
                 const pct = country.maxPoints > 0 ? Math.round((country.points / country.maxPoints) * 100) : 0;
