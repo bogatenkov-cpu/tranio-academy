@@ -514,7 +514,100 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. ПОПРОБУЙТЕ ПРЯМО СЕЙЧАС (Интерактив) */}
+      {/* 3. ИНТЕРАКТИВНЫЙ КУРС — USP */}
+      <section className="py-24 bg-slate-950 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px]"></div>
+        
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="max-w-3xl mx-auto text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-sm text-slate-300 mb-6">
+              <Flame className="w-3.5 h-3.5 text-orange-400" />
+              Практика на реальных кейсах Tranio
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+              Интерактивный курс:<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400">
+                зарубежная недвижимость
+              </span>
+            </h2>
+            <p className="text-slate-400 text-lg leading-relaxed">
+              Три реальных инвестиционных кейса из практики Tranio. 
+              Вы — новый сотрудник. Ваша задача — проанализировать проект и принять решение: инвестировать или нет.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
+            {[
+              {
+                flag: '🇩🇪',
+                title: 'Флиппинг в Максхютте',
+                location: 'Бавария, Германия',
+                desc: 'Купить дом, отремонтировать, продать как две квартиры',
+                steps: 12,
+                level: 'Начальный',
+                color: 'from-blue-500/20 to-indigo-500/20',
+                border: 'border-blue-500/20 hover:border-blue-500/40',
+              },
+              {
+                flag: '🇩🇪',
+                title: 'Редевелопмент в Бонне',
+                location: 'Сев. Рейн-Вестфалия',
+                desc: 'Переделать старое здание в прибыльный отель',
+                steps: 13,
+                level: 'Средний',
+                color: 'from-purple-500/20 to-violet-500/20',
+                border: 'border-purple-500/20 hover:border-purple-500/40',
+              },
+              {
+                flag: '🇩🇪',
+                title: 'Девелопмент в Ахене',
+                location: 'Сев. Рейн-Вестфалия',
+                desc: 'Построить апарт-отель с нуля на пустом участке',
+                steps: 12,
+                level: 'Продвинутый',
+                color: 'from-emerald-500/20 to-teal-500/20',
+                border: 'border-emerald-500/20 hover:border-emerald-500/40',
+              },
+            ].map((mod, idx) => (
+              <div key={idx} className={`relative rounded-2xl border ${mod.border} bg-gradient-to-br ${mod.color} p-6 transition-all duration-300 hover:translate-y-[-2px]`}>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">{mod.flag}</span>
+                  <span className="text-xs text-slate-500 font-medium">{mod.location}</span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">{mod.title}</h3>
+                <p className="text-sm text-slate-400 mb-4 leading-relaxed">{mod.desc}</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-slate-500">{mod.steps} шагов</span>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 text-slate-400 font-medium">{mod.level}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-slate-500">
+            <div className="flex items-center gap-6">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white">37</div>
+                <div className="text-xs">шагов</div>
+              </div>
+              <div className="w-px h-8 bg-white/10"></div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white">3</div>
+                <div className="text-xs">кейса</div>
+              </div>
+              <div className="w-px h-8 bg-white/10"></div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white">100%</div>
+                <div className="text-xs">из практики</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. ПОПРОБУЙТЕ ПРЯМО СЕЙЧАС (Интерактив) */}
       <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
         {/* Abstract Background */}
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
