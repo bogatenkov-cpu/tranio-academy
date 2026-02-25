@@ -15,8 +15,34 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tranio Academy - Эксперт зарубежной недвижимости",
-  description: "Комплексная платформа для изучения рынков недвижимости в разных странах",
+  title: "RE Academy — Зарубежная недвижимость: курс и тренажёр",
+  description: "Интерактивный курс на 3 реальных кейса (38 шагов) и тренажёр знаний (200+ вопросов по 6 странам). Учитесь анализировать инвестиции в недвижимость на практике.",
+  metadataBase: new URL("https://www.reacademy.io"),
+  openGraph: {
+    title: "RE Academy — Зарубежная недвижимость: курс и тренажёр",
+    description: "Интерактивный курс: 3 кейса · 38 шагов. Тренажёр знаний: 200+ вопросов · 6 стран. Образовательная платформа для профессионалов рынка недвижимости.",
+    url: "https://www.reacademy.io",
+    siteName: "RE Academy",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RE Academy — Зарубежная недвижимость: курс и тренажёр",
+      },
+    ],
+    locale: "ru_RU",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "RE Academy — Зарубежная недвижимость: курс и тренажёр",
+    description: "Интерактивный курс: 3 кейса · 38 шагов. Тренажёр знаний: 200+ вопросов · 6 стран. Учитесь инвестировать на реальных проектах.",
+    images: ["/og-image.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
