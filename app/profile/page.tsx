@@ -286,40 +286,36 @@ export default function ProfilePage() {
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-10 max-w-5xl">
 
         {/* Profile Header Card */}
-        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-6 sm:mb-8">
-          <div className="h-24 sm:h-32 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 relative">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.15),transparent_60%)]" />
+        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-8 mb-6 sm:mb-8">
+          <div className="flex items-center gap-4 sm:gap-5 mb-6">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-xl sm:text-2xl font-bold shrink-0">
+              {initials || <User className="w-8 h-8" />}
+            </div>
+            <div className="min-w-0">
+              <h1 className="text-xl sm:text-2xl font-bold text-slate-900 truncate">{userName}</h1>
+              <p className="text-slate-400 text-sm truncate">{userEmail}</p>
+            </div>
           </div>
-          <div className="px-5 sm:px-8 pb-6 sm:pb-8 -mt-10 sm:-mt-12 relative">
-            <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-lg ring-4 ring-white">
-                {initials || <User className="w-10 h-10 sm:w-12 sm:h-12" />}
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 rounded-xl p-3.5 text-center">
+              <div className="text-2xl sm:text-3xl font-extrabold text-indigo-600">{userStats.totalPoints}</div>
+              <div className="text-xs text-slate-500 mt-0.5">баллов</div>
+            </div>
+            <div className="bg-slate-50 border border-slate-100 rounded-xl p-3.5 text-center">
+              <div className="text-2xl sm:text-3xl font-extrabold text-slate-800">{studiedCardsCount}</div>
+              <div className="text-xs text-slate-500 mt-0.5">вопросов</div>
+            </div>
+            <div className="bg-slate-50 border border-slate-100 rounded-xl p-3.5 text-center">
+              <div className="text-2xl sm:text-3xl font-extrabold text-slate-800">{userStats.studyDays}</div>
+              <div className="text-xs text-slate-500 mt-0.5">дней</div>
+            </div>
+            <div className="bg-orange-50 border border-orange-100 rounded-xl p-3.5 text-center">
+              <div className="flex items-center justify-center gap-1">
+                <Flame className="w-5 h-5 text-orange-500" />
+                <span className="text-2xl sm:text-3xl font-extrabold text-orange-600">{userStats.streak}</span>
               </div>
-              <div className="flex-1 pt-1 sm:pt-3">
-                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-1">{userName}</h1>
-                <p className="text-slate-500 mb-3 text-sm sm:text-base">{userEmail}</p>
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs sm:text-sm text-slate-500">
-                  <span className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                    {new Date(userStats.joinDate).toLocaleDateString()}
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-slate-400" />
-                    {userStats.studyDays} дн. обучения
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <Flame className="w-3.5 h-3.5 text-orange-400" />
-                    {userStats.streak} подряд
-                  </span>
-                </div>
-              </div>
-              <div className="sm:text-right sm:pt-3 flex sm:flex-col items-baseline sm:items-end gap-2 sm:gap-0">
-                <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent leading-tight">
-                  {userStats.totalPoints}
-                </div>
-                <div className="text-sm text-slate-500">баллов</div>
-                <div className="hidden sm:block text-xs text-slate-400 mt-1">{studiedCardsCount} вопросов изучено</div>
-              </div>
+              <div className="text-xs text-slate-500 mt-0.5">стрик</div>
             </div>
           </div>
         </div>
