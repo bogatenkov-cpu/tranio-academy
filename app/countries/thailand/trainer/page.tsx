@@ -1862,26 +1862,21 @@ export default function TrainerPage() {
       setIsAnimating(false);
     }, 300);
     
-    // Сохраняем в Supabase
-    const pointsToAdd = isCorrect ? 2 : 1;
     const categoryName = categories.find(c => c.id === questionBeingAnswered.category)?.name || 'Общие';
     
     if (isCorrect) {
       setScore(prev => ({ ...prev, correct: prev.correct + 1, total: prev.total + 1 }));
       setStreak(prev => prev + 1);
       
-      // Сохраняем в Supabase
       updateStreak(true);
-      addPoints(pointsToAdd);
-      addActivity('trainer', `Тренажёр: ${categoryName}`, pointsToAdd);
+      addPoints(2);
+      addActivity('trainer', `Тренажёр: ${categoryName}`, 2);
     } else {
       setScore(prev => ({ ...prev, total: prev.total + 1 }));
       setStreak(0);
       
-      // Сохраняем в Supabase
       updateStreak(false);
-      addPoints(pointsToAdd);
-      addActivity('trainer', `Тренажёр: ${categoryName}`, pointsToAdd);
+      addActivity('trainer', `Тренажёр: ${categoryName} (ошибка)`, 0);
     }
 
     if (questionBeingAnswered) {
