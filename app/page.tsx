@@ -75,7 +75,14 @@ export default function Home() {
       const { error } = await signIn(email, password);
       
       if (error) {
-        setError('Неверный email или пароль');
+        if (error.message?.includes('Email not confirmed')) {
+          setError('Email не подтвержден. Проверьте почту (включая спам) и перейдите по ссылке подтверждения.');
+        } else if (error.message?.includes('Invalid login credentials')) {
+          setError('Неверный email или пароль');
+        } else {
+          setError('Ошибка входа: ' + (error.message || 'Попробуйте позже'));
+        }
+        console.error('Sign in error:', error);
       } else {
         router.push('/countries');
       }
