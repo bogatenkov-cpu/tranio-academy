@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight, ChevronDown, Lightbulb, HelpCircle, Sparkles, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, Lightbulb, HelpCircle, Sparkles, ArrowRight, ExternalLink, MapPin } from 'lucide-react';
 
 interface CourseLessonLayoutProps {
   moduleNumber: number;
@@ -211,6 +211,32 @@ export function InfoBlock({ title, children }: { title?: string; children: React
         {children}
       </div>
     </div>
+  );
+}
+
+export function LinkCard({ href, title, description, icon }: { href: string; title: string; description?: string; icon?: 'map' | 'link' }) {
+  const IconComponent = icon === 'map' ? MapPin : ExternalLink;
+  const colors = icon === 'map'
+    ? 'border-emerald-500/20 bg-emerald-500/[0.05] hover:bg-emerald-500/[0.1]'
+    : 'border-blue-500/20 bg-blue-500/[0.05] hover:bg-blue-500/[0.1]';
+  const iconColor = icon === 'map' ? 'text-emerald-400' : 'text-blue-400';
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`flex items-center gap-3 p-3 sm:p-4 rounded-xl border ${colors} transition-colors group`}
+    >
+      <div className={`w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0 ${iconColor}`}>
+        <IconComponent className="w-4 h-4" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="text-sm font-medium text-white group-hover:text-blue-300 transition-colors">{title}</div>
+        {description && <div className="text-xs text-slate-500 mt-0.5 truncate">{description}</div>}
+      </div>
+      <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-slate-400 transition-colors flex-shrink-0" />
+    </a>
   );
 }
 
