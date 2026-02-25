@@ -1,8 +1,9 @@
 'use client';
 import React, { useState } from 'react';
-import { Home, IdCard } from 'lucide-react';
+import { IdCard } from 'lucide-react';
 import Link from 'next/link';
 import { useLesson } from '@/lib/hooks/useLesson';
+import { AppHeader, AppFooter } from '@/components/AppShell';
 
 export default function LessonPage() {
   useLesson('residence-citizenship', 'Урок 6: Виза и резидентство');
@@ -11,40 +12,7 @@ export default function LessonPage() {
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">
-      <header className="fixed w-full top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200 transition-all duration-300">
-        <div className="container mx-auto px-3 sm:px-6 h-14 sm:h-16 flex justify-between items-center">
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Link href="/countries/thailand/theory" className="p-1.5 sm:p-2 hover:bg-slate-100 rounded-lg transition-all">
-              <Home className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" />
-            </Link>
-            <Link href="/countries" className="flex items-center gap-2 sm:gap-3 group cursor-pointer">
-              <div className="w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <svg viewBox="0 0 100 100" className="w-7 h-7 sm:w-9 sm:h-9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M50 5 C30 5, 5 20, 5 40 C5 55, 15 65, 25 70 C15 75, 10 85, 15 95" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M50 15 C35 15, 15 25, 15 42 C15 52, 22 60, 30 65" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M50 25 C40 25, 25 32, 25 45 C25 52, 30 58, 38 62" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <circle cx="50" cy="50" r="8" fill="#1e40af"/>
-                  <path d="M50 95 C70 95, 95 80, 95 60 C95 45, 85 35, 75 30 C85 25, 90 15, 85 5" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M50 85 C65 85, 85 75, 85 58 C85 48, 78 40, 70 35" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M50 75 C60 75, 75 68, 75 55 C75 48, 70 42, 62 38" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <div className="hidden sm:flex flex-col">
-                <span className="font-bold text-base sm:text-lg leading-none tracking-tight text-slate-900">Tranio Academy</span>
-                <span className="text-[10px] sm:text-[11px] text-slate-500 font-medium uppercase tracking-wide mt-0.5 sm:mt-1">🇹🇭 Урок 5</span>
-              </div>
-            </Link>
-          </div>
-          <Link href="/profile" className="relative group cursor-pointer">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </div>
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 border-2 border-white rounded-full"></span>
-          </Link>
-        </div>
-      </header>
+      <AppHeader backHref="/countries/thailand/theory" subtitle="Урок" />
 
       <div className="bg-indigo-600 text-white pt-20 sm:pt-24 pb-8 sm:pb-10">
         <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
@@ -146,15 +114,7 @@ export default function LessonPage() {
 
       </main>
 
-      <footer className="mt-auto py-4 border-t border-slate-200 bg-white transition-colors">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-slate-400">© 2025 Tranio Academy. Все права защищены.</p>
-          <div className="flex gap-4">
-            <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Поддержка</a>
-            <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Политика</a>
-          </div>
-        </div>
-      </footer>
+      <AppFooter />
     </div>
   );
 }

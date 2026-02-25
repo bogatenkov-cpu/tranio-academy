@@ -1,8 +1,9 @@
 'use client';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Award, ArrowLeft, CheckCircle, Trophy, RotateCcw, Clock, Loader2 } from 'lucide-react';
+import { Award, CheckCircle, Trophy, RotateCcw, Clock, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { AppHeader, AppFooter } from '@/components/AppShell';
 import { useAuth } from '@/contexts/AuthContext';
 import { useProgress } from '@/lib/hooks/useProgress';
 
@@ -328,33 +329,7 @@ export default function ExamPage() {
   if (!isExamStarted) {
     return (
       <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">
-        {/* Header */}
-        <header className="fixed w-full top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200 transition-all duration-300">
-          <div className="container mx-auto px-6 h-20 flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <Link href="/countries/thailand" className="p-2 hover:bg-slate-100 rounded-xl transition-all">
-                <ArrowLeft className="w-5 h-5 text-slate-600" />
-              </Link>
-              <Link href="/countries" className="flex items-center gap-3 group cursor-pointer">
-                <div className="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
-                  <svg viewBox="0 0 100 100" className="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M50 5 C30 5, 5 20, 5 40 C5 55, 15 65, 25 70 C15 75, 10 85, 15 95" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                    <path d="M50 15 C35 15, 15 25, 15 42 C15 52, 22 60, 30 65" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                    <path d="M50 25 C40 25, 25 32, 25 45 C25 52, 30 58, 38 62" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                    <circle cx="50" cy="50" r="8" fill="#1e40af"/>
-                    <path d="M50 95 C70 95, 95 80, 95 60 C95 45, 85 35, 75 30 C85 25, 90 15, 85 5" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                    <path d="M50 85 C65 85, 85 75, 85 58 C85 48, 78 40, 70 35" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                    <path d="M50 75 C60 75, 75 68, 75 55 C75 48, 70 42, 62 38" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-bold text-lg leading-none tracking-tight text-slate-900">Tranio Academy</span>
-                  <span className="text-[11px] text-slate-500 font-medium uppercase tracking-wide mt-1">🇹🇭 Экзамен</span>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </header>
+        <AppHeader backHref="/countries/thailand" subtitle="Экзамен" />
 
         {/* Main */}
         <main className="flex-grow container mx-auto px-4 pt-24 pb-8">
@@ -408,18 +383,7 @@ export default function ExamPage() {
           </div>
         </main>
 
-        {/* Footer */}
-        <footer className="mt-auto py-4 border-t border-slate-200 bg-white transition-colors">
-          <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-slate-400">
-              © 2025 Tranio Academy. Все права защищены.
-            </p>
-            <div className="flex gap-4">
-              <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Поддержка</a>
-              <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Политика</a>
-            </div>
-          </div>
-        </footer>
+        <AppFooter />
       </div>
     );
   }
@@ -430,33 +394,7 @@ export default function ExamPage() {
 
     return (
       <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">
-        {/* Header */}
-        <header className="fixed w-full top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200 transition-all duration-300">
-          <div className="container mx-auto px-6 h-20 flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <Link href="/countries/thailand" className="p-2 hover:bg-slate-100 rounded-xl transition-all">
-                <ArrowLeft className="w-5 h-5 text-slate-600" />
-              </Link>
-              <Link href="/countries" className="flex items-center gap-3 group cursor-pointer">
-                <div className="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
-                  <svg viewBox="0 0 100 100" className="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M50 5 C30 5, 5 20, 5 40 C5 55, 15 65, 25 70 C15 75, 10 85, 15 95" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                    <path d="M50 15 C35 15, 15 25, 15 42 C15 52, 22 60, 30 65" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                    <path d="M50 25 C40 25, 25 32, 25 45 C25 52, 30 58, 38 62" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                    <circle cx="50" cy="50" r="8" fill="#1e40af"/>
-                    <path d="M50 95 C70 95, 95 80, 95 60 C95 45, 85 35, 75 30 C85 25, 90 15, 85 5" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                    <path d="M50 85 C65 85, 85 75, 85 58 C85 48, 78 40, 70 35" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                    <path d="M50 75 C60 75, 75 68, 75 55 C75 48, 70 42, 62 38" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-bold text-lg leading-none tracking-tight text-slate-900">Tranio Academy</span>
-                  <span className="text-[11px] text-slate-500 font-medium uppercase tracking-wide mt-1">🇹🇭 Результаты</span>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </header>
+        <AppHeader backHref="/countries/thailand" subtitle="Результаты" />
 
         {/* Main */}
         <main className="flex-grow container mx-auto px-4 pt-24 pb-8">
@@ -529,50 +467,19 @@ export default function ExamPage() {
           </div>
         </main>
 
-        {/* Footer */}
-        <footer className="mt-auto py-4 border-t border-slate-200 bg-white transition-colors">
-          <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-slate-400">
-              © 2025 Tranio Academy. Все права защищены.
-            </p>
-            <div className="flex gap-4">
-              <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Поддержка</a>
-              <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Политика</a>
-            </div>
-          </div>
-        </footer>
+        <AppFooter />
       </div>
     );
   }
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">
-      {/* Header */}
-      <header className="fixed w-full top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200 transition-all duration-300">
-        <div className="container mx-auto px-6 h-20 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <Link href="/countries/thailand" className="p-2 hover:bg-slate-100 rounded-xl transition-all">
-              <ArrowLeft className="w-5 h-5 text-slate-600" />
-            </Link>
-            <Link href="/countries" className="flex items-center gap-3 group cursor-pointer">
-              <div className="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <svg viewBox="0 0 100 100" className="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M50 5 C30 5, 5 20, 5 40 C5 55, 15 65, 25 70 C15 75, 10 85, 15 95" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M50 15 C35 15, 15 25, 15 42 C15 52, 22 60, 30 65" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M50 25 C40 25, 25 32, 25 45 C25 52, 30 58, 38 62" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <circle cx="50" cy="50" r="8" fill="#1e40af"/>
-                  <path d="M50 95 C70 95, 95 80, 95 60 C95 45, 85 35, 75 30 C85 25, 90 15, 85 5" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M50 85 C65 85, 85 75, 85 58 C85 48, 78 40, 70 35" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M50 75 C60 75, 75 68, 75 55 C75 48, 70 42, 62 38" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-lg leading-none tracking-tight text-slate-900">Tranio Academy</span>
-                <span className="text-[11px] text-slate-500 font-medium uppercase tracking-wide mt-1">🇹🇭 Экзамен</span>
-              </div>
-            </Link>
-          </div>
-          <div className="flex items-center gap-4">
+      <AppHeader backHref="/countries/thailand" subtitle="Экзамен" />
+
+      {/* Main */}
+      <main className="flex-grow container mx-auto px-4 pt-24 pb-8">
+        <div className="max-w-3xl mx-auto">
+          <div className="flex items-center justify-end gap-4 mb-4">
             <div className="flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-200 text-red-700 rounded-xl">
               <Clock className="w-5 h-5" />
               <span className="font-bold">{formatTime(timeRemaining)}</span>
@@ -581,12 +488,6 @@ export default function ExamPage() {
               {currentQuestionIndex + 1} / {examQuestions.length}
             </div>
           </div>
-        </div>
-      </header>
-
-      {/* Main */}
-      <main className="flex-grow container mx-auto px-4 pt-24 pb-8">
-        <div className="max-w-3xl mx-auto">
           {/* Progress */}
           <div className="mb-6">
             <div className="flex items-center justify-between mb-2">
@@ -679,18 +580,7 @@ export default function ExamPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="mt-auto py-4 border-t border-slate-200 bg-white transition-colors">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-slate-400">
-            © 2025 Tranio Academy. Все права защищены.
-          </p>
-          <div className="flex gap-4">
-            <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Поддержка</a>
-            <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Политика</a>
-          </div>
-        </div>
-      </footer>
+      <AppFooter />
     </div>
   );
 }

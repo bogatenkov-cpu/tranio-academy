@@ -1,10 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, ArrowLeft, BookOpen, Brain, Trophy, Calendar, TrendingUp, Settings, Clock, Flame, Star, LogOut, Loader2 } from 'lucide-react';
+import { User, BookOpen, Brain, Trophy, Calendar, TrendingUp, Settings, Clock, Flame, Star, LogOut, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { createClient } from '@/lib/supabase/client';
+import AppShell from '@/components/AppShell';
 
 interface Activity {
   id: string;
@@ -81,7 +82,6 @@ export default function ProfilePage() {
     try {
       setLoading(true);
 
-      // Загружаем профиль
       const { data: profile } = await supabase
         .from('profiles')
         .select('*')
@@ -97,7 +97,6 @@ export default function ProfilePage() {
         }));
       }
 
-      // Загружаем прогресс по Таиланду
       const { data: progress } = await supabase
         .from('user_progress')
         .select('*')
@@ -132,7 +131,6 @@ export default function ProfilePage() {
         ]);
       }
 
-      // Загружаем активности
       const { data: activities } = await supabase
         .from('activities')
         .select('*')
@@ -150,7 +148,6 @@ export default function ProfilePage() {
           country: a.country
         })));
 
-        // Подсчитываем уникальные дни обучения
         const uniqueDates = new Set(
           activities.map((a: any) => new Date(a.created_at).toDateString())
         );
@@ -201,11 +198,20 @@ export default function ProfilePage() {
     }
   };
 
+  const getActivityColor = (type: string) => {
+    switch (type) {
+      case 'lesson': return 'bg-emerald-50 text-emerald-600';
+      case 'trainer': return 'bg-violet-50 text-violet-600';
+      case 'exam': return 'bg-amber-50 text-amber-600';
+      default: return 'bg-blue-50 text-blue-600';
+    }
+  };
+
   const getRankColor = (position: number) => {
-    if (position === 1) return 'text-yellow-600 bg-yellow-100';
-    if (position === 2) return 'text-slate-600 bg-slate-100';
-    if (position === 3) return 'text-orange-600 bg-orange-100';
-    return 'text-blue-600 bg-blue-100';
+    if (position === 1) return 'text-yellow-700 bg-gradient-to-br from-yellow-100 to-amber-100';
+    if (position === 2) return 'text-slate-600 bg-gradient-to-br from-slate-100 to-slate-200';
+    if (position === 3) return 'text-orange-700 bg-gradient-to-br from-orange-100 to-amber-50';
+    return 'text-blue-600 bg-blue-50';
   };
 
   if (authLoading || loading) {
@@ -216,230 +222,193 @@ export default function ProfilePage() {
     );
   }
 
-  return (
-    <div className="bg-slate-50 min-h-screen flex flex-col font-sans antialiased">
-      <header className="fixed w-full top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200 transition-all duration-300">
-        <div className="container mx-auto px-3 sm:px-6 h-14 sm:h-16 md:h-20 flex justify-between items-center">
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Link href="/countries" className="p-1.5 sm:p-2 hover:bg-slate-100 rounded-lg transition-all">
-              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" />
-            </Link>
-            <Link href="/" className="flex items-center gap-2 sm:gap-3 group cursor-pointer">
-              <div className="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M50 5 C30 5, 5 20, 5 40 C5 55, 15 65, 25 70 C15 75, 10 85, 15 95" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M50 15 C35 15, 15 25, 15 42 C15 52, 22 60, 30 65" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M50 25 C40 25, 25 32, 25 45 C25 52, 30 58, 38 62" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <circle cx="50" cy="50" r="8" fill="#1e40af"/>
-                  <path d="M50 95 C70 95, 95 80, 95 60 C95 45, 85 35, 75 30 C85 25, 90 15, 85 5" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M50 85 C65 85, 85 75, 85 58 C85 48, 78 40, 70 35" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M50 75 C60 75, 75 68, 75 55 C75 48, 70 42, 62 38" stroke="#1e40af" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <div className="hidden sm:flex flex-col">
-                <span className="font-bold text-sm sm:text-base md:text-lg leading-none tracking-tight text-slate-900">Tranio Academy</span>
-                <span className="text-[10px] sm:text-[11px] text-slate-500 font-medium uppercase tracking-wide mt-0.5 md:mt-1">Профиль</span>
-              </div>
-            </Link>
-          </div>
-          <div className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-purple-50 text-purple-700 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm border border-purple-200">
-            <User className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">Профиль</span>
-          </div>
-        </div>
-      </header>
+  const initials = userName
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
 
-      <main className="flex-grow container mx-auto px-3 sm:px-6 py-20 sm:py-24 md:py-32 max-w-6xl">
-        {/* Profile Header */}
-        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 md:p-8 mb-6 sm:mb-8">
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
-            <div className="p-4 sm:p-6 bg-purple-50 rounded-xl sm:rounded-2xl border border-purple-100">
-              <User className="w-12 h-12 sm:w-16 sm:h-16 text-purple-600" />
-            </div>
-            <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">{userName}</h1>
-              <p className="text-slate-600 mb-3 sm:mb-4 text-sm sm:text-base">{userEmail}</p>
-              <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-slate-500">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
-                  Регистрация: {new Date(userStats.joinDate).toLocaleDateString()}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                  Дней: {userStats.studyDays}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Flame className="w-3 h-3 sm:w-4 sm:h-4" />
-                  Стрик: {userStats.streak} подряд
+  return (
+    <AppShell backHref="/countries" subtitle="Профиль" showProfile={false} userName={userName}>
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-10 max-w-5xl">
+
+        {/* Profile Header Card */}
+        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-6 sm:mb-8">
+          <div className="h-24 sm:h-32 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 relative">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.15),transparent_60%)]" />
+          </div>
+          <div className="px-5 sm:px-8 pb-6 sm:pb-8 -mt-10 sm:-mt-12 relative">
+            <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-lg ring-4 ring-white">
+                {initials || <User className="w-10 h-10 sm:w-12 sm:h-12" />}
+              </div>
+              <div className="flex-1 pt-1 sm:pt-3">
+                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-1">{userName}</h1>
+                <p className="text-slate-500 mb-3 text-sm sm:text-base">{userEmail}</p>
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs sm:text-sm text-slate-500">
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                    {new Date(userStats.joinDate).toLocaleDateString()}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-slate-400" />
+                    {userStats.studyDays} дн. обучения
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Flame className="w-3.5 h-3.5 text-orange-400" />
+                    {userStats.streak} подряд
+                  </span>
                 </div>
               </div>
-            </div>
-            <div className="text-center sm:text-right">
-              <div className="text-3xl sm:text-4xl font-bold text-purple-600 mb-1">{userStats.totalPoints}</div>
-              <div className="text-xs sm:text-sm text-slate-600">баллов</div>
-              <div className="text-[10px] sm:text-xs text-slate-500 mt-1">
-                {studiedCardsCount} вопросов
+              <div className="sm:text-right sm:pt-3 flex sm:flex-col items-baseline sm:items-end gap-2 sm:gap-0">
+                <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent leading-tight">
+                  {userStats.totalPoints}
+                </div>
+                <div className="text-sm text-slate-500">баллов</div>
+                <div className="hidden sm:block text-xs text-slate-400 mt-1">{studiedCardsCount} вопросов изучено</div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8">
-          <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-3 sm:p-4 md:p-6">
-            <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-              <div className="p-2 sm:p-3 bg-purple-50 rounded-lg sm:rounded-xl">
-                <Brain className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-purple-600" />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+          {[
+            { icon: Brain, label: 'Баллы', sub: 'Тренажер', value: userStats.totalPoints, unit: 'баллов', color: 'from-violet-500 to-purple-600', bg: 'bg-violet-50' },
+            { icon: Trophy, label: 'Экзамены', sub: 'Средний балл', value: userStats.examCount > 0 ? `${userStats.examAverage}%` : '—', unit: `${userStats.examCount} сдано`, color: 'from-blue-500 to-cyan-600', bg: 'bg-blue-50' },
+            { icon: Flame, label: 'Стрик', sub: 'Правильных', value: userStats.streak, unit: `макс. ${userStats.maxStreak}`, color: 'from-orange-500 to-red-500', bg: 'bg-orange-50' },
+            { icon: Star, label: 'Рейтинг', sub: 'Место', value: `#${userStats.rank}`, unit: `из ${userStats.totalUsers}`, color: 'from-amber-500 to-yellow-500', bg: 'bg-amber-50' },
+          ].map((stat, i) => (
+            <div key={i} className="bg-white border border-slate-200 rounded-2xl shadow-sm p-4 sm:p-5 hover:shadow-md hover:border-slate-300 transition-all group">
+              <div className="flex items-center gap-2.5 mb-3">
+                <div className={`p-2 rounded-xl ${stat.bg}`}>
+                  <stat.icon className={`w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-br ${stat.color} bg-clip-text`} style={{ color: 'inherit' }} />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate-900 text-xs sm:text-sm leading-tight">{stat.label}</h3>
+                  <p className="text-[10px] sm:text-xs text-slate-400">{stat.sub}</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-bold text-slate-900 text-xs sm:text-sm md:text-base">Баллы</h3>
-                <p className="text-[10px] sm:text-xs text-slate-600">Тренажер</p>
-              </div>
+              <div className="text-2xl sm:text-3xl font-bold text-slate-900 mb-0.5 group-hover:text-indigo-600 transition-colors">{stat.value}</div>
+              <div className="text-[10px] sm:text-xs text-slate-400">{stat.unit}</div>
             </div>
-            <div className="text-2xl sm:text-3xl font-bold text-purple-600 mb-0.5 sm:mb-1">{userStats.totalPoints}</div>
-            <div className="text-[10px] sm:text-xs md:text-sm text-slate-500">баллов</div>
-          </div>
-
-          <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-3 sm:p-4 md:p-6">
-            <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-              <div className="p-2 sm:p-3 bg-blue-50 rounded-lg sm:rounded-xl">
-                <Trophy className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-blue-600" />
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-900 text-xs sm:text-sm md:text-base">Экзамены</h3>
-                <p className="text-[10px] sm:text-xs text-slate-600">Средний</p>
-              </div>
-            </div>
-            <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-0.5 sm:mb-1">
-              {userStats.examCount > 0 ? `${userStats.examAverage}%` : '—'}
-            </div>
-            <div className="text-[10px] sm:text-xs md:text-sm text-slate-500">{userStats.examCount} сдано</div>
-          </div>
-
-          <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-3 sm:p-4 md:p-6">
-            <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-              <div className="p-2 sm:p-3 bg-orange-50 rounded-lg sm:rounded-xl">
-                <Flame className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-orange-600" />
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-900 text-xs sm:text-sm md:text-base">Стрик</h3>
-                <p className="text-[10px] sm:text-xs text-slate-600">Правильных</p>
-              </div>
-            </div>
-            <div className="text-2xl sm:text-3xl font-bold text-orange-600 mb-0.5 sm:mb-1">{userStats.streak}</div>
-            <div className="text-[10px] sm:text-xs md:text-sm text-slate-500">макс. {userStats.maxStreak}</div>
-          </div>
-
-          <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-3 sm:p-4 md:p-6">
-            <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-              <div className={`p-2 sm:p-3 rounded-lg sm:rounded-xl ${getRankColor(userStats.rank)}`}>
-                <Star className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-900 text-xs sm:text-sm md:text-base">Рейтинг</h3>
-                <p className="text-[10px] sm:text-xs text-slate-600">Место</p>
-              </div>
-            </div>
-            <div className="text-2xl sm:text-3xl font-bold text-yellow-600 mb-0.5 sm:mb-1">#{userStats.rank}</div>
-            <div className="text-[10px] sm:text-xs md:text-sm text-slate-500">из {userStats.totalUsers}</div>
-          </div>
+          ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
-          {/* Countries */}
-          <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 md:p-8">
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6">Прогресс по странам</h2>
-            <div className="space-y-3 sm:space-y-4">
-              {countries.map((country, index) => (
-                <div key={index} className="p-3 sm:p-4 bg-slate-50 border border-slate-100 rounded-lg sm:rounded-xl">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <div className="text-xl sm:text-2xl">{country.flag}</div>
-                      <div>
-                        <h4 className="font-semibold text-slate-900 text-sm sm:text-base">{country.name}</h4>
-                        <p className="text-xs sm:text-sm text-slate-600">
-                          {country.lessons}/{country.total} уроков
-                        </p>
+        {/* Two-column: Countries + Leaderboard */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+
+          {/* Countries Progress */}
+          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7">
+            <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-5">Прогресс по странам</h2>
+            <div className="space-y-3">
+              {countries.map((country, index) => {
+                const pct = country.maxPoints > 0 ? Math.round((country.points / country.maxPoints) * 100) : 0;
+                return (
+                  <div key={index} className="p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:border-slate-200 transition-all">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{country.flag}</span>
+                        <div>
+                          <h4 className="font-semibold text-slate-900 text-sm sm:text-base leading-tight">{country.name}</h4>
+                          <p className="text-xs text-slate-500">{country.lessons} из {country.total} уроков</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold text-indigo-600 text-sm">{country.points}</div>
+                        <div className="text-[10px] text-slate-400">баллов</div>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className="font-bold text-purple-600 text-sm sm:text-base">{country.points}</div>
-                      <div className="text-[10px] sm:text-xs text-slate-500">баллов</div>
-                    </div>
+                    {country.maxPoints > 0 && (
+                      <div className="w-full h-1.5 bg-slate-200 rounded-full mb-3 overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-500"
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+                    )}
+                    {country.maxPoints > 0 ? (
+                      <Link
+                        href="/countries/thailand"
+                        className="block w-full py-2 px-3 bg-indigo-50 text-indigo-700 rounded-lg text-xs sm:text-sm font-semibold hover:bg-indigo-100 transition-colors text-center"
+                      >
+                        Продолжить
+                      </Link>
+                    ) : (
+                      <div className="w-full py-2 px-3 bg-slate-100 text-slate-400 rounded-lg text-xs sm:text-sm font-medium text-center">
+                        Скоро
+                      </div>
+                    )}
                   </div>
-                  {country.maxPoints > 0 ? (
-                    <Link
-                      href={`/countries/thailand`}
-                      className="block w-full py-2 px-3 bg-blue-50 text-blue-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-100 transition-all text-center"
-                    >
-                      Продолжить
-                    </Link>
-                  ) : (
-                    <div className="w-full py-2 px-3 bg-slate-100 text-slate-500 rounded-lg text-xs sm:text-sm font-medium text-center">
-                      Скоро
-                    </div>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
           {/* Leaderboard */}
-          <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 md:p-8">
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6">Топ участников</h2>
-            <div className="space-y-2 sm:space-y-3">
-              {topUsers.map((topUser, index) => (
-                <div 
-                  key={index} 
-                  className={`p-3 sm:p-4 rounded-lg sm:rounded-xl ${topUser.name === userName ? 'bg-purple-50 border-2 border-purple-200' : 'bg-slate-50 border border-slate-100'}`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold ${getRankColor(topUser.position)}`}>
-                        {topUser.position}
-                      </div>
-                      <h4 className="font-semibold text-slate-900 text-sm sm:text-base">
-                        {topUser.name === userName ? 'Вы' : topUser.name}
-                      </h4>
+          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7">
+            <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-5">Топ участников</h2>
+            <div className="space-y-2">
+              {topUsers.map((topUser, index) => {
+                const isMe = topUser.name === userName;
+                return (
+                  <div
+                    key={index}
+                    className={`flex items-center gap-3 p-3 sm:p-3.5 rounded-xl transition-all ${
+                      isMe
+                        ? 'bg-indigo-50/70 border border-indigo-200 shadow-sm'
+                        : 'border border-transparent hover:bg-slate-50 hover:border-slate-100'
+                    }`}
+                  >
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${getRankColor(topUser.position)}`}>
+                      {topUser.position}
                     </div>
-                    <div className="text-right">
-                      <div className="font-bold text-purple-600 text-sm sm:text-base">{topUser.points}</div>
-                      <div className="text-[10px] sm:text-xs text-slate-500">баллов</div>
+                    <div className="flex-1 min-w-0">
+                      <span className={`text-sm font-semibold truncate block ${isMe ? 'text-indigo-700' : 'text-slate-800'}`}>
+                        {isMe ? `${topUser.name} (вы)` : topUser.name}
+                      </span>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <span className={`text-sm font-bold ${isMe ? 'text-indigo-600' : 'text-slate-700'}`}>{topUser.points}</span>
+                      <span className="text-xs text-slate-400 ml-1">б.</span>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
 
-        {/* Activity */}
-        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 md:p-8 mb-6 sm:mb-8">
-          <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-            <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-slate-600" />
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Последняя активность</h2>
+        {/* Activity Feed */}
+        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7 mb-6 sm:mb-8">
+          <div className="flex items-center gap-2.5 mb-5">
+            <TrendingUp className="w-5 h-5 text-slate-400" />
+            <h2 className="text-lg sm:text-xl font-bold text-slate-900">Последняя активность</h2>
           </div>
-          <div className="space-y-3 sm:space-y-4">
+          <div className="space-y-1">
             {recentActivity.map((activity, index) => (
-              <div key={index} className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-slate-50 border border-slate-100 rounded-lg sm:rounded-xl">
-                <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
+              <div
+                key={index}
+                className="flex items-center gap-3 sm:gap-4 p-3 sm:p-3.5 rounded-xl hover:bg-slate-50 transition-colors group"
+              >
+                <div className={`p-2 rounded-lg shrink-0 ${getActivityColor(activity.type)}`}>
                   {getActivityIcon(activity.type)}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h4 className="font-semibold text-slate-900 text-sm sm:text-base truncate">{activity.title}</h4>
-                    <span className="text-base sm:text-lg flex-shrink-0">{activity.country}</span>
+                  <div className="flex items-center gap-2">
+                    <h4 className="font-medium text-slate-800 text-sm truncate">{activity.title}</h4>
+                    <span className="text-base shrink-0">{activity.country}</span>
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-600">{new Date(activity.created_at).toLocaleDateString()}</p>
+                  <p className="text-xs text-slate-400 mt-0.5">{new Date(activity.created_at).toLocaleDateString()}</p>
                 </div>
-                <div className="text-right flex-shrink-0">
+                <div className="text-right shrink-0">
                   {activity.points > 0 ? (
-                    <>
-                      <div className="font-bold text-purple-600 text-sm sm:text-base">+{activity.points}</div>
-                      <div className="text-[10px] sm:text-xs text-slate-500">баллов</div>
-                    </>
+                    <span className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
+                      +{activity.points}
+                    </span>
                   ) : (
-                    <div className="text-xs sm:text-sm text-slate-500">изучено</div>
+                    <span className="text-xs text-slate-400">изучено</span>
                   )}
                 </div>
               </div>
@@ -447,39 +416,29 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
-          <div className="flex items-center gap-2 sm:gap-3 mb-4">
-            <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
+        {/* Quick Actions */}
+        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7">
+          <div className="flex items-center gap-2.5 mb-4">
+            <Settings className="w-5 h-5 text-slate-400" />
             <h3 className="text-lg sm:text-xl font-bold text-slate-900">Быстрые действия</h3>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Link
               href="/countries"
-              className="py-2.5 sm:py-3 px-4 bg-blue-50 text-blue-700 rounded-lg sm:rounded-xl font-semibold hover:bg-blue-100 transition-all text-center text-sm sm:text-base"
+              className="py-3 px-5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-indigo-200 transition-all text-center text-sm sm:text-base"
             >
               Выбрать страну
             </Link>
             <button 
               onClick={handleSignOut}
-              className="py-2.5 sm:py-3 px-4 bg-red-50 text-red-700 rounded-lg sm:rounded-xl font-semibold hover:bg-red-100 transition-all text-sm sm:text-base flex items-center justify-center gap-2"
+              className="py-3 px-5 bg-white border border-red-200 text-red-600 rounded-xl font-semibold hover:bg-red-50 hover:border-red-300 transition-all text-sm sm:text-base flex items-center justify-center gap-2"
             >
               <LogOut className="w-4 h-4" />
               Выйти из аккаунта
             </button>
           </div>
         </div>
-      </main>
-
-      <footer className="mt-auto py-4 border-t border-slate-200 bg-white transition-colors">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-slate-400">© 2025 Tranio Academy. Все права защищены.</p>
-          <div className="flex gap-4">
-            <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Поддержка</a>
-            <a className="text-sm text-slate-400 hover:text-blue-500 transition-colors" href="#">Политика</a>
-          </div>
-        </div>
-      </footer>
-    </div>
+      </div>
+    </AppShell>
   );
 }
