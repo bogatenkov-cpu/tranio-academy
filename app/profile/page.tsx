@@ -281,244 +281,182 @@ export default function ProfilePage() {
     .toUpperCase()
     .slice(0, 2);
 
+  const coursePct = Math.round((courseStats.stepsCompleted / courseStats.totalSteps) * 100);
+
   return (
     <AppShell backHref="/countries" subtitle="Профиль" showProfile={false} userName={userName}>
-      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-10 max-w-5xl">
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-10 max-w-4xl">
 
-        {/* Profile Header Card */}
-        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-8 mb-6 sm:mb-8">
-          <div className="flex items-center gap-4 sm:gap-5 mb-6">
-            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-xl sm:text-2xl font-bold shrink-0">
-              {initials || <User className="w-8 h-8" />}
+        {/* === PROFILE HEADER === */}
+        <div className="flex items-center justify-between mb-8 sm:mb-10">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-lg sm:text-xl font-bold shrink-0 shadow-lg shadow-indigo-200">
+              {initials || <User className="w-6 h-6" />}
             </div>
-            <div className="min-w-0">
-              <h1 className="text-xl sm:text-2xl font-bold text-slate-900 truncate">{userName}</h1>
-              <p className="text-slate-400 text-sm truncate">{userEmail}</p>
+            <div>
+              <h1 className="text-lg sm:text-xl font-bold text-slate-900">{userName}</h1>
+              <p className="text-xs sm:text-sm text-slate-400">{userEmail}</p>
             </div>
           </div>
+          <button 
+            onClick={handleSignOut}
+            className="p-2.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+            title="Выйти"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
+        </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 rounded-xl p-3.5 text-center">
-              <div className="text-2xl sm:text-3xl font-extrabold text-indigo-600">{userStats.totalPoints}</div>
-              <div className="text-xs text-slate-500 mt-0.5">баллов</div>
+        {/* === MAIN STATS ROW === */}
+        <div className="grid grid-cols-4 gap-2 sm:gap-3 mb-8 sm:mb-10">
+          <div className="text-center">
+            <div className="text-2xl sm:text-3xl font-extrabold text-indigo-600">{userStats.totalPoints}</div>
+            <div className="text-[10px] sm:text-xs text-slate-400 mt-0.5">баллов</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl sm:text-3xl font-extrabold text-slate-800">{studiedCardsCount}</div>
+            <div className="text-[10px] sm:text-xs text-slate-400 mt-0.5">вопросов</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl sm:text-3xl font-extrabold text-slate-800">{userStats.examCount > 0 ? `${userStats.examAverage}%` : '—'}</div>
+            <div className="text-[10px] sm:text-xs text-slate-400 mt-0.5">экзамен</div>
+          </div>
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-1">
+              <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
+              <span className="text-2xl sm:text-3xl font-extrabold text-orange-600">{userStats.streak}</span>
             </div>
-            <div className="bg-slate-50 border border-slate-100 rounded-xl p-3.5 text-center">
-              <div className="text-2xl sm:text-3xl font-extrabold text-slate-800">{studiedCardsCount}</div>
-              <div className="text-xs text-slate-500 mt-0.5">вопросов</div>
-            </div>
-            <div className="bg-slate-50 border border-slate-100 rounded-xl p-3.5 text-center">
-              <div className="text-2xl sm:text-3xl font-extrabold text-slate-800">{userStats.studyDays}</div>
-              <div className="text-xs text-slate-500 mt-0.5">дней</div>
-            </div>
-            <div className="bg-orange-50 border border-orange-100 rounded-xl p-3.5 text-center">
-              <div className="flex items-center justify-center gap-1">
-                <Flame className="w-5 h-5 text-orange-500" />
-                <span className="text-2xl sm:text-3xl font-extrabold text-orange-600">{userStats.streak}</span>
-              </div>
-              <div className="text-xs text-slate-500 mt-0.5">стрик</div>
-            </div>
+            <div className="text-[10px] sm:text-xs text-slate-400 mt-0.5">стрик</div>
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
-          {[
-            { icon: Brain, label: 'Баллы', sub: 'Тренажер', value: userStats.totalPoints, unit: 'баллов', color: 'from-violet-500 to-purple-600', bg: 'bg-violet-50' },
-            { icon: Trophy, label: 'Экзамены', sub: 'Средний балл', value: userStats.examCount > 0 ? `${userStats.examAverage}%` : '—', unit: `${userStats.examCount} сдано`, color: 'from-blue-500 to-cyan-600', bg: 'bg-blue-50' },
-            { icon: Flame, label: 'Стрик', sub: 'Правильных', value: userStats.streak, unit: `макс. ${userStats.maxStreak}`, color: 'from-orange-500 to-red-500', bg: 'bg-orange-50' },
-            { icon: Star, label: 'Рейтинг', sub: 'Место', value: userStats.totalUsers > 0 ? `#${userStats.rank}` : '—', unit: userStats.totalUsers > 0 ? `из ${userStats.totalUsers}` : 'нет данных', color: 'from-amber-500 to-yellow-500', bg: 'bg-amber-50' },
-          ].map((stat, i) => (
-            <div key={i} className="bg-white border border-slate-200 rounded-2xl shadow-sm p-4 sm:p-5 hover:shadow-md hover:border-slate-300 transition-all group">
-              <div className="flex items-center gap-2.5 mb-3">
-                <div className={`p-2 rounded-xl ${stat.bg}`}>
-                  <stat.icon className={`w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-br ${stat.color} bg-clip-text`} style={{ color: 'inherit' }} />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-900 text-xs sm:text-sm leading-tight">{stat.label}</h3>
-                  <p className="text-[10px] sm:text-xs text-slate-400">{stat.sub}</p>
-                </div>
-              </div>
-              <div className="text-2xl sm:text-3xl font-bold text-slate-900 mb-0.5 group-hover:text-indigo-600 transition-colors">{stat.value}</div>
-              <div className="text-[10px] sm:text-xs text-slate-400">{stat.unit}</div>
+        {/* === COURSE PROGRESS === */}
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 mb-4 sm:mb-5">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2.5">
+              <Sparkles className="w-4.5 h-4.5 text-indigo-500" />
+              <h2 className="font-bold text-slate-900">Интерактивный курс</h2>
             </div>
-          ))}
-        </div>
-
-        {/* Course Progress */}
-        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7 mb-6 sm:mb-8">
-          <div className="flex items-center gap-2.5 mb-5">
-            <Sparkles className="w-5 h-5 text-indigo-500" />
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900">Интерактивный курс</h2>
+            <span className="text-sm font-bold text-indigo-600">{coursePct}%</span>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-            {[
-              { label: 'Пройдено шагов', value: `${courseStats.stepsCompleted} / ${courseStats.totalSteps}`, pct: Math.round((courseStats.stepsCompleted / courseStats.totalSteps) * 100) },
-              { label: 'Начато кейсов', value: `${courseStats.modulesStarted} / 3`, pct: Math.round((courseStats.modulesStarted / 3) * 100) },
-              { label: 'Прогресс', value: `${Math.round((courseStats.stepsCompleted / courseStats.totalSteps) * 100)}%`, pct: Math.round((courseStats.stepsCompleted / courseStats.totalSteps) * 100) },
-            ].map((item, i) => (
-              <div key={i} className="p-4 rounded-xl border border-slate-100 bg-slate-50/50">
-                <div className="text-xs text-slate-500 mb-1">{item.label}</div>
-                <div className="text-xl font-bold text-slate-900 mb-2">{item.value}</div>
-                <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-500" style={{ width: `${item.pct}%` }} />
-                </div>
-              </div>
-            ))}
+          <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-3">
+            <div className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-500" style={{ width: `${coursePct}%` }} />
+          </div>
+          <div className="flex items-center justify-between text-xs text-slate-400 mb-4">
+            <span>{courseStats.stepsCompleted} из {courseStats.totalSteps} шагов</span>
+            <span>{courseStats.modulesStarted} из 3 кейсов начато</span>
           </div>
           <Link
             href="/course"
-            className="block w-full py-2.5 px-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-indigo-200 transition-all text-center"
+            className="block w-full py-2.5 bg-indigo-50 text-indigo-700 rounded-xl text-sm font-semibold hover:bg-indigo-100 transition-colors text-center"
           >
-            {courseStats.stepsCompleted > 0 ? 'Продолжить курс' : 'Начать курс'}
+            {courseStats.stepsCompleted > 0 ? 'Продолжить курс →' : 'Начать курс →'}
           </Link>
         </div>
 
-        {/* Two-column: Countries + Leaderboard */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
-
-          {/* Countries Progress */}
-          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7">
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-5">Тренажёр по странам</h2>
-            <div className="space-y-3">
-              {countries.map((country, index) => {
-                const pct = country.maxPoints > 0 ? Math.round((country.points / country.maxPoints) * 100) : 0;
-                return (
-                  <div key={index} className="p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:border-slate-200 transition-all">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl">{country.flag}</span>
-                        <div>
-                          <h4 className="font-semibold text-slate-900 text-sm sm:text-base leading-tight">{country.name}</h4>
-                          <p className="text-xs text-slate-500">{country.lessons} из {country.total} уроков</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-bold text-indigo-600 text-sm">{country.points}</div>
-                        <div className="text-[10px] text-slate-400">баллов</div>
-                      </div>
+        {/* === TRAINER PROGRESS === */}
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 mb-4 sm:mb-5">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2.5">
+              <Brain className="w-4.5 h-4.5 text-violet-500" />
+              <h2 className="font-bold text-slate-900">Тренажёр</h2>
+            </div>
+          </div>
+          <div className="space-y-2.5">
+            {countries.map((country, index) => {
+              const pct = country.maxPoints > 0 ? Math.round((country.points / country.maxPoints) * 100) : 0;
+              return (
+                <div key={index} className="flex items-center gap-3 group">
+                  <span className="text-xl shrink-0">{country.flag}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-medium text-slate-700">{country.name}</span>
+                      {country.maxPoints > 0 ? (
+                        <span className="text-xs text-slate-400">{country.lessons}/{country.total} уроков · {country.points} б.</span>
+                      ) : (
+                        <span className="text-xs text-slate-300">скоро</span>
+                      )}
                     </div>
-                    {country.maxPoints > 0 && (
-                      <div className="w-full h-1.5 bg-slate-200 rounded-full mb-3 overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-500"
-                          style={{ width: `${pct}%` }}
-                        />
-                      </div>
-                    )}
                     {country.maxPoints > 0 ? (
-                      <Link
-                        href="/countries/thailand"
-                        className="block w-full py-2 px-3 bg-indigo-50 text-indigo-700 rounded-lg text-xs sm:text-sm font-semibold hover:bg-indigo-100 transition-colors text-center"
-                      >
-                        Продолжить
-                      </Link>
-                    ) : (
-                      <div className="w-full py-2 px-3 bg-slate-100 text-slate-400 rounded-lg text-xs sm:text-sm font-medium text-center">
-                        Скоро
+                      <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-violet-400 to-purple-500 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
                       </div>
+                    ) : (
+                      <div className="w-full h-1.5 bg-slate-100 rounded-full" />
                     )}
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
-
-          {/* Leaderboard */}
-          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7">
-            <div className="flex items-center gap-2.5 mb-5">
-              <Users className="w-5 h-5 text-slate-400" />
-              <h2 className="text-lg sm:text-xl font-bold text-slate-900">Топ участников</h2>
-            </div>
-            {leaderboard.length === 0 ? (
-              <p className="text-sm text-slate-400 text-center py-6">Загрузка...</p>
-            ) : (
-              <div className="space-y-2">
-                {leaderboard.map((entry, index) => (
-                  <div
-                    key={index}
-                    className={`flex items-center gap-3 p-3 sm:p-3.5 rounded-xl transition-all ${
-                      entry.isMe
-                        ? 'bg-indigo-50/70 border border-indigo-200 shadow-sm'
-                        : 'border border-transparent hover:bg-slate-50 hover:border-slate-100'
-                    }`}
-                  >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${getRankColor(entry.position)}`}>
-                      {entry.position}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <span className={`text-sm font-semibold truncate block ${entry.isMe ? 'text-indigo-700' : 'text-slate-800'}`}>
-                        {entry.isMe ? `${entry.name} (вы)` : entry.name}
-                      </span>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <span className={`text-sm font-bold ${entry.isMe ? 'text-indigo-600' : 'text-slate-700'}`}>{entry.points}</span>
-                      <span className="text-xs text-slate-400 ml-1">б.</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <Link
+            href="/countries"
+            className="block w-full py-2.5 mt-4 bg-violet-50 text-violet-700 rounded-xl text-sm font-semibold hover:bg-violet-100 transition-colors text-center"
+          >
+            Перейти к тренажёру →
+          </Link>
         </div>
 
-        {/* Activity Feed */}
-        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7 mb-6 sm:mb-8">
-          <div className="flex items-center gap-2.5 mb-5">
-            <TrendingUp className="w-5 h-5 text-slate-400" />
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900">Последняя активность</h2>
+        {/* === LEADERBOARD === */}
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 mb-4 sm:mb-5">
+          <div className="flex items-center gap-2.5 mb-4">
+            <Trophy className="w-4.5 h-4.5 text-amber-500" />
+            <h2 className="font-bold text-slate-900">Рейтинг</h2>
+          </div>
+          {leaderboard.length === 0 ? (
+            <p className="text-sm text-slate-400 text-center py-4">Загрузка...</p>
+          ) : (
+            <div className="space-y-1.5">
+              {leaderboard.map((entry, index) => (
+                <div
+                  key={index}
+                  className={`flex items-center gap-3 py-2.5 px-3 rounded-xl transition-all ${
+                    entry.isMe ? 'bg-indigo-50 border border-indigo-100' : 'hover:bg-slate-50'
+                  }`}
+                >
+                  <span className={`w-6 text-center text-xs font-bold ${
+                    entry.position === 1 ? 'text-amber-500' : entry.position === 2 ? 'text-slate-400' : entry.position === 3 ? 'text-orange-400' : 'text-slate-300'
+                  }`}>
+                    {entry.position}
+                  </span>
+                  <span className={`flex-1 text-sm font-medium truncate ${entry.isMe ? 'text-indigo-700' : 'text-slate-700'}`}>
+                    {entry.isMe ? `${entry.name} (вы)` : entry.name}
+                  </span>
+                  <span className={`text-sm font-bold tabular-nums ${entry.isMe ? 'text-indigo-600' : 'text-slate-500'}`}>
+                    {entry.points} б.
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* === ACTIVITY === */}
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6">
+          <div className="flex items-center gap-2.5 mb-4">
+            <TrendingUp className="w-4.5 h-4.5 text-slate-400" />
+            <h2 className="font-bold text-slate-900">Активность</h2>
           </div>
           <div className="space-y-1">
             {recentActivity.map((activity, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-3 sm:gap-4 p-3 sm:p-3.5 rounded-xl hover:bg-slate-50 transition-colors group"
-              >
-                <div className={`p-2 rounded-lg shrink-0 ${getActivityColor(activity.type)}`}>
+              <div key={index} className="flex items-center gap-3 py-2.5 px-1 rounded-lg hover:bg-slate-50 transition-colors">
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${getActivityColor(activity.type)}`}>
                   {getActivityIcon(activity.type)}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h4 className="font-medium text-slate-800 text-sm truncate">{activity.title}</h4>
-                    <span className="text-base shrink-0">{activity.country}</span>
-                  </div>
-                  <p className="text-xs text-slate-400 mt-0.5">{new Date(activity.created_at).toLocaleDateString()}</p>
+                  <p className="text-sm font-medium text-slate-700 truncate">{activity.title}</p>
+                  <p className="text-[10px] text-slate-400">{new Date(activity.created_at).toLocaleDateString()}</p>
                 </div>
-                <div className="text-right shrink-0">
-                  {activity.points > 0 ? (
-                    <span className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
-                      +{activity.points}
-                    </span>
-                  ) : (
-                    <span className="text-xs text-slate-400">изучено</span>
-                  )}
-                </div>
+                {activity.points > 0 && (
+                  <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md shrink-0">
+                    +{activity.points}
+                  </span>
+                )}
               </div>
             ))}
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7">
-          <div className="flex items-center gap-2.5 mb-4">
-            <Settings className="w-5 h-5 text-slate-400" />
-            <h3 className="text-lg sm:text-xl font-bold text-slate-900">Быстрые действия</h3>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <Link
-              href="/countries"
-              className="py-3 px-5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-indigo-200 transition-all text-center text-sm sm:text-base"
-            >
-              Выбрать страну
-            </Link>
-            <button 
-              onClick={handleSignOut}
-              className="py-3 px-5 bg-white border border-red-200 text-red-600 rounded-xl font-semibold hover:bg-red-50 hover:border-red-300 transition-all text-sm sm:text-base flex items-center justify-center gap-2"
-            >
-              <LogOut className="w-4 h-4" />
-              Выйти из аккаунта
-            </button>
-          </div>
-        </div>
       </div>
     </AppShell>
   );
