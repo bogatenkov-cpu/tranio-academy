@@ -1,4 +1,4 @@
--- Создание таблиц для Tranio Academy
+-- Создание таблиц для RE Academy
 
 -- Таблица профилей пользователей
 CREATE TABLE IF NOT EXISTS profiles (

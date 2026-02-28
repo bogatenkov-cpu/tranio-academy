@@ -524,7 +524,7 @@ export default function Home() {
           <div className="max-w-3xl mx-auto text-center mb-14">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-sm text-slate-300 mb-6">
               <Flame className="w-3.5 h-3.5 text-orange-400" />
-              Практика на реальных кейсах Tranio
+              Практика на реальных кейсах
             </div>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
               Интерактивный курс:<br />
@@ -533,7 +533,7 @@ export default function Home() {
               </span>
             </h2>
             <p className="text-slate-400 text-lg leading-relaxed">
-              Три реальных инвестиционных кейса из практики Tranio. 
+              Три реальных инвестиционных кейса из практики международного агентства. 
               Вы — новый сотрудник. Ваша задача — проанализировать проект и принять решение: инвестировать или нет.
             </p>
           </div>

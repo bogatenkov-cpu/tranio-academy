@@ -54,7 +54,7 @@ export function AppFooter() {
       <div className="container mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-3">
         <div className="flex items-center gap-2 text-sm text-slate-400">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>RE Academy by Tranio</span>
+          <span>RE Academy</span>
         </div>
         <p className="text-xs text-slate-400">© {new Date().getFullYear()} Все права защищены</p>
       </div>

@@ -144,7 +144,7 @@ export default function Module1Page() {
 
             <div className="bg-white/[0.03] border border-white/5 rounded-xl p-4 sm:p-5 mb-10">
               <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
-                <span className="text-white font-medium">Ситуация:</span> Ты — новый сотрудник Tranio. 
+                <span className="text-white font-medium">Ситуация:</span> Ты — новый сотрудник агентства. 
                 Аня, твой руководитель, обещала дать первый проект. И вот — Роберт, партнёр из Германии, 
                 пишет в WhatsApp. Он предлагает купить старый дом в Максхютте, отремонтировать и продать 
                 как две квартиры. Твоя задача — разобраться, стоит ли инвестировать.

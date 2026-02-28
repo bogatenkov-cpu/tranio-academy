@@ -61,9 +61,9 @@ export default function NalogovayaRealnostPage() {
       />
 
       <LinkCard
-        href="https://tranio.ru/germany/taxes/"
+        href="https://reacademy.io"
         title="Налоги на недвижимость в Германии"
-        description="Подробный обзор на Tranio"
+        description="Подробный обзор"
         icon="link"
       />
 

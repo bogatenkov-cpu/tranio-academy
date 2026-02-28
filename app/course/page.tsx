@@ -80,7 +80,7 @@ export default function CoursePage() {
               </span>
             </h1>
             <p className="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              Три реальных кейса из практики Tranio. Ты — новый сотрудник. 
+              Три реальных кейса из практики международного агентства. Ты — новый сотрудник. 
               Твоя задача — проанализировать каждый проект и принять инвестиционное решение.
             </p>
 

@@ -775,7 +775,7 @@ export default function Home() {
              </div>
           </div>
           <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p>© 2024 RE Academy. All rights reserved.</p>
+            <p>© 2026 RE Academy. All rights reserved.</p>
             <div className="flex gap-6">
                <a href="#" className="hover:text-white">Privacy</a>
                <a href="#" className="hover:text-white">Terms</a>
