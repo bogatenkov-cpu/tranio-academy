@@ -5,13 +5,12 @@ export default function Lesson17() {
   return (
     <CourseLessonLayout
       moduleNumber={1}
-      lessonNumber="1.7"
+      stepNumber={8}
+      totalSteps={12}
       title="Отношения GP и LP"
       subtitle="Юридическое оформление проекта"
-      emoji="👯"
-      color="bg-pink-700"
-      prevLesson={{ href: '/course/module-1/lesson-1-6', title: '1.6 Стоимость продажи' }}
-      nextLesson={{ href: '/course/module-1/lesson-1-8', title: '1.8 Финансирование' }}
+      prevStep={{ href: '/course/module-1/lesson-1-6', title: '1.6 Стоимость продажи' }}
+      nextStep={{ href: '/course/module-1/lesson-1-8', title: '1.8 Финансирование' }}
     >
       <TextBlock>
         <p>Еще один важный вопрос, который нужно учитывать при анализе проектов — <strong>как он оформлен</strong>. Самый первый шаг — недвижимость можно оформить на физическое или юридическое лицо.</p>

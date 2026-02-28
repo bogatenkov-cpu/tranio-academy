@@ -5,12 +5,11 @@ export default function Lesson10() {
   return (
     <CourseLessonLayout
       moduleNumber={1}
-      lessonNumber="1.0"
+      stepNumber={1}
+      totalSteps={12}
       title="Что такое флиппинг"
       subtitle="Знакомство с проектом в Максхютте"
-      emoji="🏚"
-      color="bg-blue-700"
-      nextLesson={{ href: '/course/module-1/lesson-1-1', title: '1.1 Что делаем' }}
+      nextStep={{ href: '/course/module-1/lesson-1-1', title: '1.1 Что делаем' }}
     >
       <NarrativeBlock>
         <p>Через пару часов после обещания Ани дать вам проект вы получаете сообщение от Роберта, партнёра агентства в Германии.</p>

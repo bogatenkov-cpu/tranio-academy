@@ -5,13 +5,12 @@ export default function Lesson11() {
   return (
     <CourseLessonLayout
       moduleNumber={1}
-      lessonNumber="1.1"
+      stepNumber={2}
+      totalSteps={12}
       title="Что делаем"
       subtitle="Суть проекта, локация и экономический потенциал"
-      emoji="🏡"
-      color="bg-emerald-700"
-      prevLesson={{ href: '/course/module-1/lesson-1-0', title: '1.0 Что такое флиппинг' }}
-      nextLesson={{ href: '/course/module-1/lesson-1-2', title: '1.2 Кто делает' }}
+      prevStep={{ href: '/course/module-1/lesson-1-0', title: '1.0 Что такое флиппинг' }}
+      nextStep={{ href: '/course/module-1/lesson-1-2', title: '1.2 Кто делает' }}
     >
       <TextBlock>
         <p>Итак, первое, что нужно понимать о проекте — что вы планируете делать.</p>

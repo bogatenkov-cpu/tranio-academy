@@ -5,13 +5,12 @@ export default function Lesson12() {
   return (
     <CourseLessonLayout
       moduleNumber={1}
-      lessonNumber="1.2"
+      stepNumber={3}
+      totalSteps={12}
       title="Кто делает"
       subtitle="Выбор партнера и оценка его компетенций"
-      emoji="👤"
-      color="bg-violet-700"
-      prevLesson={{ href: '/course/module-1/lesson-1-1', title: '1.1 Что делаем' }}
-      nextLesson={{ href: '/course/module-1/lesson-1-3', title: '1.3 Документы' }}
+      prevStep={{ href: '/course/module-1/lesson-1-1', title: '1.1 Что делаем' }}
+      nextStep={{ href: '/course/module-1/lesson-1-3', title: '1.3 Документы' }}
     >
       <TextBlock>
         <p>Один из главных факторов, который влияет на то, будет ли успешен проект и получит ли инвестор обещанную доходность — это то, <strong>кто его реализует</strong>.</p>

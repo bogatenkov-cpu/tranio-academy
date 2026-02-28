@@ -5,13 +5,12 @@ export default function Lesson110() {
   return (
     <CourseLessonLayout
       moduleNumber={1}
-      lessonNumber="1.10"
+      stepNumber={11}
+      totalSteps={12}
       title="Анализ чувствительности"
       subtitle="Проведите анализ чувствительности проекта"
-      emoji="🧷"
-      color="bg-slate-700"
-      prevLesson={{ href: '/course/module-1/lesson-1-9', title: '1.9 Налоги' }}
-      nextLesson={{ href: '/course/module-1/lesson-1-11', title: '1.11 Вердикт' }}
+      prevStep={{ href: '/course/module-1/lesson-1-9', title: '1.9 Налоги' }}
+      nextStep={{ href: '/course/module-1/lesson-1-11', title: '1.11 Вердикт' }}
     >
       <TextBlock>
         <p>Чтобы перевести неопределенность, связанную с реализацией проекта, в цифры, инвесторы проводят <strong>анализ чувствительности</strong> проекта.</p>

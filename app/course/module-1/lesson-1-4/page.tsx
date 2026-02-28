@@ -5,13 +5,12 @@ export default function Lesson14() {
   return (
     <CourseLessonLayout
       moduleNumber={1}
-      lessonNumber="1.4"
+      stepNumber={5}
+      totalSteps={12}
       title="Стоимость покупки"
       subtitle="Как убедиться, что вы не переплачиваете"
-      emoji="💰"
-      color="bg-yellow-700"
-      prevLesson={{ href: '/course/module-1/lesson-1-3', title: '1.3 Документы' }}
-      nextLesson={{ href: '/course/module-1/lesson-1-5', title: '1.5 Стоимость ремонта' }}
+      prevStep={{ href: '/course/module-1/lesson-1-3', title: '1.3 Документы' }}
+      nextStep={{ href: '/course/module-1/lesson-1-5', title: '1.5 Стоимость ремонта' }}
     >
       <TextBlock>
         <p>Самый важный показатель в инвестициях — <strong>доходность</strong>. Первый шаг, чтобы получить нужную доходность — нужно купить объект по цене, которая позволит это сделать.</p>

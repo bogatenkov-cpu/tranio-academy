@@ -5,13 +5,12 @@ export default function Lesson15() {
   return (
     <CourseLessonLayout
       moduleNumber={1}
-      lessonNumber="1.5"
+      stepNumber={6}
+      totalSteps={12}
       title="Стоимость ремонта"
       subtitle="Анализ сметы и ключевые риски"
-      emoji="♾"
-      color="bg-orange-700"
-      prevLesson={{ href: '/course/module-1/lesson-1-4', title: '1.4 Стоимость покупки' }}
-      nextLesson={{ href: '/course/module-1/lesson-1-6', title: '1.6 Стоимость продажи' }}
+      prevStep={{ href: '/course/module-1/lesson-1-4', title: '1.4 Стоимость покупки' }}
+      nextStep={{ href: '/course/module-1/lesson-1-6', title: '1.6 Стоимость продажи' }}
     >
       <TextBlock>
         <p>Второй показатель, который влияет на доходность — <strong>стоимость ремонта</strong>. Два ключевых риска, связанных с любым ремонтом или строительством — <strong>превышение сметы</strong> и <strong>затягивание сроков</strong>.</p>

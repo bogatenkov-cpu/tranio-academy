@@ -5,12 +5,11 @@ export default function Lesson111() {
   return (
     <CourseLessonLayout
       moduleNumber={1}
-      lessonNumber="1.11"
+      stepNumber={12}
+      totalSteps={12}
       title="Вердикт"
       subtitle="Принятие инвестиционного решения"
-      emoji="✅"
-      color="bg-green-700"
-      prevLesson={{ href: '/course/module-1/lesson-1-10', title: '1.10 Анализ чувствительности' }}
+      prevStep={{ href: '/course/module-1/lesson-1-10', title: '1.10 Анализ чувствительности' }}
     >
       <QuestionBlock
         question="Что вы скажете Ане — стоит ли инвестировать в этот проект? Аргументируйте свой ответ и поясните, какие главные риски у этого проекта и почему вы верите или не верите, что они реализуются."
