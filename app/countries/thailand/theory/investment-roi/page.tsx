@@ -100,7 +100,7 @@ export default function LessonPage() {
                 <div className="p-4 sm:p-5 bg-amber-50 border border-amber-100 rounded-lg sm:rounded-xl">
                   <h3 className="font-bold text-amber-900 mb-3 text-sm sm:text-base">Краткосрочная аренда (Airbnb, Booking)</h3>
                   <div className="space-y-2 text-xs sm:text-sm text-amber-800">
-                    <div>• <span className="font-semibold">Доходность:</span> 6-10% годовых</div>
+                    <div>• <span className="font-semibold">Доходность:</span> 5-7% гарантия от застройщика; до 10% в rental pool (не гарантировано)</div>
                     <div>• <span className="font-semibold">Плюсы:</span> высокая доходность, гибкость</div>
                     <div>• <span className="font-semibold">Минусы:</span> требуется управление, сезонность</div>
                     <div>• <span className="font-semibold">Локации:</span> Пхукет, Паттайя, Самуи</div>
@@ -128,6 +128,7 @@ export default function LessonPage() {
                     <div>• <span className="font-semibold">Факторы роста:</span> развитие инфраструктуры, туризм</div>
                     <div>• <span className="font-semibold">Срок:</span> долгосрочная перспектива (5-10 лет)</div>
                     <div>• <span className="font-semibold">Локации:</span> развивающиеся районы Пхукета, Бангкока</div>
+                    <div>• <span className="font-semibold">Off-plan стратегия:</span> покупка на котловане → рост цены до ~30% к завершению. Высокий спрос на готовые виллы</div>
                   </div>
                 </div>
 
@@ -182,7 +183,7 @@ export default function LessonPage() {
                   <span className="font-bold">300 000 ฿</span>
                 </div>
                 <div className="flex justify-between items-center p-2 sm:p-3 bg-white rounded-lg">
-                  <span>Расходы (10%):</span>
+                  <span>Расходы (25-35%: управление, обслуживание, налоги):</span>
                   <span className="font-bold">-30 000 ฿</span>
                 </div>
                 <div className="flex justify-between items-center p-2 sm:p-3 bg-gradient-to-r from-pink-100 to-purple-100 rounded-lg font-bold text-sm sm:text-lg">
@@ -211,7 +212,7 @@ export default function LessonPage() {
               <div className="p-3 sm:p-4 bg-emerald-50 border border-emerald-100 rounded-lg sm:rounded-xl">
                 <div className="text-xl sm:text-2xl mb-2">📍</div>
                 <h4 className="font-bold text-slate-900 mb-2 text-sm sm:text-base">Локация</h4>
-                <p className="text-xs sm:text-sm text-slate-600">Близость к пляжу, центру, инфраструктуре увеличивает доходность</p>
+                <p className="text-xs sm:text-sm text-slate-600">Близость к пляжу повышает арендные ставки, но и цену входа — чистая доходность зависит от баланса</p>
               </div>
               <div className="p-3 sm:p-4 bg-blue-50 border border-blue-100 rounded-lg sm:rounded-xl">
                 <div className="text-xl sm:text-2xl mb-2">🏖️</div>
@@ -242,10 +243,16 @@ export default function LessonPage() {
               <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-3">Советы для инвесторов</h2>
               <div className="space-y-2 text-xs sm:text-sm text-slate-700">
                 <div>✅ <span className="font-semibold">Изучите рынок:</span> проанализируйте цены аренды в выбранной локации</div>
-                <div>✅ <span className="font-semibold">Учитывайте расходы:</span> налоги, управление, обслуживание (10-15% от дохода)</div>
+                <div>✅ <span className="font-semibold">Учитывайте расходы:</span> налоги, управление 15-25%, обслуживание, сезонные простои (25-35% от дохода)</div>
                 <div>✅ <span className="font-semibold">Долгосрочная перспектива:</span> инвестируйте минимум на 5-10 лет</div>
                 <div>✅ <span className="font-semibold">Диверсификация:</span> рассмотрите несколько объектов в разных локациях</div>
                 <div>✅ <span className="font-semibold">Профессиональное управление:</span> наймите управляющую компанию для максимизации дохода</div>
+                <div>📊 <span className="font-semibold">Гарантированная доходность (5-7% на 2-5 лет)</span> — застройщик берёт на себя риски простоев и сезонности</div>
+                <div>🏊 <span className="font-semibold">Rental pool:</span> доход делится между всеми юнитами. Вычитаются: комиссия УК (15-25%), обслуживание, резервы</div>
+                <div>💰 <span className="font-semibold">SBT 3,3% при перепродаже</span> в течение 5 лет — ключевой фактор, снижающий маржу</div>
+                <div>💱 <span className="font-semibold">Валютный фактор:</span> укрепление бата на 7% + доходность 6% = ~13,4% совокупного дохода в USD</div>
+                <div>📉 <span className="font-semibold">Лизхолд на 5-15% дешевле фрихолда</span> — при одинаковой аренде даёт более высокую доходность в %</div>
+                <div>🏠 <span className="font-semibold">Owner-use + rental:</span> владелец бронирует недели для себя, остальное время — профессиональное управление</div>
               </div>
             </div>
           </div>

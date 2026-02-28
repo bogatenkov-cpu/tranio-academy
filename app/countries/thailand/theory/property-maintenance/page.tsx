@@ -34,7 +34,7 @@ export default function LessonPage() {
           <div className="space-y-3">
             <div className="p-3 sm:p-4 bg-teal-50 border border-teal-100 rounded-lg">
               <div className="flex justify-between items-center mb-2">
-                <span className="font-bold text-slate-900 text-sm sm:text-base">Коммунальные расходы (Common Fee)</span>
+                <span className="font-bold text-slate-900 text-sm sm:text-base">CAM fee (Common Area Maintenance)</span>
                 <span className="text-lg sm:text-xl font-bold text-teal-600">40-80 ฿/м²</span>
               </div>
               <p className="text-xs sm:text-sm text-slate-600">Управление, охрана, бассейн, фитнес, сад</p>
@@ -43,7 +43,7 @@ export default function LessonPage() {
             <div className="p-3 sm:p-4 bg-blue-50 border border-blue-100 rounded-lg">
               <div className="flex justify-between items-center mb-2">
                 <span className="font-bold text-slate-900 text-sm sm:text-base">Электричество</span>
-                <span className="text-lg sm:text-xl font-bold text-blue-600">5-7 ฿/кВт⋅ч</span>
+                <span className="text-lg sm:text-xl font-bold text-blue-600">7-9 ฿/кВт⋅ч (наценка кондо), гос. тариф 4-5 ฿/кВт⋅ч</span>
               </div>
               <p className="text-xs sm:text-sm text-slate-600">В среднем 2,000-5,000 ฿/месяц с кондиционером</p>
             </div>
@@ -63,6 +63,18 @@ export default function LessonPage() {
               </div>
               <p className="text-xs sm:text-sm text-slate-600">Высокоскоростной интернет, кабельное ТВ</p>
             </div>
+
+            <div className="p-3 sm:p-4 bg-amber-50 border border-amber-100 rounded-lg">
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-bold text-slate-900 text-sm sm:text-base">Sinking Fund</span>
+                <span className="text-lg sm:text-xl font-bold text-amber-600">300-800 ฿/м²</span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600">Разовый взнос при покупке на капитальный ремонт: лифты, фасад, бассейн</p>
+            </div>
+          </div>
+
+          <div className="mt-4 p-3 sm:p-4 bg-orange-50 border border-orange-200 rounded-lg">
+            <p className="text-xs sm:text-sm text-orange-800">⚡ <span className="font-semibold">Сезонность электричества:</span> в апреле счёт может быть в 2 раза выше декабрьского — кондиционер работает постоянно при 35-40°C</p>
           </div>
         </div>
 
@@ -122,6 +134,8 @@ export default function LessonPage() {
             <div>✅ <span className="font-semibold">Закладывайте 10-15% от дохода:</span> на непредвиденные расходы</div>
             <div>✅ <span className="font-semibold">Наймите управляющую компанию:</span> если не живете в Таиланде</div>
             <div>✅ <span className="font-semibold">Регулярное обслуживание:</span> кондиционеры, сантехника</div>
+            <div>⚖️ <span className="font-semibold">Смена УК:</span> собственники могут проголосовать за смену управляющей компании (Condominium Act, большинство голосов)</div>
+            <div>⚠️ <span className="font-semibold">Налоговый нюанс:</span> сдача квартиры в аренду лишает льготы по налогу для собственного жилья (owner-occupied exemption)</div>
           </div>
         </div>
 

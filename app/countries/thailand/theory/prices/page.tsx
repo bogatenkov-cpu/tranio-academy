@@ -78,7 +78,7 @@ export default function LessonPage() {
                     <div>• Студия: $80,000-120,000</div>
                     <div>• 1-комн: $120,000-180,000</div>
                     <div>• 2-комн: $180,000-300,000</div>
-                    <div>• Вилла: $350,000+</div>
+                    <div>• Вилла: от ~$200 000</div>
                   </div>
                 </div>
               </div>
@@ -89,10 +89,10 @@ export default function LessonPage() {
                 <div className="p-4 bg-blue-50 border border-blue-100 rounded-lg">
                   <h4 className="font-bold text-blue-900 mb-2 text-sm sm:text-base">Паттайя</h4>
                   <div className="text-xs sm:text-sm text-blue-800 space-y-1">
-                    <div>• Студия: $50,000-80,000</div>
+                    <div>• Студия: от $70 000</div>
                     <div>• 1-комн: $80,000-120,000</div>
                     <div>• 2-комн: $120,000-200,000</div>
-                    <div>• Вилла: $250,000+</div>
+                    <div>• Вилла: от ~$120 000</div>
                   </div>
                 </div>
               </div>
@@ -111,6 +111,18 @@ export default function LessonPage() {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+
+        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-4">Рыночные ориентиры</h2>
+          <div className="space-y-2 text-xs sm:text-sm text-slate-700">
+            <div>• <span className="font-semibold">Скидка на пресейле:</span> до 20-25%; скидка {'>'}30% — красный флаг</div>
+            <div>• <span className="font-semibold">Новые проекты:</span> в среднем 1 800–4 200 $/м²</div>
+            <div>• <span className="font-semibold">Минимальный порог качества:</span> $80-100K</div>
+            <div>• <span className="font-semibold">Рост цен:</span> 10-15% за 2023-2025 гг.</div>
+            <div>• <span className="font-semibold">Leasehold vs Freehold:</span> leasehold на 5-15% дешевле</div>
+            <div>• <span className="font-semibold">Оплата:</span> депозит 10-30%, беспроцентная рассрочка, остаток при передаче ключей</div>
           </div>
         </div>
 

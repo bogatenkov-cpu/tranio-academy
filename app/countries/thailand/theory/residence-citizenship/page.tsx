@@ -72,7 +72,7 @@ export default function LessonPage() {
                 <div className="space-y-2 text-xs sm:text-sm text-emerald-800">
                   <div>• <span className="font-semibold">Срок:</span> 1 год, продление ежегодно</div>
                   <div>• <span className="font-semibold">Требования:</span> возраст 50+, депозит 800,000 ฿ или доход 65,000 ฿/мес</div>
-                  <div>• <span className="font-semibold">Особенности:</span> можно жить постоянно, выезды 90 дней</div>
+                  <div>• <span className="font-semibold">Особенности:</span> обязательная медстраховка, ежегодное продление, 90-дневная отметка</div>
                 </div>
               </div>
             )}
@@ -82,11 +82,23 @@ export default function LessonPage() {
                 <h3 className="font-bold text-amber-900 mb-3 text-sm sm:text-base">Thailand Elite Visa</h3>
                 <div className="space-y-2 text-xs sm:text-sm text-amber-800">
                   <div>• <span className="font-semibold">Срок:</span> 5, 10 или 20 лет</div>
-                  <div>• <span className="font-semibold">Стоимость:</span> от $15,000 (5 лет)</div>
+                  <div>• <span className="font-semibold">Стоимость:</span> от 900 000 ฿ (5 лет)</div>
                   <div>• <span className="font-semibold">Преимущества:</span> упрощенный въезд, лимузин, golf membership</div>
+                  <div>• <span className="font-semibold">Ограничения:</span> Не даёт ПМЖ, гражданства или права на работу</div>
                 </div>
               </div>
             )}
+          </div>
+        </div>
+
+        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-4">Важные нюансы виз и резидентства</h2>
+          <div className="space-y-2 text-xs sm:text-sm text-slate-700">
+            <div>• <span className="font-semibold">ПМЖ:</span> минимум 3 года на Non-Immigrant визе, квота ~100 человек/страна/год</div>
+            <div>• <span className="font-semibold">Брак:</span> даёт только Non-Immigrant O визу, НЕ гражданство</div>
+            <div>• <span className="font-semibold">Smart Visa:</span> работа без разрешения (work permit) в 13 целевых секторах</div>
+            <div>• <span className="font-semibold">Покупка недвижимости:</span> НЕ даёт визу; инвестиция от 10M+ THB = ежегодная инвестиционная виза</div>
+            <div>• <span className="font-semibold">Налоговое резидентство:</span> 180+ дней/год; с 2024 г. мировой доход облагается налогом при ввозе в Таиланд</div>
           </div>
         </div>
 
@@ -96,7 +108,7 @@ export default function LessonPage() {
             Получение гражданства Таиланда возможно, но процесс длительный и сложный:
           </p>
           <div className="space-y-2 text-xs sm:text-sm text-slate-700">
-            <div>• Проживание в Таиланде минимум 10 лет</div>
+            <div>• Проживание в Таиланде минимум ~5 лет</div>
             <div>• Знание тайского языка</div>
             <div>• Наличие работы или бизнеса</div>
             <div>• Уплата налогов</div>

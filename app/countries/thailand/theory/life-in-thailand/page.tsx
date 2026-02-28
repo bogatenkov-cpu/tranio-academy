@@ -93,7 +93,7 @@ export default function LessonPage() {
 
             {selectedSeason === 'rainy' && (
               <div className="p-4 sm:p-5 bg-teal-50 border border-teal-100 rounded-lg sm:rounded-xl">
-                <h3 className="font-bold text-teal-900 mb-3 text-sm sm:text-base">Дождливый сезон (июнь-октябрь)</h3>
+                <h3 className="font-bold text-teal-900 mb-3 text-sm sm:text-base">Дождливый сезон: Пхукет май-октябрь, Самуи октябрь-декабрь</h3>
                 <div className="space-y-2 text-xs sm:text-sm text-teal-800">
                   <div>• <span className="font-semibold">Температура:</span> 28-32°C</div>
                   <div>• <span className="font-semibold">Погода:</span> тепло, частые короткие ливни</div>
@@ -101,6 +101,19 @@ export default function LessonPage() {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+
+        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-4">Полезные факты о жизни в Таиланде</h2>
+          <div className="space-y-2 text-xs sm:text-sm text-slate-700">
+            <div>• <span className="font-semibold">Транспорт:</span> Бангкок–Пхукет автобусом: ~12 часов</div>
+            <div>• <span className="font-semibold">Медицина:</span> ~59 JCI-аккредитованных частных клиник; Bumrungrad ~$510/день, клиники Пхукета ~$200/день</div>
+            <div>• <span className="font-semibold">Школы:</span> BISP рядом с Чалонгом; Чалонг = школьный центр Пхукета</div>
+            <div>• <span className="font-semibold">Коммуналка:</span> кондо 40 м² — $30-50/месяц</div>
+            <div>• <span className="font-semibold">Часовой пояс:</span> Таиланд GMT+7, Москва GMT+3, разница +4 часа</div>
+            <div>• <span className="font-semibold">Стоимость жизни:</span> на 30-50% ниже, чем в Европе</div>
+            <div>• <span className="font-semibold">Full Moon Party (Панган):</span> не подходит для семей с детьми</div>
           </div>
         </div>
 

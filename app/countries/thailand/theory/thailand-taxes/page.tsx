@@ -63,18 +63,16 @@ export default function LessonPage() {
           <div className="space-y-3">
             <div className="p-3 sm:p-4 bg-blue-50 border border-blue-100 rounded-lg">
               <div className="flex justify-between items-center mb-2">
-                <span className="font-bold text-slate-900 text-sm sm:text-base">Property Tax</span>
-                <span className="text-lg sm:text-xl font-bold text-blue-600">0.02-0.1%</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-600">Ежегодный налог на недвижимость от кадастровой стоимости</p>
-            </div>
-
-            <div className="p-3 sm:p-4 bg-emerald-50 border border-emerald-100 rounded-lg">
-              <div className="flex justify-between items-center mb-2">
                 <span className="font-bold text-slate-900 text-sm sm:text-base">Land & Building Tax</span>
-                <span className="text-lg sm:text-xl font-bold text-emerald-600">0.02-0.3%</span>
+                <span className="text-lg sm:text-xl font-bold text-blue-600">0.02-0.3%</span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-600">Новый налог с 2020 года, зависит от использования</p>
+              <p className="text-xs sm:text-sm text-slate-600 mb-2">Ежегодный налог с 2020 года, зависит от использования</p>
+              <div className="text-xs text-blue-800 space-y-1">
+                <div>• Жильё не для собственного проживания: 0.02% (до 50M THB)</div>
+                <div>• Своё кондо (с tabien ban): освобождение до 10M THB</div>
+                <div>• Свой дом + земля: освобождение до 50M THB</div>
+                <div>• Неиспользуемая земля: 0.3% базовая, +0.3% каждые 3 года, максимум 3%</div>
+              </div>
             </div>
           </div>
         </div>
@@ -88,10 +86,31 @@ export default function LessonPage() {
             </div>
             <p className="text-xs sm:text-sm text-slate-600 mb-2">Прогрессивная шкала налога на доход от аренды</p>
             <div className="text-xs text-amber-800 space-y-1">
-              <div>• До 150,000 ฿: 5-10%</div>
-              <div>• 150,000-1,000,000 ฿: 10-20%</div>
-              <div>• Более 1,000,000 ฿: 20-35%</div>
+              <div>• До 150 000 ฿: <span className="font-semibold">0% (освобождено)</span></div>
+              <div>• 150 001–300 000 ฿: 5%</div>
+              <div>• 300 001–500 000 ฿: 10%</div>
+              <div>• 500 001–750 000 ฿: 15%</div>
+              <div>• 750 001–1 000 000 ฿: 20%</div>
+              <div>• 1 000 001–2 000 000 ฿: 25%</div>
+              <div>• 2 000 001–5 000 000 ฿: 30%</div>
+              <div>• Более 5 000 000 ฿: 35%</div>
             </div>
+            <div className="mt-3 text-xs text-amber-900 bg-amber-100 border border-amber-200 rounded-lg p-3 space-y-1">
+              <div className="font-semibold">Для нерезидентов:</div>
+              <div>• Фиксированная ставка 15% WHT (Withholding Tax) на арендный доход</div>
+              <div>• Управляющая компания удерживает 5% WHT при выплате</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-4">Другие важные налоги и сроки</h2>
+          <div className="space-y-2 text-xs sm:text-sm text-slate-700">
+            <div>• <span className="font-semibold">Срок уплаты:</span> ежегодный налог — до 30 апреля</div>
+            <div>• <span className="font-semibold">Налог на наследство:</span> первые 100M THB освобождены; 5% для потомков, 10% для остальных</div>
+            <div>• <span className="font-semibold">Налог на дарение:</span> до 20M THB освобождено для потомков</div>
+            <div>• <span className="font-semibold">Порог НДС (VAT):</span> 1.8M THB оборота</div>
+            <div>• <span className="font-semibold">С 2024 года:</span> мировой доход облагается налогом для резидентов (180+ дней/год) при ввозе в Таиланд</div>
           </div>
         </div>
 
